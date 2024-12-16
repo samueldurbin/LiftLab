@@ -3,13 +3,54 @@
     x:Class="LiftLab.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:LiftLab"
-    Shell.FlyoutBehavior="Disabled"
+    xmlns:views="clr-namespace:LiftLab.Views"
+    FlyoutBehavior="Disabled"
     Title="LiftLab">
 
-    <ShellContent
+    <!--<ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="LoginPage" />-->
+
+    <!--<FlyoutItem Title="Home" Icon="home_icon.png">
+        <ShellContent Title="Home" ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
+    </FlyoutItem>
+
+    --><!-- Flyout Menu Item for Profile --><!--
+    <FlyoutItem Title="Profile" Icon="profile_icon.png">
+        <ShellContent Title="Profile" ContentTemplate="{DataTemplate views:ProfilePage}" Route="ProfilePage" />
+    </FlyoutItem>
+
+    --><!-- Flyout Menu Item for Settings --><!--
+    <FlyoutItem Title="Settings" Icon="settings_icon.png">
+        <ShellContent Title="Settings" ContentTemplate="{DataTemplate views:SettingsPage}" Route="SettingsPage" />
+    </FlyoutItem>-->
+
+
+    <TabBar>
+        <!-- Home Tab --><!--
+        <Tab Title="Home" Icon="home_icon.png">
+            <ShellContent Title="Home" ContentTemplate="{DataTemplate views:HomePage}" Route="HomePage" />
+        </Tab>-->
+
+        <!-- Profile Tab -->
+        <Tab Title="MyFitness" Icon="profile_icon.png">
+            <ShellContent Title="MyFitness" ContentTemplate="{DataTemplate views:MyFitness}" Route="MyFitness" />
+        </Tab>
+
+        <!-- Settings Tab -->
+        <Tab Title="MyHealth" Icon="settings_icon.png">
+            <ShellContent Title="MyHealth" ContentTemplate="{DataTemplate views:MyHealth}" Route="MyHealth" />
+        </Tab>
+
+        <Tab Title="MyCommunity" Icon="settings_icon.png">
+            <ShellContent Title="MyCommunity" ContentTemplate="{DataTemplate views:MyCommunity}" Route="MyCommunity" />
+        </Tab>
+
+        <Tab Title="MySettings" Icon="settings_icon.png">
+            <ShellContent Title="MySettings" ContentTemplate="{DataTemplate views:MySettings}" Route="MySettings" />
+        </Tab>
+
+    </TabBar>
 
 </Shell>

@@ -1,4 +1,7 @@
-﻿namespace LiftLab
+﻿using LiftLab.Views;
+
+
+namespace LiftLab
 {
     public partial class App : Application
     {
@@ -6,7 +9,10 @@
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new LoginPage());
+
+            ////Routing.RegisterRoute("HomePage", typeof(HomePage));
+            //Routing.RegisterRoute("ProfilePage", typeof(ProfilePage));
         }
     }
 }

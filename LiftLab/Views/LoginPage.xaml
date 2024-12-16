@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.LoginPage">
+
+    <Grid RowDefinitions=".4*, .6*">
+        <Grid BackgroundColor="Green"/>
+        <!-- Central Title -->
+        <Label Text="LiftLab" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" />
+
+        <Grid Grid.Row="1">
+            <VerticalStackLayout Margin="30, 30, 30, 0">
+                <!-- Second Title -->
+                <Label Text="Welcome back!" FontAttributes="Bold" FontSize="18"/>
+
+                <Grid Margin="0, 30, 0, 0">
+                    <!-- Username Entry -->
+                    <Entry Grid.Column="1" Placeholder="Username" VerticalOptions="Start" Margin="0"/>
+                </Grid>
+
+                <Grid Margin="0, 30, 0, 0">
+                    <!-- Password Entry-->
+                    <Entry Grid.Column="1" Placeholder="Password" VerticalOptions="Start" IsPassword="True" Margin="0"/>
+                </Grid>
+
+                <!-- Password Reset Link -->
+                <Label Margin="0, 25, 0, -10" HorizontalOptions="Center" Text="Forgot your password?" TextColor="Blue" TextDecorations="Underline"/>
+
+                <!-- Login Button -->
+                <Button Text="Login" Margin="0, 40, 0, 0" BackgroundColor="Blue" Clicked="OnLoginClicked" TextColor="White"/>
+
+                <Label Margin="0, 30, 0, 0" HorizontalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnRegisterTapped" />
+                    </Label.GestureRecognizers>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <!-- Create an Account Section -->
+                            <Span Text="Don't have an account? " TextColor="Black" />
+                            <Span Text="Register Here" 
+                                         TextColor="Blue" 
+                                         TextDecorations="Underline">
+                            </Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </VerticalStackLayout>
+
+        </Grid>
+
+    </Grid>
+
+</ContentPage>
+

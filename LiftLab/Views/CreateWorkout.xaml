@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.CreateWorkout"
+             Title="CreateWorkout">
+
+
+    <StackLayout Padding="20">
+        <Label Text="Workout Builder"
+               FontSize="24"
+               HorizontalOptions="Center" />
+
+        <ListView x:Name="ExercisesListView"
+                  ItemsSource="{Binding workoutExercises}"
+                  Header="Workout Exercises"
+                  BackgroundColor="LightGray"
+                  HeightRequest="300" />
+
+        <Button Text="Add Exercise"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="OnAddExerciseButtonClicked" />
+        
+        
+    </StackLayout>
+</ContentPage>
