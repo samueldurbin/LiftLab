@@ -3,6 +3,58 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.CreateAccount">
 
+    <Grid RowDefinitions=".2*, .6*">
+        <Grid BackgroundColor="Green"/>
+        <!-- Central Title -->
+        <Label Text="LiftLab" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" />
 
+        <Grid Grid.Row="1">
+            <ScrollView>
+                <VerticalStackLayout Margin="30, 30, 30, 0">
+                    <!-- Second Title -->
+                    <Label Text="Create An Account" FontAttributes="Bold" FontSize="18" />
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Username Label -->
+                        <Label Text="Username" VerticalOptions="Start" />
+                        <!-- Username Entry -->
+                        <Entry Grid.Row="1" Placeholder="Username" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Email Label -->
+                        <Label Text="Email" VerticalOptions="Start" />
+                        <!-- Email Entry -->
+                        <Entry Grid.Row="1" Placeholder="Email" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Date of Birth Label -->
+                        <Label Text="Date of Birth" VerticalOptions="Start" />
+                        <!-- DoB Entry -->
+                        <DatePicker Grid.Row="1" Format="d" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Mobile Number Label -->
+                        <Label Text="Mobile Number" VerticalOptions="Start" />
+                        <!-- Mobile Number Entry -->
+                        <Entry Grid.Row="1" Placeholder="Mobile Number" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Password Label -->
+                        <Label Text="Password" VerticalOptions="Start" />
+                        <!-- Password Entry -->
+                        <Entry Grid.Row="1" Placeholder="Password" VerticalOptions="Start" IsPassword="True" />
+                    </Grid>
+
+                    <!-- Login Button -->
+                    <Button Text="Create An Account" Margin="0, 30, 0, 0" BackgroundColor="Blue" TextColor="White" />
+                </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
+
+    </Grid>
 
 </ContentPage>
