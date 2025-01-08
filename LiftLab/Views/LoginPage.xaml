@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
              x:Class="LiftLab.Views.LoginPage">
+
+    <ContentPage.BindingContext>
+        <vm:LoginViewModel />
+    </ContentPage.BindingContext>
 
     <Grid RowDefinitions=".4*, .6*">
         <Grid BackgroundColor="Green"/>
@@ -15,19 +20,21 @@
 
                 <Grid Margin="0, 30, 0, 0">
                     <!-- Username Entry -->
-                    <Entry Grid.Column="1" Placeholder="Username" VerticalOptions="Start" Margin="0"/>
+                    <Entry Grid.Column="1"  Text="{Binding Username}" Placeholder="Username" VerticalOptions="Start" Margin="0"/>
                 </Grid>
 
                 <Grid Margin="0, 30, 0, 0">
                     <!-- Password Entry-->
-                    <Entry Grid.Column="1" Placeholder="Password" VerticalOptions="Start" IsPassword="True" Margin="0"/>
+                    <Entry Grid.Column="1" Text="{Binding Password}" Placeholder="Password" VerticalOptions="Start" IsPassword="True" Margin="0"/>
                 </Grid>
 
                 <!-- Password Reset Link -->
                 <Label Margin="0, 25, 0, -10" HorizontalOptions="Center" Text="Forgot your password?" TextColor="Blue" TextDecorations="Underline"/>
 
                 <!-- Login Button -->
-                <Button Text="Login" Margin="0, 40, 0, 0" BackgroundColor="Blue" Clicked="OnLoginClicked" TextColor="White"/>
+                <Button Text="Login" Margin="0, 40, 0, 0" BackgroundColor="Blue" Command="{Binding LoginCommand}" TextColor="White"/>
+
+                <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding IsErrorVisible}" HorizontalOptions="Center" />
 
                 <Label Margin="0, 30, 0, 0" HorizontalOptions="Center">
                     <Label.GestureRecognizers>
