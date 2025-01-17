@@ -9,11 +9,20 @@ namespace Shared.Models
 {
     public class UserModel
     {
-        [Key] // This explicitly marks the property as the primary key
-        public int Id { get; set; } // Primary key
+        [Key]
+        public int Id { get; set; }
+
+        [Required]   // both username and password are mandatory when logging in
         public string Username { get; set; }
 
+        [Required]
         public string Password { get; set; }
+
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
+
+        public DateTime? DateOfBirth { get; set; }
 
     }
 }

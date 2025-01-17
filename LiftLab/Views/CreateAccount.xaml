@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
              x:Class="LiftLab.Views.CreateAccount">
 
     <Grid RowDefinitions=".2*, .6*">
@@ -18,39 +19,38 @@
                         <!-- Username Label -->
                         <Label Text="Username" VerticalOptions="Start" />
                         <!-- Username Entry -->
-                        <Entry Grid.Row="1" Placeholder="Username" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Email Label -->
-                        <Label Text="Email" VerticalOptions="Start" />
-                        <!-- Email Entry -->
-                        <Entry Grid.Row="1" Placeholder="Email" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Date of Birth Label -->
-                        <Label Text="Date of Birth" VerticalOptions="Start" />
-                        <!-- DoB Entry -->
-                        <DatePicker Grid.Row="1" Format="d" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Mobile Number Label -->
-                        <Label Text="Mobile Number" VerticalOptions="Start" />
-                        <!-- Mobile Number Entry -->
-                        <Entry Grid.Row="1" Placeholder="Mobile Number" VerticalOptions="Start" />
+                        <Entry Grid.Row="1" Text="{Binding Username}" Placeholder="Username" VerticalOptions="Start" />
                     </Grid>
 
                     <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
                         <!-- Password Label -->
                         <Label Text="Password" VerticalOptions="Start" />
                         <!-- Password Entry -->
-                        <Entry Grid.Row="1" Placeholder="Password" VerticalOptions="Start" IsPassword="True" />
+                        <Entry Grid.Row="1" Text="{Binding Password}" Placeholder="Password" VerticalOptions="Start" IsPassword="True" />
                     </Grid>
 
-                    <!-- Login Button -->
-                    <Button Text="Create An Account" Margin="0, 30, 0, 0" BackgroundColor="Blue" TextColor="White" />
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Email Label -->
+                        <Label Text="Email" VerticalOptions="Start" />
+                        <!-- Email Entry -->
+                        <Entry Grid.Row="1" Text="{Binding Email}" Placeholder="Email" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Date of Birth Label -->
+                        <Label Text="Date of Birth" VerticalOptions="Start" />
+                        <!-- DoB Entry -->
+                        <DatePicker Grid.Row="1" Date="{Binding DateOfBirth}" Format="d" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
+                        <!-- Mobile Number Label -->
+                        <Label Text="Phone Number" VerticalOptions="Start" />
+                        <!-- Mobile Number Entry -->
+                        <Entry Grid.Row="1" Text="{Binding PhoneNumber}" Placeholder="Phone Number" VerticalOptions="Start" />
+                    </Grid>
+
+                    <Button Text="Create An Account" Command="{Binding CreateAccountCommand}" Margin="0, 30, 0, 0" BackgroundColor="Blue" TextColor="White" />
                 </VerticalStackLayout>
             </ScrollView>
         </Grid>

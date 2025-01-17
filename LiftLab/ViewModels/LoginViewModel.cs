@@ -4,69 +4,79 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LiftLab.Services;
-using LiftLab.Models;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using LiftLab.Views;
 using System.Text.Json;
 
 namespace LiftLab.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel // as a viewmodel, it connects the ui with the logic
     {
-        private readonly ApiUserService _apiUserService;
+        #region Variables
+        private readonly UserServiceUI _apiUserService;
 
-        private string _username;
+        private string username;
+        private string password;
+
+        #endregion
+
+        #region Actions
         public string Username
         {
-            get => _username;
+            get => username;  // recieves whats typed into the ui
             set
             {
-                _username = value;
-                OnPropertyChanged(); // Notify the UI of changes
+                username = value;
+                OnPropertyChanged();
             }
         }
 
-        private string _password;
         public string Password
         {
-            get => _password;
+            get => password;
             set
             {
-                _password = value;
-                OnPropertyChanged(); // Notify the UI of changes
+                password = value;
+                OnPropertyChanged();
             }
         }
 
+        #endregion#
+
+        #region Login
         public ICommand LoginCommand { get; }
 
         public LoginViewModel()
         {
-            _apiUserService = new ApiUserService();
+            _apiUserService = new UserServiceUI();
             LoginCommand = new Command(async () => await LoginAsync());
         }
 
         private async Task LoginAsync()
         {
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))  // displays an error if nothing is entered into the fields
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Please enter both username and password.", "OK");
                 return;
             }
 
-            var user = await _apiUserService.LoginAsync(Username, Password);
+            var user = await _apiUserService.LoginAsync(Username, Password); // calls this method to authenticate the user
 
             if (user != null)
             {
-                // Successful login
-                await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, {user.Username}!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, {user.Username}!", "OK"); // successful login
+
+                Application.Current.MainPage = new NavigationPage(new CreateWorkout());
             }
             else
             {
-                // Login failed
-                await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");  
             }
         }
+
+        #endregion
     }
 }

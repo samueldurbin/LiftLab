@@ -8,46 +8,25 @@ using System.Threading.Tasks;
 
 namespace LiftLab.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : INotifyPropertyChanged  // reusuable class, Notifys when property changes and updates ui
     {
-        private bool isBusy;
-        private string title;
-
-        // Event for property changes
+        #region Property Change Events
         public event PropertyChangedEventHandler PropertyChanged;
 
-        // Property: IsBusy
-        public bool IsBusy
+        protected bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = "") // method for property setters
         {
-            get => isBusy;
-            set
-            {
-                if (isBusy != value)
-                {
-                    isBusy = value;
-                    OnPropertyChanged();
-                }
-            }
+            if (EqualityComparer<T>.Default.Equals(backingField, value)) // prevents uneccessary updates, compares new value to old value
+                return false;
+
+            backingField = value;
+            OnPropertyChanged(propertyName); // calls for update
+            return true;
         }
 
-        // Property: Title
-        public string Title
-        {
-            get => title;
-            set
-            {
-                if (title != value)
-                {
-                    title = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        // Notify property change
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) // notifys property changes
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }

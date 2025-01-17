@@ -9,7 +9,7 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("api/auth")]
-    public class UserController : ControllerBase
+    public class UserController : ControllerBase   // inherits from the controller base
     {
         private readonly IUserService _userService;
 
@@ -18,16 +18,36 @@ namespace WebApi.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserModel request)
+        [HttpPost("login")]  
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = await _userService.ValidateUser(request.Username, request.Password);
+            var user = await _userService.AuthenticateUser(request.Username, request.Password);
             if (user == null)
             {
                 return Unauthorized(new { Message = "Invalid username or password" });
             }
 
             return Ok(new { Username = user.Username });
+        }
+
+        [HttpPost("register")]  // api endpoint
+        public async Task<IActionResult> Register([FromBody] UserModel request)
+        {
+            var existingUser = await _userService.GetUsername(request.Username); 
+
+            if (existingUser != null)  // checks to see if the user already exists
+            {
+                return Conflict(new { Message = "This Username already exists!" });
+            }
+
+            var newUser = await _userService.RegisterUser(request); // creates a new user
+
+            if (newUser == null)
+            {
+                return BadRequest(new { Message = "Experienced an Error creating the user" }); // checks if the new created user will equal null
+            }
+
+            return Ok(new { Message = "Your Account has been created successfully!", Username = newUser.Username });
         }
     }
 
