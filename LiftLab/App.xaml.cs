@@ -9,10 +9,8 @@ namespace LiftLab
         {
             InitializeComponent();
 
-            MainPage = new NavigationPage(new LoginPage());
+            MainPage = new AppShell();
 
-            ////Routing.RegisterRoute("HomePage", typeof(HomePage));
-            //Routing.RegisterRoute("ProfilePage", typeof(ProfilePage));
         }
     }
 }

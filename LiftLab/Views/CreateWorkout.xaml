@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.CreateWorkout"
              Title="CreateWorkout">
-    
-    
 
 
 </ContentPage>

@@ -7,7 +7,10 @@ namespace WebApi
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        public DbSet<UserModel> Users { get; set; } // Example table
+
+        public DbSet<UserModel> Users { get; set; } // table for Users
+
+        public DbSet<FitnessPost> FitnessPosts { get; set; } // table for Fitness related Posts
 
     }
 }

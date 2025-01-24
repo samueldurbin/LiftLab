@@ -5,9 +5,13 @@ namespace LiftLab.Views;
 public partial class CreateWorkout : ContentPage
 {
     public CreateWorkout()
-	{
-		InitializeComponent();
-        BindingContext = this;
+    {
+        InitializeComponent();
+
     }
 
+ 
 }
+
+
+
