@@ -10,5 +10,4 @@ public partial class MyCommunity : ContentPage
         BindingContext = new CommunityViewModel();
     }
 
-    
 }

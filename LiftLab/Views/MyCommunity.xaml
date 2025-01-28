@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
              x:Class="LiftLab.Views.MyCommunity"
-             xmlns:local="clr-namespace:LiftLab.Views"
              Title="MyCommunity">
 
+    <ContentPage.BindingContext>
+        <vm:CommunityViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="20">
+        <Button Text="Refresh" Command="{Binding GetFitnessPostsCommand}" />
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+        <CollectionView ItemsSource="{Binding FitnessPosts}" VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Spacing="15" Padding="15">
+                        <Label Text="{Binding Username}" FontSize="18" />
+                        <Label Text="{Binding ImageUrl}" FontSize="14" />
+                        <Label Text="{Binding Caption}" FontSize="14" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
     
 </ContentPage>

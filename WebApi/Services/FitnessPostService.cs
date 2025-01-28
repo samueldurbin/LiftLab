@@ -12,11 +12,18 @@ namespace WebApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<FitnessPost> CreatePost(FitnessPost post)    // adds post to the database
+        public async Task<FitnessPost> CreatePost(FitnessPost post) // adds post to the database
         {
             _dbContext.FitnessPosts.Add(post);
             await _dbContext.SaveChangesAsync();
             return post;
+        }
+
+        public async Task<IEnumerable<FitnessPost>> GetPostsAsync() // returns a colletion of fitness posts
+        {
+            return await _dbContext.FitnessPosts
+                                 .OrderByDescending(post => post.CreatedDate) // shows most recent dates first
+                                 .ToListAsync();
         }
 
     }

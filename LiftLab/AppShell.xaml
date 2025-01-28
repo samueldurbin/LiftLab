@@ -11,7 +11,7 @@
     <TabBar>
 
         <Tab Title="MyCommunity">
-            <ShellContent Title="MyCommunity" ContentTemplate="{DataTemplate views:CreatePost}" Route="MyCommunity" />
+            <ShellContent Title="MyCommunity" ContentTemplate="{DataTemplate views:MyCommunity}" Route="MyCommunity" />
         </Tab>
         
         <Tab Title="MyFitness">

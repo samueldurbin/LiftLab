@@ -8,7 +8,7 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/auth")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase   // inherits from the controller base
     {
         private readonly IUserService _userService;

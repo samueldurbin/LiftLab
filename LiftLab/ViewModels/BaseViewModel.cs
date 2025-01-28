@@ -12,6 +12,8 @@ namespace LiftLab.ViewModels
     {
         #region Property Change Events
         public event PropertyChangedEventHandler PropertyChanged;
+        private bool isBusy;
+
 
         protected bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = "") // method for property setters
         {
@@ -21,6 +23,19 @@ namespace LiftLab.ViewModels
             backingField = value;
             OnPropertyChanged(propertyName); // calls for update
             return true;
+        }
+
+        public bool IsBusy
+        {
+            get => isBusy;
+            set
+            {
+                if (isBusy != value)
+                {
+                    isBusy = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null) // notifys property changes

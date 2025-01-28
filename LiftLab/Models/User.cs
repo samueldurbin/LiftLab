@@ -20,8 +20,5 @@ namespace LiftLab.Models
 
         public DateTime DateofBirth { get; set; }
 
-
-
-       
     }
 }

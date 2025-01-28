@@ -23,7 +23,7 @@ namespace LiftLab.Services
 
         public async Task<UserModel> LoginAsync(string username, string password) // Asynchronous Task for Login
         {
-            var response = await _httpClient.PostAsJsonAsync("auth/login", new UserModel // Login an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("User/login", new UserModel // Login an Account EndPoint
             {
                 Username = username,  // Checks the username matches the entered username
                 Password = password
@@ -41,7 +41,7 @@ namespace LiftLab.Services
 
         public async Task<UserModel> CreateAccountAsync(string username, string password, string email, string phoneNumber, DateTime dateOfBirth)  // Entered details
         {
-            var response = await _httpClient.PostAsJsonAsync("auth/register", new UserModel // Create an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("User/register", new UserModel // Create an Account EndPoint
             {
                 Username = username,
                 Password = password,

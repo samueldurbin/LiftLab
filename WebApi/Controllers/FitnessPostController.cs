@@ -8,7 +8,7 @@ using Shared.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/auth")]
+    [Route("api/[controller]")]
     public class FitnessPostController : ControllerBase
     {
         private readonly IFitnessPostService _fitnessPostService;
@@ -25,10 +25,18 @@ namespace WebApi.Controllers
 
             if (newPost == null)
             {
-                return BadRequest(new { Message = "Experienced an Error creating the post" }); 
+                return BadRequest(new { Message = "Experienced an Error creating the new post" }); 
             }
 
             return Ok(new { Message = "Your post has been created successfully!", Id = newPost.Id });
+        }
+
+        [HttpGet("fitnessposts")] // api endpoint which is referenced in the front end
+        public async Task<IActionResult> GetPostsAsync() 
+        {
+            var posts = await _fitnessPostService.GetPostsAsync(); // calls the get method in the services
+            return Ok(posts);
+
         }
     }
 }
