@@ -39,6 +39,8 @@ namespace LiftLab.ViewModels
 
         public DateTime CreatedDate
         {
+
+
             get => createdDate;
             set => SetProperty(ref createdDate, value);
         }
@@ -54,12 +56,12 @@ namespace LiftLab.ViewModels
 
             if (newPost != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, !", "OK"); // success message after account creation
+                await Application.Current.MainPage.DisplayAlert("Success", $"You have successfully created your account, !", "Lets go!"); // success message after account creation
 
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK"); // displays a warning alert if account activation fails
+                await Application.Current.MainPage.DisplayAlert("Error", "Account Creation Error.", "Ok"); // displays a warning alert if account activation fails
 
             }
         }

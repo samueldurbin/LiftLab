@@ -10,8 +10,8 @@
 
     <TabBar>
 
-        <Tab Title="MyCommunity">
-            <ShellContent Title="MyCommunity" ContentTemplate="{DataTemplate views:MyCommunity}" Route="MyCommunity" />
+        <Tab Title="Community">
+            <ShellContent Title="Community" ContentTemplate="{DataTemplate views:Community}" Route="Community" />
         </Tab>
         
         <Tab Title="MyFitness">

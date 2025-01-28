@@ -9,7 +9,7 @@ namespace LiftLab
             InitializeComponent();
 
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-            Routing.RegisterRoute(nameof(MyCommunity), typeof(MyCommunity));
+            Routing.RegisterRoute(nameof(Community), typeof(Community));
             Routing.RegisterRoute(nameof(CreateWorkout), typeof(CreateWorkout));
             Routing.RegisterRoute(nameof(CreatePost), typeof(CreatePost));
 

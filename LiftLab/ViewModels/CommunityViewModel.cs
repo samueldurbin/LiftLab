@@ -17,6 +17,8 @@ namespace LiftLab.ViewModels
 
         #region Variables and Commands
         public ICommand GetFitnessPostsCommand { get; }  // gets and displays fitnessposts 
+
+        public ICommand NavigationCommand { get; }
         public ObservableCollection<FitnessPost> FitnessPosts { get; set; } // collection of posts objects
 
         #endregion
@@ -28,6 +30,11 @@ namespace LiftLab.ViewModels
             FitnessPosts = new ObservableCollection<FitnessPost>(); // initializes empty to store fitness posts
 
             GetFitnessPostsCommand = new Command(async () => await GetsPostsOnView());
+
+            NavigationCommand = new Command(async () => // add button in the ui navigates to create a post
+            {
+                await Shell.Current.GoToAsync(nameof(CreatePost));
+            });
         }
 
         private async Task GetsPostsOnView()

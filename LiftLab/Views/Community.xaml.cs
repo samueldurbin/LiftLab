@@ -2,9 +2,9 @@ using LiftLab.ViewModels;
 
 namespace LiftLab.Views;
 
-public partial class MyCommunity : ContentPage
+public partial class Community : ContentPage
 {
-	public MyCommunity()
+	public Community()
 	{
 		InitializeComponent();
         BindingContext = new CommunityViewModel();
