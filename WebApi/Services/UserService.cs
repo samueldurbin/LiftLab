@@ -12,7 +12,7 @@ namespace WebApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<UserModel> AuthenticateUser(string username, string password)
+        public async Task<UserModel> Authentication(string username, string password)
         {
             return await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);

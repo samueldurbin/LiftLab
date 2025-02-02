@@ -12,5 +12,7 @@ namespace WebApi
 
         public DbSet<FitnessPost> FitnessPosts { get; set; } // table for Fitness related Posts
 
+        public DbSet<WorkoutsModel> Workouts { get; set; } // table for Fitness related Posts
+
     }
 }

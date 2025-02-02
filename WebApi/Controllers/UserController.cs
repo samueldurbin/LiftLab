@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         [HttpPost("login")]  
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var user = await _userService.AuthenticateUser(request.Username, request.Password);
+            var user = await _userService.Authentication(request.Username, request.Password);
             if (user == null)
             {
                 return Unauthorized(new { Message = "Invalid username or password" });
