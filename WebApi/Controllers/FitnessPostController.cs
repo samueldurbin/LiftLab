@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using WebApi.Services;
-using WebApi.Models;
 using Shared.Models;
 
 namespace WebApi.Controllers

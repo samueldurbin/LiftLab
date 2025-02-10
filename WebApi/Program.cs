@@ -11,7 +11,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFitnessPostService, FitnessPostService>();
-builder.Services.AddScoped<IWorkoutsService, WorkoutsService>();
 
 // Add controllers (API).
 builder.Services.AddControllers();

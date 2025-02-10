@@ -12,19 +12,19 @@ namespace WebApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<UserModel> Authentication(string username, string password)
+        public async Task<Users> LoginAuthentication(string username, string password)
         {
             return await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
         }
 
-        public async Task<UserModel> GetUsername(string username)
+        public async Task<IEnumerable<Users>> GetUsers() // returns a colletion of fitness posts
         {
             return await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == username);
+                                 .ToListAsync();
         }
 
-        public async Task<UserModel> RegisterUser(UserModel user)    // adds user to the database
+        public async Task<Users> CreateUser(Users user) // adds post to the database
         {
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();

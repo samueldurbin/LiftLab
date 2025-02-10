@@ -21,9 +21,9 @@ namespace LiftLab.Services
             };
         }
 
-        public async Task<UserModel> LoginAsync(string username, string password) // Asynchronous Task for Login
+        public async Task<Users> LoginAsync(string username, string password) // Asynchronous Task for Login
         {
-            var response = await _httpClient.PostAsJsonAsync("User/login", new UserModel // Login an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("User/login", new Users // Login an Account EndPoint
             {
                 Username = username,  // Checks the username matches the entered username
                 Password = password
@@ -32,27 +32,27 @@ namespace LiftLab.Services
 
             if (response.IsSuccessStatusCode) // Checks for success from call
             {
-                return await response.Content.ReadFromJsonAsync<UserModel>();  // Deserializes the JSON request body into the Model object
+                return await response.Content.ReadFromJsonAsync<Users>();  // Deserializes the JSON request body into the Model object
 
             }
 
             return null;
         }
 
-        public async Task<UserModel> CreateAccountAsync(string username, string password, string email, string phoneNumber, DateTime dateOfBirth)  // Entered details
+        public async Task<Users> CreateAccountAsync(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // Entered details
         {
-            var response = await _httpClient.PostAsJsonAsync("User/register", new UserModel // Create an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("User/register", new Users // Create an Account EndPoint
             {
                 Username = username,
                 Password = password,
                 Email = email,
-                PhoneNumber = phoneNumber,
+                MobileNumber = mobileNumber,
                 DateOfBirth = dateOfBirth
             });
 
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<UserModel>();
+                return await response.Content.ReadFromJsonAsync<Users>();
             }
 
             return null;

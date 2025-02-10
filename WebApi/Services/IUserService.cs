@@ -5,9 +5,9 @@ namespace WebApi.Services
 {
     public interface IUserService
     {
-        Task<UserModel> Authentication(string username, string password);
-        Task<UserModel> GetUsername(string username);  // checks if a username already exists.
-        Task<UserModel> RegisterUser(UserModel user);  // creates a new user.
+        Task<Users> LoginAuthentication(string username, string password);
+        Task<IEnumerable<Users>> GetUsers(); // gets all users for admin
+        Task<Users> CreateUser(Users user);  // creates a new user
 
     }
 }
