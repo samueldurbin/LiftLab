@@ -32,7 +32,11 @@ namespace WebApi.Services
         public async Task<Users> CreateUser(Users user) // adds post to the database
         {
             var hash = new Hashing();
+            user.Firstname = hash.Hash(user.Firstname);
+            user.Lastname = hash.Hash(user.Lastname);
             user.Password = hash.Hash(user.Password);
+            user.Email = hash.Hash(user.Email);
+            user.MobileNumber = hash.Hash(user.MobileNumber);
 
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
