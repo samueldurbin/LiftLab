@@ -1,5 +1,7 @@
 ﻿using Shared.Models;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Utilities;
+using System.Diagnostics;
 
 namespace WebApi.Services
 {
@@ -14,8 +16,11 @@ namespace WebApi.Services
 
         public async Task<Users> LoginAuthentication(string username, string password)
         {
+            var hash = new Hashing();
+            string hashPassword = hash.Hash(password);
+
             return await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+                .FirstOrDefaultAsync(u => u.Username == username && u.Password == hashPassword);
         }
 
         public async Task<IEnumerable<Users>> GetUsers() // returns a colletion of fitness posts
@@ -26,6 +31,9 @@ namespace WebApi.Services
 
         public async Task<Users> CreateUser(Users user) // adds post to the database
         {
+            var hash = new Hashing();
+            user.Password = hash.Hash(user.Password);
+
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
             return user;
