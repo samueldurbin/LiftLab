@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace Shared.Models
 {
-    public class WMuscleGroups
+    public class WorkoutPlans
     {
         [Key]
-        public int MuscleGroupId { get; set; }
-
-        public string Name { get; set; }
-
-
+        public int WorkoutPlanId { get; set; }
+        public string WorkoutPlanName { get; set; }
+        public int UserId { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace LiftLab.Services
             };
         }
 
-        public async Task<FitnessPost> CreatePostAsync(string username, string imageUrl, string caption, DateTime createdDate)  // Entered details
+        public async Task<FitnessPost> CreatePost(string username, string imageUrl, string caption, DateTime createdDate)  // Entered details
         {
             var response = await _httpClient.PostAsJsonAsync("Fitnesspost/createpost", new FitnessPost // Create an Account EndPoint
             {

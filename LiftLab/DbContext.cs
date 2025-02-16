@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using LiftLab.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,6 @@ namespace LiftLab
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        public DbSet<User> Users { get; set; }
 
 
     }

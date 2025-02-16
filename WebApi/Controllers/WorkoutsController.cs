@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WebApi.Services;
+using WebApi.Models;
+using Shared.Models;
 
 namespace WebApi.Controllers
 {
@@ -21,5 +24,6 @@ namespace WebApi.Controllers
             return Ok(workouts);
 
         }
+
     }
 }

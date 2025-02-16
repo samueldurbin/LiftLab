@@ -5,6 +5,5 @@ namespace WebApi.Services
     public interface IWorkoutService
     {
         Task<IEnumerable<Workouts>> GetWorkouts();
-
     }
 }

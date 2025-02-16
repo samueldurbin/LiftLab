@@ -14,6 +14,10 @@ namespace WebApi
 
         public DbSet<Workouts> Workouts { get; set; } // table for Fitness related Posts
 
-        public DbSet<WMuscleGroups> WMuscleGroups { get; set; }
+        public DbSet<WorkoutPlans> WorkoutPlans { get; set; } // table for Fitness related Posts
+
+        public DbSet<WorkoutPlanData> WorkoutPlansData { get; set; }
+
+
     }
 }

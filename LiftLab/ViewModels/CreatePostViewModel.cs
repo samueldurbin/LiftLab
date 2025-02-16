@@ -39,20 +39,18 @@ namespace LiftLab.ViewModels
 
         public DateTime CreatedDate
         {
-
-
             get => createdDate;
             set => SetProperty(ref createdDate, value);
         }
 
-        public ICommand CreatePostCommand => new Command(async () => await CreatePostAsync()); // user actions part of the MVVM architecture
+        public ICommand CreatePostCommand => new Command(async () => await CreatePost()); // user actions part of the MVVM architecture
 
 
-        private async Task CreatePostAsync() // calls api to create a new account
+        private async Task CreatePost() // calls api to create a new account
         {
             var apiService = new FitnessPostServiceUI();
 
-            var newPost = await apiService.CreatePostAsync(Username, ImageUrl, Caption, CreatedDate);
+            var newPost = await apiService.CreatePost(Username, ImageUrl, Caption, CreatedDate);
 
             if (newPost != null)
             {

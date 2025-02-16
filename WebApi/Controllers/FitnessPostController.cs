@@ -31,9 +31,9 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("fitnessposts")] // api endpoint which is referenced in the front end
-        public async Task<IActionResult> GetPostsAsync() 
+        public async Task<IActionResult> GetPosts() 
         {
-            var posts = await _fitnessPostService.GetPostsAsync(); // calls the get method in the services
+            var posts = await _fitnessPostService.GetPosts(); // calls the get method in the services
             return Ok(posts);
 
         }

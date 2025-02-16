@@ -19,7 +19,7 @@ namespace WebApi.Services
             return post;
         }
 
-        public async Task<IEnumerable<FitnessPost>> GetPostsAsync() // returns a colletion of fitness posts
+        public async Task<IEnumerable<FitnessPost>> GetPosts() // returns a colletion of fitness posts
         {
             return await _dbContext.FitnessPosts
                                  .OrderByDescending(post => post.CreatedDate) // shows most recent dates first

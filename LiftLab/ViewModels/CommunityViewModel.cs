@@ -29,7 +29,7 @@ namespace LiftLab.ViewModels
 
             FitnessPosts = new ObservableCollection<FitnessPost>(); // initializes empty to store fitness posts
 
-            GetFitnessPostsCommand = new Command(async () => await GetsPostsOnView());
+            GetFitnessPostsCommand = new Command(async () => await GetsPosts());
 
             NavigationCommand = new Command(async () => // add button in the ui navigates to create a post
             {
@@ -37,7 +37,7 @@ namespace LiftLab.ViewModels
             });
         }
 
-        private async Task GetsPostsOnView()
+        private async Task GetsPosts()
         {
             if (IsBusy) // prevents the retrieving of data fetching if its already in progress
                 return; 
@@ -55,7 +55,6 @@ namespace LiftLab.ViewModels
                     FitnessPosts.Add(post); // adds new posts
                 }
 
-                //OnPropertyChanged(nameof(FitnessPosts)); // triggers a re render incase of fail
             }
             catch (Exception ex)
             {
@@ -63,7 +62,7 @@ namespace LiftLab.ViewModels
             }
             finally
             {
-                IsBusy = false; // resets the IsBusy method for the next run
+                IsBusy = false; 
             }
         }
 

@@ -15,8 +15,8 @@ namespace WebApi.Services
         public async Task<IEnumerable<Workouts>> GetWorkouts() // returns a colletion of fitness posts
         {
             return await _dbContext.Workouts
-                                 .Include(w => w.WMuscleGroups)
                                  .ToListAsync();
         }
+
     }
 }
