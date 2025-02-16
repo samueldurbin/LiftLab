@@ -15,13 +15,9 @@ namespace LiftLab.ViewModels
     {
         private readonly FitnessPostServiceUI _fitnessPostService;  // gets fitness posts from api
 
-        #region Variables and Commands
         public ICommand GetFitnessPostsCommand { get; }  // gets and displays fitnessposts 
-
         public ICommand NavigationCommand { get; }
         public ObservableCollection<FitnessPost> FitnessPosts { get; set; } // collection of posts objects
-
-        #endregion
 
         public CommunityViewModel()
         {

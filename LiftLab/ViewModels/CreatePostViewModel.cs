@@ -45,7 +45,6 @@ namespace LiftLab.ViewModels
 
         public ICommand CreatePostCommand => new Command(async () => await CreatePost()); // user actions part of the MVVM architecture
 
-
         private async Task CreatePost() // calls api to create a new account
         {
             var apiService = new FitnessPostServiceUI();
@@ -63,7 +62,6 @@ namespace LiftLab.ViewModels
 
             }
         }
-
 
     }
 }
