@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.Utilities;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Services
 {
@@ -33,11 +34,7 @@ namespace WebApi.Services
         public async Task<Users> CreateUser(Users user) // adds post to the database
         {
             var hash = new Hashing();
-            user.Firstname = hash.Hash(user.Firstname);
-            user.Lastname = hash.Hash(user.Lastname);
             user.Password = hash.Hash(user.Password);
-            user.Email = hash.Hash(user.Email);
-            user.MobileNumber = hash.Hash(user.MobileNumber);
 
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
@@ -58,6 +55,48 @@ namespace WebApi.Services
 
             return true;
 
+        }
+
+        public async Task<Users?> UpdateUser(Users updatedUser)
+        {
+            var user = await _dbContext.Users.FindAsync(updatedUser.UserId);
+
+            if(user == null)
+            {
+                return null;
+            }
+
+            if (!string.IsNullOrWhiteSpace(updatedUser.Firstname))
+                user.Firstname = updatedUser.Firstname;
+
+            if (!string.IsNullOrWhiteSpace(updatedUser.Lastname))
+                user.Lastname = updatedUser.Lastname;
+
+            if (!string.IsNullOrWhiteSpace(updatedUser.Email))
+                user.Email = updatedUser.Email;
+
+            if (!string.IsNullOrWhiteSpace(updatedUser.MobileNumber))
+                user.MobileNumber = updatedUser.MobileNumber;
+
+            if (!string.IsNullOrWhiteSpace(updatedUser.Username))
+                user.Username = updatedUser.Username;
+
+            if (updatedUser.DateOfBirth != default)
+                user.DateOfBirth = updatedUser.DateOfBirth;
+
+            if (updatedUser.AccountCreationDate != default)
+                user.AccountCreationDate = updatedUser.AccountCreationDate;
+
+            if (!string.IsNullOrWhiteSpace(updatedUser.Password))
+            {
+                var hash = new Hashing();
+                user.Password = hash.Hash(updatedUser.Password);
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            return user;
+            
         }
     }
 }

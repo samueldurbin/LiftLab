@@ -61,5 +61,18 @@ namespace WebApi.Controllers
             return Ok(new { Message = "Your account has been deleted"});
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser([FromBody] Users updatedUser)
+        {
+            var user = await _userService.UpdateUser(updatedUser);
+
+            if (user == null)
+            {
+                return BadRequest(new { message = "User not found" });
+            }
+
+            return Ok(user);
+        }
+
     }
 }

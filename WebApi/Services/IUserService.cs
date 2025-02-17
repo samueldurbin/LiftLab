@@ -9,6 +9,7 @@ namespace WebApi.Services
         Task<IEnumerable<Users>> GetUsers(); // gets all users for admin
         Task<Users> CreateUser(Users user);  // creates a new user
         Task<bool> DeleteUser(int userId);
+        Task<Users?> UpdateUser (Users updatedUser);
 
     }
 }
