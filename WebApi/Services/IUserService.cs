@@ -8,6 +8,7 @@ namespace WebApi.Services
         Task<Users> LoginAuthentication(string username, string password);
         Task<IEnumerable<Users>> GetUsers(); // gets all users for admin
         Task<Users> CreateUser(Users user);  // creates a new user
+        Task<bool> DeleteUser(int userId);
 
     }
 }

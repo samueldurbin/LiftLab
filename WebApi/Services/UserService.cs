@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi.Utilities;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace WebApi.Services
 {
@@ -41,6 +42,22 @@ namespace WebApi.Services
             _dbContext.Users.Add(user);
             await _dbContext.SaveChangesAsync();
             return user;
+        }
+
+        public async Task<bool> DeleteUser(int userId)
+        {
+            var user = await _dbContext.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            _dbContext.Users.Remove(user);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+
         }
     }
 }

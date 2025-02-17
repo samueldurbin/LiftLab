@@ -49,5 +49,17 @@ namespace WebApi.Controllers
             return Ok(new { Message = "Your account has been created successfully!", Id = newUser.UserId });
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            bool isDeleted = await _userService.DeleteUser(id);
+            if (!isDeleted)
+            {
+                return BadRequest(new { message = "User has not been found" });
+            }
+
+            return Ok(new { Message = "Your account has been deleted"});
+        }
+
     }
 }
