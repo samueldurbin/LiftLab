@@ -18,13 +18,13 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("createpost")]  // api endpoint
-        public async Task<IActionResult> CreatePostAsync([FromBody] FitnessPost request)
+        public async Task<IActionResult> CreatePostAsync([FromBody] FitnessPost request) // json body in request
         {
             var newPost = await _fitnessPostService.CreatePost(request); // creates a new post
 
-            if (newPost == null)
+            if (newPost == null) // checks if posts does not exist, error with request
             {
-                return BadRequest(new { Message = "Experienced an Error creating the new post" }); 
+                return BadRequest(new { ResponseMessage = "Experienced an Error creating the new post" }); 
             }
 
             return Ok(new { Message = "Your post has been created successfully!", Id = newPost.Id });

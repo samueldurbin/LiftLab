@@ -30,10 +30,10 @@ namespace WebApi.Controllers
             var user = await _userService.LoginAuthentication(request.Username, request.Password);
             if (user == null)
             {
-                return Unauthorized(new { Message = "Incorrect username or password, please try again" });
+                return BadRequest("Incorrect username or password, please try again");
             }
 
-            return Ok(new { Username = user.Username });
+            return Ok();
         }
 
         [HttpPost("createuser")]  // api endpoint
@@ -43,7 +43,7 @@ namespace WebApi.Controllers
 
             if (newUser == null)
             {
-                return BadRequest(new { Message = "Experienced an Error creating the new user" });
+                return BadRequest(new("Experienced an Error creating the new user");
             }
 
             return Ok(new { Message = "Your account has been created successfully!", Id = newUser.UserId });

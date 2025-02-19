@@ -18,6 +18,8 @@ namespace WebApi
 
         public DbSet<WorkoutPlanData> WorkoutPlansData { get; set; }
 
+        public DbSet<Pals> Pals { get; set; }
+
 
     }
 }

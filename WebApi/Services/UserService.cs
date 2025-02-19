@@ -65,33 +65,24 @@ namespace WebApi.Services
             {
                 return null;
             }
+            
+            user.Firstname = updatedUser.Firstname;
 
-            if (!string.IsNullOrWhiteSpace(updatedUser.Firstname))
-                user.Firstname = updatedUser.Firstname;
+            user.Lastname = updatedUser.Lastname;
+            
+            user.Email = updatedUser.Email;
+            
+            user.MobileNumber = updatedUser.MobileNumber;
+            
+            user.Username = updatedUser.Username;
 
-            if (!string.IsNullOrWhiteSpace(updatedUser.Lastname))
-                user.Lastname = updatedUser.Lastname;
+            user.DateOfBirth = updatedUser.DateOfBirth;
+            
+            user.AccountCreationDate = updatedUser.AccountCreationDate;
+            
+            var hash = new Hashing();
+            user.Password = hash.Hash(updatedUser.Password);
 
-            if (!string.IsNullOrWhiteSpace(updatedUser.Email))
-                user.Email = updatedUser.Email;
-
-            if (!string.IsNullOrWhiteSpace(updatedUser.MobileNumber))
-                user.MobileNumber = updatedUser.MobileNumber;
-
-            if (!string.IsNullOrWhiteSpace(updatedUser.Username))
-                user.Username = updatedUser.Username;
-
-            if (updatedUser.DateOfBirth != default)
-                user.DateOfBirth = updatedUser.DateOfBirth;
-
-            if (updatedUser.AccountCreationDate != default)
-                user.AccountCreationDate = updatedUser.AccountCreationDate;
-
-            if (!string.IsNullOrWhiteSpace(updatedUser.Password))
-            {
-                var hash = new Hashing();
-                user.Password = hash.Hash(updatedUser.Password);
-            }
 
             await _dbContext.SaveChangesAsync();
 
