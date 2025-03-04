@@ -21,17 +21,18 @@ namespace LiftLab.Services
             };
         }
 
-        public async Task<FitnessPost> CreatePost(string username, string imageUrl, string caption)  // Entered details
+        public async Task<FitnessPost> CreatePost(string username, string imageUrl, string caption, int? workoutPlanId)  // Entered details // int? due to being nullable
         {
             var response = await _httpClient.PostAsJsonAsync("Fitnesspost/createpost", new FitnessPost // Create an Account EndPoint
             {
                 Username = username,
                 ImageUrl = imageUrl,
-                Caption = caption
-             
+                Caption = caption,
+                WorkoutPlanId = workoutPlanId // allows user to add a workout plan to a fitness post, this is not mandatory
+
             });
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode) // returns 200 code if correct, helps with postman
             {
                 return await response.Content.ReadFromJsonAsync<FitnessPost>();
             }
@@ -50,6 +51,19 @@ namespace LiftLab.Services
 
             throw new Exception("Failed to get fitnessposts, please try again"); // failed to retrieve the posts exception message
         }
+
+        public async Task<List<WorkoutPlans>> GetAllPlans() // gets all workoutplans as a list
+        {
+            var response = await _httpClient.GetAsync("WorkoutPlans/getallplans"); // sends a get request to the api, to retrieve the list of plans
+            // stores the response
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // shows a 200 code if success
+            }
+
+            throw new Exception("Failed to get workout plans, please try again.");
+        }
+
 
     }
 }

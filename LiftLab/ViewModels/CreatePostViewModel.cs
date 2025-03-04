@@ -12,17 +12,27 @@ namespace LiftLab.ViewModels
 {
     public class CreatePostViewModel : BaseViewModel
     {
-        private readonly FitnessPostServiceUI _apiPostService;
+        private readonly FitnessPostServiceUI _fitnessPostService;
 
         private string username;
         private string imageUrl;
         private string caption;
         private DateTime createdDate;
+        private WorkoutPlans selectedWorkoutPlan; // stores the selected workout plan
+        public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; } // collection of workoutplans, ui automatically updates through this dynamic list
 
-        public string Username // property bound to username field in ui
+        public CreatePostViewModel()
+        {
+            _fitnessPostService = new FitnessPostServiceUI(); // creates instance
+            WorkoutPlans = new ObservableCollection<WorkoutPlans>();
+
+            CreatePostCommand = new Command(async () => await CreatePost()); // button on click
+        }
+
+        public string Username // gets ui data and sets them into the variables
         {
             get => username;
-            set => SetProperty(ref username, value); // updates ui
+            set => SetProperty(ref username, value);
         }
 
         public string ImageUrl
@@ -37,23 +47,43 @@ namespace LiftLab.ViewModels
             set => SetProperty(ref caption, value);
         }
 
-        public ICommand CreatePostCommand => new Command(async () => await CreatePost()); // user actions part of the MVVM architecture
-
-        private async Task CreatePost() // calls api to create a new account
+        public WorkoutPlans SelectedWorkoutPlan
         {
-            var apiService = new FitnessPostServiceUI();
+            get => selectedWorkoutPlan;
+            set => SetProperty(ref selectedWorkoutPlan, value);
+        }
+        public ICommand CreatePostCommand { get; } // creates post onclick
 
-            var newPost = await apiService.CreatePost(Username, ImageUrl, Caption);
+        public async Task LoadWorkoutPlans()  // loads all of the workoutplans from the api
+        {
+            try
+            {
+                var plans = await _fitnessPostService.GetAllPlans(); // fetches all of the plans
+
+                WorkoutPlans.Clear(); // this removes old data that may have been deletec or edited previously
+
+                foreach (var plan in plans)
+                {
+                    WorkoutPlans.Add(plan); // adds all the plans to the ui list
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load workout plans", "OK");
+            }
+        }
+
+        private async Task CreatePost()
+        {
+            var newPost = await _fitnessPostService.CreatePost(Username, ImageUrl, Caption, SelectedWorkoutPlan.WorkoutPlanId); // creates post with the parameters // selectedworkoutplan is the selected from the ui
 
             if (newPost != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", $"You have successfully created your account, !", "Lets go!"); // success message after account creation
-
+                await Application.Current.MainPage.DisplayAlert("Nice!", "Your post has been created successfully!", "OK");
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Account Creation Error.", "Ok"); // displays a warning alert if account activation fails
-
+                await Application.Current.MainPage.DisplayAlert("Error", "FitnessPost creation has failed.", "OK");
             }
         }
 
