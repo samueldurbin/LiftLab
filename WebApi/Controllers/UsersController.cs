@@ -43,7 +43,7 @@ namespace WebApi.Controllers
 
             if (newUser == null)
             {
-                return BadRequest(new("Experienced an Error creating the new user");
+                return BadRequest("Experienced an Error creating the new user");
             }
 
             return Ok(new { Message = "Your account has been created successfully!", Id = newUser.UserId });
