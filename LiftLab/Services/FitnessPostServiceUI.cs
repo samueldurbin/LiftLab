@@ -23,9 +23,9 @@ namespace LiftLab.Services
 
         public async Task<FitnessPost> CreatePost(string username, string imageUrl, string caption, int? workoutPlanId)  // Entered details // int? due to being nullable
         {
-            var response = await _httpClient.PostAsJsonAsync("Fitnesspost/createpost", new FitnessPost // Create an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("Fitnesspost/createfitnesspost", new FitnessPost // Create an Account EndPoint
             {
-                Username = username,
+                Username = username, // posts the entries 
                 ImageUrl = imageUrl,
                 Caption = caption,
                 WorkoutPlanId = workoutPlanId // allows user to add a workout plan to a fitness post, this is not mandatory
@@ -42,7 +42,7 @@ namespace LiftLab.Services
 
         public async Task<List<FitnessPost>> GetAllFitnessPosts()
         {
-            var response = await _httpClient.GetAsync("Fitnesspost/fitnessposts"); // sends a http get request to the fitnessposts endpoint
+            var response = await _httpClient.GetAsync("Fitnesspost/getallfitnessposts"); // sends a http get request to the fitnessposts endpoint
 
             if (response.IsSuccessStatusCode) // checks to see whether it returns a successful status code (200)
             {

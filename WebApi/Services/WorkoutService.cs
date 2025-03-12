@@ -12,9 +12,9 @@ namespace WebApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<Workouts>> GetWorkouts() // returns a colletion of fitness posts
+        public async Task<IEnumerable<Workouts>> GetWorkouts() // returns all of the fitness posts
         {
-            return await _dbContext.Workouts
+            return await _dbContext.Workouts // gets all workouts from the databse
                                  .ToListAsync();
         }
 

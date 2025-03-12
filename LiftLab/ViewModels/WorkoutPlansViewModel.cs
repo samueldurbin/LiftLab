@@ -10,12 +10,14 @@ using System.Windows.Input;
 using LiftLab.Services;
 using Shared.Models;
 using System.Collections.ObjectModel;
+using LiftLab.Models;
 
 namespace LiftLab.ViewModels
 {
     public class WorkoutPlansViewModel : BaseViewModel
     {
         private readonly WorkoutPlansServiceUI _workoutPlansService;
+
         private string workoutPlanName;
         private int userId;
 
@@ -41,7 +43,7 @@ namespace LiftLab.ViewModels
             _workoutPlansService = new WorkoutPlansServiceUI();
             WorkoutList = new ObservableCollection<WorkoutSelection>();
 
-            CreatePlanCommand = new Command(async () => await CreatePlan());
+            CreatePlanCommand = new Command(async () => await CreatePlan()); // links the methods to the buttons within the ui
             GetWorkoutsCommand = new Command(async () => await GetWorkouts());
 
         }
@@ -50,12 +52,12 @@ namespace LiftLab.ViewModels
         {
             try
             {
-                var selectedWorkouts = WorkoutList
+                var selectedWorkouts = WorkoutList // selected workout ids and into a list
                     .Where(w => w.IsSelected)
                     .Select(w => w.Workout.WorkoutId)
                     .ToList();
 
-                var newPlan = await _workoutPlansService.CreatePlan(new CreateWorkoutPlan
+                var newPlan = await _workoutPlansService.CreatePlan(new CreateWorkoutPlan // creates new workout plan and puts in the list of selected workouts
                 {
                     WorkoutPlanName = WorkoutPlanName,
                     UserId = UserId,
@@ -64,33 +66,34 @@ namespace LiftLab.ViewModels
 
                 if (newPlan != null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Success", "Workout plan created with workouts successfully!", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Success", "Workout plan created with workouts successfully!", "Nice");
 
                     foreach (var workout in WorkoutList)
                     {
-                        workout.IsSelected = false;
+                        workout.IsSelected = false; // resets selected workouts from the list
                     }
                 }
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create plan: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create the new plan: {ex.Message}", "OK");
             }
         }
 
-        private async Task GetWorkouts()
+        private async Task GetWorkouts() // method to get workouts
         {
-            if (IsBusy)
+            if (IsBusy) // to prevent multiple api calls
                 return;
 
-            IsBusy = true;
+            IsBusy = true; // to show loading after button is pressed
 
             try
             {
-                var workouts = await _workoutPlansService.GetAllWorkouts();
-                WorkoutList.Clear();
+                var workouts = await _workoutPlansService.GetAllWorkouts(); // gets a list of all the workouts
+                
+                WorkoutList.Clear(); // clears old data
 
-                foreach (var workout in workouts)
+                foreach (var workout in workouts) // adds new workouts
                 {
                     WorkoutList.Add(new WorkoutSelection
                     {
@@ -101,19 +104,13 @@ namespace LiftLab.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error Exception", $"Failed to load the workouts: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error ", $"Failed to load the list of workouts: {ex.Message}", "OK");
             }
             finally
             {
-                IsBusy = false;
+                IsBusy = false; // resets isbusy
             }
         }
     }
 
-    public class WorkoutSelection
-    {
-        public Workouts Workout { get; set; }
-        public bool IsSelected { get; set; }
-        public string WorkoutName => Workout.WorkoutName;
-    }
 }

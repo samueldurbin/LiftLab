@@ -21,7 +21,7 @@ namespace LiftLab.Services
             };
         }
 
-        public async Task<Users> LoginAsync(string username, string password) // Asynchronous Task for Login
+        public async Task<Users> Login(string username, string password) // Asynchronous Task for Login
         {
             var response = await _httpClient.PostAsJsonAsync("User/login", new Users // Login an Account EndPoint
             {
@@ -39,18 +39,18 @@ namespace LiftLab.Services
             return null;
         }
 
-        public async Task<Users> CreateAccountAsync(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // Entered details
+        public async Task<Users> CreateAccount(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // Entered details
         {
             var response = await _httpClient.PostAsJsonAsync("User/register", new Users // Create an Account EndPoint
             {
-                Username = username,
+                Username = username, // matches with user inputs to save to database through api
                 Password = password,
                 Email = email,
                 MobileNumber = mobileNumber,
                 DateOfBirth = dateOfBirth
             });
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode) // returns a success message in postman for testing
             {
                 return await response.Content.ReadFromJsonAsync<Users>();
             }

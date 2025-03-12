@@ -25,7 +25,7 @@ namespace LiftLab.ViewModels
         {
             _fitnessPostService = new FitnessPostServiceUI(); // creates instance
             WorkoutPlans = new ObservableCollection<WorkoutPlans>();
-
+            Task.Run(async () => await LoadWorkoutPlans()); // this allows the loadworkoutplans command to initiate on run
             CreatePostCommand = new Command(async () => await CreatePost()); // button on click
         }
 

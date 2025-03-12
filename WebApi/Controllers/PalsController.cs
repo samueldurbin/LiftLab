@@ -32,7 +32,7 @@ namespace WebApi.Controllers
 
             if (newPal == null)
             {
-                return BadRequest(new { ResponseMessage = "Experienced an Error when adding pal" });  // to prevent an empty pal from being added
+                return BadRequest( "Experienced an Error when adding pal");  // to prevent an empty pal from being added
             }
 
             return Ok("Created Successfully"); // response message to show its success

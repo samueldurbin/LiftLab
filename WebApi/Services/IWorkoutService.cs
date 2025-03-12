@@ -4,6 +4,6 @@ namespace WebApi.Services
 {
     public interface IWorkoutService
     {
-        Task<IEnumerable<Workouts>> GetWorkouts();
+        Task<IEnumerable<Workouts>> GetWorkouts(); // gets all the workouts
     }
 }

@@ -19,10 +19,10 @@ namespace WebApi.Services
         public async Task<Users> LoginAuthentication(string username, string password)
         {
             var hash = new Hashing();
-            string hashPassword = hash.Hash(password);
+            string hashPassword = hash.Hash(password); // allows the hash value to be compared by input
 
             return await _dbContext.Users
-                .FirstOrDefaultAsync(u => u.Username == username && u.Password == hashPassword);
+                .FirstOrDefaultAsync(u => u.Username == username && u.Password == hashPassword); // matches the username and password to simulate authentication
         }
 
         public async Task<IEnumerable<Users>> GetUsers() // returns a colletion of fitness posts
@@ -33,40 +33,42 @@ namespace WebApi.Services
 
         public async Task<Users> CreateUser(Users user) // adds post to the database
         {
-            var hash = new Hashing();
-            user.Password = hash.Hash(user.Password);
+            var hash = new Hashing(); // hashing method from the utility class
+            user.Password = hash.Hash(user.Password); // hashes the password before sending to database
 
-            _dbContext.Users.Add(user);
-            await _dbContext.SaveChangesAsync();
+            _dbContext.Users.Add(user); // adds the user to te table
+
+            await _dbContext.SaveChangesAsync(); // saves
+
             return user;
         }
 
         public async Task<bool> DeleteUser(int userId)
         {
-            var user = await _dbContext.Users.FindAsync(userId);
+            var user = await _dbContext.Users.FindAsync(userId); // finds the userid
 
-            if (user == null)
+            if (user == null) // checks if the user exists
             {
                 return false;
             }
 
-            _dbContext.Users.Remove(user);
+            _dbContext.Users.Remove(user); // deletes the user in the database from the id input
             await _dbContext.SaveChangesAsync();
 
             return true;
 
         }
 
-        public async Task<Users?> UpdateUser(Users updatedUser)
+        public async Task<Users?> UpdateUser(Users updatedUser) // updates the user
         {
-            var user = await _dbContext.Users.FindAsync(updatedUser.UserId);
+            var user = await _dbContext.Users.FindAsync(updatedUser.UserId); // searches the id
 
-            if(user == null)
+            if(user == null) // checks to see if user exists
             {
                 return null;
             }
             
-            user.Firstname = updatedUser.Firstname;
+            user.Firstname = updatedUser.Firstname; // updates user data with the input
 
             user.Lastname = updatedUser.Lastname;
             
@@ -81,7 +83,7 @@ namespace WebApi.Services
             user.AccountCreationDate = updatedUser.AccountCreationDate;
             
             var hash = new Hashing();
-            user.Password = hash.Hash(updatedUser.Password);
+            user.Password = hash.Hash(updatedUser.Password); // hashes the new updated password
 
 
             await _dbContext.SaveChangesAsync();

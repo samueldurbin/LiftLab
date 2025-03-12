@@ -25,7 +25,7 @@ namespace LiftLab.Services
         {
             try
             {
-                var response = await _httpClient.GetAsync("WorkoutPlans/workouts"); // Replace with your actual endpoint
+                var response = await _httpClient.GetAsync("WorkoutPlans/getallworkouts"); // Replace with your actual endpoint
 
                 if (response.IsSuccessStatusCode)
                 {

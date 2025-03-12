@@ -44,18 +44,18 @@ namespace LiftLab.ViewModels
             }
         }
 
-        #endregion#
+        #endregion
 
         #region Login
-        public ICommand LoginCommand { get; }
+        public ICommand LoginCommand { get; } // for the button to login in the UI
 
         public LoginViewModel()
         {
             _apiUserService = new UserServiceUI();
-            LoginCommand = new Command(async () => await LoginAsync());
+            LoginCommand = new Command(async () => await Login());  // links the button to the method
         }
 
-        private async Task LoginAsync()
+        private async Task Login()
         {
             if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))  // displays an error if nothing is entered into the fields
             {
@@ -63,7 +63,7 @@ namespace LiftLab.ViewModels
                 return;
             }
 
-            var user = await _apiUserService.LoginAsync(Username, Password); // calls this method to authenticate the user
+            var user = await _apiUserService.Login(Username, Password); // calls this method to authenticate the user
 
             if (user != null)
             {

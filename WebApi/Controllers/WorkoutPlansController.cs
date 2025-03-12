@@ -6,24 +6,24 @@ using WebApi.Services;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class WorkoutPlansController : ControllerBase
+    [Route("api/[controller]")] // WorkoutPlans for the url requests
+    public class WorkoutPlansController : ControllerBase 
     {
         private readonly IWorkoutPlansService _workoutPlansService;
 
-        public WorkoutPlansController(IWorkoutPlansService workoutPlansService)
+        public WorkoutPlansController(IWorkoutPlansService workoutPlansService) // creates instance of the workoutplan service
         {
             _workoutPlansService = workoutPlansService;
         }
 
-        [HttpGet("getallplans")]
-        public async Task<IActionResult> GetAllPlans()
+        [HttpGet("getallplans")] // request to get all of the workout plans from the database
+        public async Task<IActionResult> GetAllPlans()  // basic method to retrieve all the plans
         {
             var plans = await _workoutPlansService.GetPlans();
             return Ok(plans);
         }
 
-        [HttpPost("createplan")]
+        [HttpPost("createplan")] // create plan request
         public async Task<IActionResult> CreatePlanWithWorkouts([FromBody] CreateWorkoutPlan request)
         {
             try

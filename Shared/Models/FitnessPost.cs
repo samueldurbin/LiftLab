@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Shared.Models
 {
-    public class FitnessPost
+    public class FitnessPost // contains all of the fitnessposts
     {
-        public int Id { get; set; }
+        public int FitnessPostId { get; set; } // Changed to FitnessPostId to make the foreign keys easier to understand
         public string Username { get; set; }
         public string ImageUrl { get; set; }
         public string Caption { get; set; }

@@ -16,7 +16,7 @@ namespace WebApi
 
         public DbSet<WorkoutPlans> WorkoutPlans { get; set; } // table for Fitness related Posts
 
-        public DbSet<WorkoutPlanData> WorkoutPlansData { get; set; }
+        public DbSet<WorkoutPlanData> WorkoutPlansData { get; set; } // table to connect workout plans with workouts in a many-to-many relationship in the database
 
         public DbSet<Pals> Pals { get; set; }
 

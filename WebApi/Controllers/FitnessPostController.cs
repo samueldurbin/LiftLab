@@ -6,32 +6,32 @@ using Shared.Models;
 
 namespace WebApi.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class FitnessPostController : ControllerBase
+    [ApiController] // apicontroller
+    [Route("api/[controller]")] // url for api which uses the controller name as the url
+    public class FitnessPostController : ControllerBase // base class
     {
-        private readonly IFitnessPostService _fitnessPostService;
+        private readonly IFitnessPostService _fitnessPostService; // dependency injection
 
-        public FitnessPostController(IFitnessPostService fitnessPostService)
+        public FitnessPostController(IFitnessPostService fitnessPostService) // creates an instance of the IService
         {
             _fitnessPostService = fitnessPostService;
         }
 
-        [HttpPost("createpost")]  // api endpoint
-        public async Task<IActionResult> CreatePostAsync([FromBody] FitnessPost request) // json body in request
+        [HttpPost("createfitnesspost")]  // api endpoint to create fitness post
+        public async Task<IActionResult> CreatePostAsync([FromBody] FitnessPost request) // json body in the api request
         {
             var newPost = await _fitnessPostService.CreatePost(request); // creates a new post
 
             if (newPost == null) // checks if posts does not exist, error with request
             {
-                return BadRequest(new { ResponseMessage = "Experienced an Error creating the new post" }); 
+                return BadRequest("Error when creating new post" );  // error exception if post is null (hasnt been correctly retrieved)
             }
 
-            return Ok(new { Message = "Your post has been created successfully!", Id = newPost.Id });
+            return Ok(new { Message = "Your post has been created successfully!", Id = newPost.FitnessPostId }); // returns a success message alongside what has been added to the db through the apia
         }
 
-        [HttpGet("fitnessposts")] // api endpoint which is referenced in the front end
-        public async Task<IActionResult> GetPosts() 
+        [HttpGet("getallfitnessposts")] // api endpoint which is referenced in the front end
+        public async Task<IActionResult> GetPosts() // method to get all fitnessposts for the community view
         {
             var posts = await _fitnessPostService.GetPosts(); // calls the get method in the services
             return Ok(posts);

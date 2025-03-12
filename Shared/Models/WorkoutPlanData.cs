@@ -15,10 +15,10 @@ namespace Shared.Models
         public int WorkoutPlanId { get; set; }
         public int WorkoutId { get; set; }
 
-        [ForeignKey("WorkoutPlanId")]
+        [ForeignKey("WorkoutPlanId")] // foreign key to workout plans table
         public WorkoutPlans WorkoutPlan { get; set; }
 
-        [ForeignKey("WorkoutId")]
+        [ForeignKey("WorkoutId")] // foreign key to workouts
         public Workouts Workout { get; set; }
     }
 }

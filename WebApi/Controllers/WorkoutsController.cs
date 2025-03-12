@@ -7,20 +7,20 @@ using Shared.Models;
 namespace WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] // workouts as a url
     public class WorkoutsController : ControllerBase
     {
         private readonly IWorkoutService _workoutService;
 
-        public WorkoutsController(IWorkoutService workoutService)
+        public WorkoutsController(IWorkoutService workoutService) // creates an instance of workouts service
         {
             _workoutService = workoutService;
         }
 
-        [HttpGet("getallworkouts")] 
-        public async Task<IActionResult> GetAllWorkouts()
+        [HttpGet("getallworkouts")]  // gets all workouts
+        public async Task<IActionResult> GetAllWorkouts() 
         {
-            var workouts = await _workoutService.GetWorkouts();
+            var workouts = await _workoutService.GetWorkouts(); // simple method to retrieve all workouts
             return Ok(workouts);
 
         }

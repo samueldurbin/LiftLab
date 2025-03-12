@@ -54,19 +54,19 @@ namespace LiftLab.ViewModels
         #endregion
 
         #region Actions
-        public ICommand CreateAccountCommand => new Command(async () => await CreateAccountAsync()); // user actions part of the MVVM architecture
+        public ICommand CreateAccountCommand => new Command(async () => await CreateAccount()); // user actions part of the MVVM architecture
         #endregion
 
         #region Create Account
-        private async Task CreateAccountAsync() // calls api to create a new account
+        private async Task CreateAccount() // calls api to create a new account
         {
             var apiService = new UserServiceUI();
 
-            var newUser = await apiService.CreateAccountAsync(Username, Password, Email, PhoneNumber, DateOfBirth);
+            var newUser = await apiService.CreateAccount(Username, Password, Email, PhoneNumber, DateOfBirth);
 
             if (newUser != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, !", "OK"); // success message after account creation
+                await Application.Current.MainPage.DisplayAlert("Success", "Welcome", "OK"); // success message after account creation
 
             }
             else
