@@ -48,5 +48,17 @@ namespace WebApi.Controllers
             var newComment = await _fitnessPostService.AddComment(request); // calls the add comment method in service
             return Ok(newComment);
         }
+
+        [HttpDelete("deletecomment{id}")] // deletes the comment id and its related data
+        public async Task<IActionResult> DeleteComment(int id) // deletes the comment through passed in id
+        {
+            bool isDeleted = await _fitnessPostService.DeleteComment(id); // method to delete comment in the service class
+            if (!isDeleted)
+            {
+                return BadRequest("Your Comment has not been found, please try again"); // error message
+            }
+
+            return Ok("Your comment has been deleted"); // success message
+        }
     }
 }

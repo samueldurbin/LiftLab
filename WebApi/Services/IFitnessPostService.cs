@@ -7,6 +7,7 @@ namespace WebApi.Services
         Task<FitnessPost> CreatePost(FitnessPost post);  // creates a new user
         Task<IEnumerable<FitnessPost>> GetPosts(); // gets all posts
         Task<FitnessPostComments> AddComment(FitnessPostComments comment); // adds comments
+        Task<bool> DeleteComment(int commentId); // deletes comment
 
     }
 }

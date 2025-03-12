@@ -37,6 +37,24 @@ namespace WebApi.Services
             return comment;
         }
 
+        public async Task<bool> DeleteComment(int commentId)
+        {
+            var comment = await _dbContext.FitnessPostComments.FindAsync(commentId); // finds the commentid
+
+            if (comment == null) // checks if the comment exists
+            {
+                return false;
+            }
+
+            _dbContext.FitnessPostComments.Remove(comment); // deletes the comment in the database from the id input
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+
+        }
+
+
+
     }
 
 }
