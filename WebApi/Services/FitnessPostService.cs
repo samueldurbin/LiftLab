@@ -26,5 +26,18 @@ namespace WebApi.Services
                                  .ToListAsync();
         }
 
+        public async Task<FitnessPostComments> AddComment(FitnessPostComments comment)
+        { 
+            
+            comment.Username = "admin"; // make sure hardcoded user is working for testing
+
+            _dbContext.FitnessPostComments.Add(comment); // adds comment to post
+            await _dbContext.SaveChangesAsync(); // saves
+
+            return comment;
+        }
+
     }
+
 }
+

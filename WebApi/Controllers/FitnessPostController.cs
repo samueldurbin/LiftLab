@@ -37,5 +37,16 @@ namespace WebApi.Controllers
             return Ok(posts);
 
         }
+
+        // -----------------------------Comments for Fitness Post Section ---------------------------------------------------------------------
+
+        [HttpPost("addcomment")] // endpoint for adding comments
+        public async Task<IActionResult> AddComment([FromBody] FitnessPostComments request) // gets data from json body request
+        {
+            request.Username = "admin"; // hardcoded username for now
+
+            var newComment = await _fitnessPostService.AddComment(request); // calls the add comment method in service
+            return Ok(newComment);
+        }
     }
 }
