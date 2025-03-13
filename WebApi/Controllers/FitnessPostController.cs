@@ -60,5 +60,18 @@ namespace WebApi.Controllers
 
             return Ok("Your comment has been deleted"); // success message
         }
+
+        [HttpPut("updatecomment{id}")] // update comment endpoint, the FitnessPostCommentId will be included into the parameters to be updated
+        public async Task<IActionResult> UpdateComment([FromBody] FitnessPostComments updatedComment) // json body of the comment
+        {
+            var comment = await _fitnessPostService.UpdateComments(updatedComment); // update comment method from services
+
+            if (comment == null) // method to see if the required comment to update exists
+            {
+                return BadRequest("Comment not found"); // exception message if comment does not exist
+            }
+
+            return Ok(comment);
+        }
     }
 }

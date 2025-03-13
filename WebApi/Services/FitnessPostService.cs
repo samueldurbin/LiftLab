@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
+using WebApi.Utilities;
 
 namespace WebApi.Services
 {
@@ -53,7 +54,22 @@ namespace WebApi.Services
 
         }
 
+        public async Task<FitnessPostComments> UpdateComments(FitnessPostComments updatedComment) // updates the comment
+        {
+            var comment = await _dbContext.FitnessPostComments.FindAsync(updatedComment.FitnessPostCommentId); // searches the fitnesspostcommentid
 
+            if (comment == null) // checks to see if comment exists and returns null if it doesnt
+            {
+                return null;
+            }
+
+            comment.Comment = updatedComment.Comment; // updates user data with the input
+
+            await _dbContext.SaveChangesAsync();
+
+            return comment;
+
+        }
 
     }
 
