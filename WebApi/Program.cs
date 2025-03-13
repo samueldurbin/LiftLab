@@ -14,6 +14,7 @@ builder.Services.AddScoped<IFitnessPostService, FitnessPostService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<IWorkoutPlansService, WorkoutPlansService>();
 builder.Services.AddScoped<IPalsService, PalsService>();
+builder.Services.AddScoped<INutritionPostService, NutritionPostService>();
 
 // Add controllers (API).
 builder.Services.AddControllers();

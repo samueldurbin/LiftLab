@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Shared.Models;
 using WebApi.Services;
 
 namespace WebApi.Controllers
 {
     [ApiController] // apicontroller
-    [Route("api/[controller]")] // url for api which uses the controller name as the url
+    [Route("api/[controller]")] // endpoints for api
     public class NutritionPostsController : ControllerBase
     {
         private readonly INutritionPostService _nutritionPostService; // dependency injection
@@ -15,23 +17,23 @@ namespace WebApi.Controllers
             _nutritionPostService = nutritionPostService;
         }
 
-        [HttpPost("createnutritionpost")]  // api endpoint to create fitness post
+        [HttpPost("createnutritionpost")]  // api endpoint to create nutrition post
         public async Task<IActionResult> CreatePost([FromBody] NutritionPost request) // json body in the api request
         {
             var newPost = await _nutritionPostService.CreatePosts(request); // creates a new post
 
             if (newPost == null) // checks if posts does not exist, error with request
             {
-                return BadRequest("Error when creating new post");  // error exception if post is null (hasnt been correctly retrieved)
+                return BadRequest("Error when creating new post");  // error exception message
             }
 
-            return Ok("Your post has been created successfully!"); // returns a success message alongside what has been added to the db through the apia
+            return Ok("Your post has been created successfully!"); // success message
         }
 
         [HttpGet("getallnutritionposts")] // api endpoint which is referenced in the front end
-        public async Task<IActionResult> GetAllPosts() // method to get all fitnessposts for the community view
+        public async Task<IActionResult> GetAllPosts() // gets all nutritionposts
         {
-            var posts = await _nutritionPostService.GetPosts(); // calls the get method in the services
+            var posts = await _nutritionPostService.GetPosts(); // calls method in services
             return Ok(posts);
 
         }

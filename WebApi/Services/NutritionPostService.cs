@@ -20,9 +20,9 @@ namespace WebApi.Services
             return post;
         }
 
-        public async Task<IEnumerable<NutritionPost>> GetPosts() // returns a colletion of fitness posts
+        public async Task<IEnumerable<NutritionPost>> GetPosts() // returns a colletion of nutrition posts
         {
-            return await _dbContext.NutritionPosts // retrieves a list of posts from the database
+            return await _dbContext.NutritionPosts// retrieves a list of posts from the database
                                  .ToListAsync();
         }
     }
