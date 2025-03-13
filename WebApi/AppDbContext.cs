@@ -22,6 +22,8 @@ namespace WebApi
 
         public DbSet<NutritionPost> NutritionPosts { get; set; }
 
+        public DbSet<NutritionPost> NutritionPostComments { get; set; }
+
 
     }
 }
