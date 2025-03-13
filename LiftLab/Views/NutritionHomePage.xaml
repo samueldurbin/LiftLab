@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.NutritionHomePage"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
-             x:Class="LiftLab.Views.Community"
-             Title="Community">
+             Title="NutritionHomePage">
+
 
     <ContentPage.BindingContext>
         <vm:CommunityViewModel />
     </ContentPage.BindingContext>
+
 
     <Grid Padding="10">
         <Grid.RowDefinitions>
@@ -15,13 +17,16 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button Text="+"  Command="{Binding NavigationCommand}" WidthRequest="40"  HeightRequest="40"
-                BackgroundColor="Green"
-                FontAttributes="Bold"
-                CornerRadius="40"
-                HorizontalOptions="End"
-                VerticalOptions="Start"
-                Margin="0,0,20,0" />
+        <Button Text="+" 
+            Command="{Binding NavigationCommand}" 
+            WidthRequest="40" 
+            HeightRequest="40"
+            BackgroundColor="Green"
+            FontAttributes="Bold"
+            CornerRadius="40"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Margin="0,0,20,0" />
 
         <StackLayout Grid.Row="1" Padding="10">
             <Button Text="Refresh" FontAttributes="Bold" BackgroundColor="Green" Command="{Binding GetFitnessPostsCommand}" />
@@ -29,20 +34,27 @@
             <CollectionView ItemsSource="{Binding FitnessPosts}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame CornerRadius="10" BorderColor="LightGray" Padding="10"Margin="0,10,0,20" HorizontalOptions="FillAndExpand">
+                        <Frame CornerRadius="10"
+                           BorderColor="LightGray"
+                           Padding="10"
+                           Margin="0,10,0,20"
+                           HorizontalOptions="FillAndExpand">
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="{Binding Username}"FontSize="18"FontAttributes="Bold" TextColor="Black" />
-                                
+                                <Label Text="{Binding Username}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="Black" />
+
                                 <Image Source="{Binding ImageUrl}"
-                                       HeightRequest="210"
-                                       Aspect="AspectFill"
-                                       BackgroundColor="Green"
-                                       HorizontalOptions="FillAndExpand" />
-                                
+                                   HeightRequest="210"
+                                   Aspect="AspectFill"
+                                   BackgroundColor="Green"
+                                   HorizontalOptions="FillAndExpand" />
+
                                 <Label Text="{Binding Caption}"
-                                       FontSize="14"
-                                       TextColor="Black"
-                                       LineBreakMode="WordWrap" />
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   LineBreakMode="WordWrap" />
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -50,5 +62,4 @@
             </CollectionView>
         </StackLayout>
     </Grid>
-    
 </ContentPage>
