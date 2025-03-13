@@ -46,7 +46,7 @@ namespace WebApi.Services
                 return false;
             }
 
-            _dbContext.FitnessPostComments.Remove(comment); // deletes the comment in the database from the id input
+            _dbContext.NutritionPostComments.Remove(comment); // deletes the comment in the database from the id input
             await _dbContext.SaveChangesAsync();
 
             return true;
