@@ -12,6 +12,5 @@ namespace Shared.Models
         public string Username { get; set; }
         public string ImageUrl { get; set; }
         public string Caption { get; set; }
-        public int? MealPlanId { get; set; } // optional as not every post needs an added meal plan
     }
 }

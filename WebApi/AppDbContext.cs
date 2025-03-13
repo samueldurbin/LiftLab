@@ -20,6 +20,8 @@ namespace WebApi
 
         public DbSet<Pals> Pals { get; set; }
 
+        public DbSet<NutritionPost> NutritionPosts { get; set; }
+
 
     }
 }
