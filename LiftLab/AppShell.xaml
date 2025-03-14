@@ -19,7 +19,7 @@
         </Tab>
 
         <Tab Title="MyHealth">
-            <ShellContent Title="MyHealth" ContentTemplate="{DataTemplate views:MyHealth}" Route="MyHealth" />
+            <ShellContent Title="Nutrition" ContentTemplate="{DataTemplate views:NutritionHomePage}" Route="NutritionHomePage" />
         </Tab>
 
         <Tab Title="MySettings">
