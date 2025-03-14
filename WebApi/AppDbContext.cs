@@ -22,6 +22,11 @@ namespace WebApi
 
         public DbSet<FitnessPostComments> FitnessPostComments { get; set; } // Comments for fitness posts
 
+        public DbSet<NutritionPost> NutritionPosts { get; set; } // Comments for fitness posts
+
+        public DbSet<NutritionPostComments> NutritionPostComments { get; set; } // Comments for fitness posts
+
+
 
 
     }
