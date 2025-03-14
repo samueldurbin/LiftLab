@@ -19,5 +19,7 @@ namespace Shared.Models
 
         public string Comment { get; set; } // the comment itself
 
+        [ForeignKey("FitnessPostId")]
+        public FitnessPost? FitnessPost { get; set; }
     }
 }

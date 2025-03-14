@@ -48,6 +48,10 @@ namespace LiftLab.ViewModels
 
                 foreach (var post in posts)
                 {
+                    var comments = await _fitnessPostService.GetCommentsByPost(post.FitnessPostId); // gets comments for each post
+
+                    post.Comments = comments; // puts the retrieved comments to the commetns section
+
                     FitnessPosts.Add(post); // adds new posts
                 }
 
