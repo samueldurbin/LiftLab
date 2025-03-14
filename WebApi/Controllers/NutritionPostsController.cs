@@ -40,6 +40,7 @@ namespace WebApi.Controllers
         
         // Comments for Nutrition Posts -----------------------------------------------------------------------------------------------
 
+
         [HttpPost("addcomment")] // endpoint for adding comments
         public async Task<IActionResult> AddComment([FromBody] NutritionPostComments request) // gets data from json body request
         {
@@ -47,6 +48,13 @@ namespace WebApi.Controllers
 
             var newComment = await _nutritionPostService.AddComment(request); // calls the add comment method in service
             return Ok(newComment);
+        }
+
+        [HttpGet("comments/{nutritionPostId}")] // endpoint for comments and related postid
+        public async Task<IActionResult> GetAllComments(int nutritionPostId) // method to get all comments
+        {
+            var comments = await _nutritionPostService.GetComments(nutritionPostId); // method from services
+            return Ok(comments);
         }
 
         [HttpDelete("deletecomment{id}")] // deletes the comment id and its related data

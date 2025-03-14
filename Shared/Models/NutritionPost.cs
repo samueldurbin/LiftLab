@@ -14,5 +14,7 @@ namespace Shared.Models
         public string Username { get; set; }
         public string ImageUrl { get; set; }
         public string Caption { get; set; }
+
+        public virtual List<NutritionPostComments> Comments { get; set; } = new List<NutritionPostComments>();
     }
 }

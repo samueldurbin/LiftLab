@@ -9,5 +9,7 @@ namespace WebApi.Services
         Task<NutritionPostComments> AddComment(NutritionPostComments comment); // adds comments
         Task<bool> DeleteComment(int commentId); // deletes comment
         Task<NutritionPostComments> UpdateComments(NutritionPostComments updatedComment); // updates comment
+        Task<IEnumerable<NutritionPostComments>> GetComments(int postId); // gets comments from related posts
     }
+
 }

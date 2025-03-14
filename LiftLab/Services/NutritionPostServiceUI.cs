@@ -23,7 +23,7 @@ namespace LiftLab.Services
 
         public async Task<NutritionPost> CreatePost(string username, string imageUrl, string caption)  // Entered details // int? due to being nullable
         {
-            var response = await _httpClient.PostAsJsonAsync("Nutritionposts/createnutritionpost", new NutritionPost // Create an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("NutritionPosts/createnutritionpost", new NutritionPost // Create an Account EndPoint
             {
                 Username = username, // posts the entries 
                 ImageUrl = imageUrl,
@@ -41,7 +41,7 @@ namespace LiftLab.Services
 
         public async Task<List<NutritionPost>> GetAllNutritionPosts()
         {
-            var response = await _httpClient.GetAsync("Nutritionposts/getallnutritionposts"); // sends a http get request to the fitnessposts endpoint
+            var response = await _httpClient.GetAsync("NutritionPosts/getallnutritionposts"); // sends a http get request to the fitnessposts endpoint
 
             if (response.IsSuccessStatusCode) // checks to see whether it returns a successful status code (200)
             {
@@ -51,6 +51,17 @@ namespace LiftLab.Services
             throw new Exception("Failed to get fitnessposts, please try again"); // failed to retrieve the posts exception message
         }
 
+        public async Task<List<NutritionPostComments>> GetCommentsByPost(int postId)
+        {
+            var response = await _httpClient.GetAsync($"NutritionPosts/comments/{postId}"); // recieves comments from a specific post
+
+            if (response.IsSuccessStatusCode) // this helps postman request testing
+            {
+                return await response.Content.ReadFromJsonAsync<List<NutritionPostComments>>();
+            }
+
+            return new List<NutritionPostComments>(); // returns a lsit of fitnesspost comments
+        }
 
     }
 }

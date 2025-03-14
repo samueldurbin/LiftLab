@@ -32,6 +32,20 @@
                                 <Image Source="{Binding ImageUrl}" HeightRequest="210" Aspect="AspectFill" BackgroundColor="Green" HorizontalOptions="FillAndExpand" />
 
                                 <Label Text="{Binding Caption}" FontSize="14" TextColor="Black"/>
+                                <!--Comments come from viewmodel-->
+                                <CollectionView ItemsSource="{Binding Comments}">
+                                    <!--Commentsl-->
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackLayout Padding="5">
+                                                <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="14"/>
+                                                <!--Username field for the ui-->
+                                                <Label Text="{Binding Comment}" FontSize="12"/>
+                                                <!--Comments part for the ui-->
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
