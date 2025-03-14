@@ -17,6 +17,5 @@ namespace Shared.Models
 
         [ForeignKey("WorkoutPlanId")] // foreign key from WorkoutPlans table
         public WorkoutPlans? WorkoutPlan { get; set; } // also set to nullable as not required
-
     }
 }

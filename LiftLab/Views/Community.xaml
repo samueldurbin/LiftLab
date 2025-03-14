@@ -42,17 +42,18 @@
                                        FontSize="18"
                                        FontAttributes="Bold"
                                        TextColor="Black" />
-                                
+
                                 <Image Source="{Binding ImageUrl}"
                                        HeightRequest="210"
                                        Aspect="AspectFill"
                                        BackgroundColor="Green"
                                        HorizontalOptions="FillAndExpand" />
-                                
+
                                 <Label Text="{Binding Caption}"
                                        FontSize="14"
                                        TextColor="Black"
                                        LineBreakMode="WordWrap" />
+
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -60,5 +61,5 @@
             </CollectionView>
         </StackLayout>
     </Grid>
-    
+
 </ContentPage>

@@ -49,6 +49,13 @@ namespace WebApi.Controllers
             return Ok(newComment);
         }
 
+        [HttpGet("comments/{fitnessPostId}")] // endpoint for comments and related postid
+        public async Task<IActionResult> GetAllComments(int fitnessPostId) // method to get all comments
+        {
+            var comments = await _fitnessPostService.GetComments(fitnessPostId); // method from services
+            return Ok(comments);
+        }
+
         [HttpDelete("deletecomment{id}")] // deletes the comment id and its related data
         public async Task<IActionResult> DeleteComment(int id) // deletes the comment through passed in id
         {

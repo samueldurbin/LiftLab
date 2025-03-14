@@ -27,6 +27,13 @@ namespace WebApi.Services
                                  .ToListAsync();
         }
 
+        public async Task<IEnumerable<FitnessPostComments>> GetComments(int postId) // returns fitness post related comments
+        {
+            return await _dbContext.FitnessPostComments // table of comments in the database
+                .Where(c => c.FitnessPostId == postId) // gets comments that are linked to a specific psot
+                .ToListAsync();  // gets list
+        }
+
         public async Task<FitnessPostComments> AddComment(FitnessPostComments comment)
         { 
             

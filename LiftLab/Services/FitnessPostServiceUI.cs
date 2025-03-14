@@ -64,6 +64,5 @@ namespace LiftLab.Services
             throw new Exception("Failed to get workout plans, please try again.");
         }
 
-
     }
 }
