@@ -64,16 +64,39 @@ namespace LiftLab.Services
             throw new Exception("Failed to get workout plans, please try again.");
         }
 
+        public async Task<FitnessPostComments> AddComment(string username, string comment, int fitnessPostId)
+        {
+            var response = await _httpClient.PostAsJsonAsync("FitnessPost/addcomment", new FitnessPostComments // http post request to add comment to fitnesspost
+            {
+                Username = username, // hardcoded in api currently
+                Comment = comment, // adds the input to the new comment
+                FitnessPostId = fitnessPostId
+
+            });
+
+            if (response.IsSuccessStatusCode)  // checks for successs
+            {
+                return await response.Content.ReadFromJsonAsync<FitnessPostComments>(); // returns new comment
+            }
+
+            return null; // return null if not added correctly
+        }
+
         public async Task<List<FitnessPostComments>> GetCommentsByPost(int postId)
         {
             var response = await _httpClient.GetAsync($"Fitnesspost/comments/{postId}"); // recieves comments from a specific post
 
             if (response.IsSuccessStatusCode) // this helps postman request testing
             {
-                return await response.Content.ReadFromJsonAsync<List<FitnessPostComments>>(); 
+                return await response.Content.ReadFromJsonAsync<List<FitnessPostComments>>();
             }
 
             return new List<FitnessPostComments>(); // returns a lsit of fitnesspost comments
         }
+
+
+
     }
+
+    
 }

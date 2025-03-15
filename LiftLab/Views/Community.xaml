@@ -18,41 +18,41 @@
         <Button Text="+"  Command="{Binding NavigationCommand}" WidthRequest="40"  HeightRequest="40" BackgroundColor="Red" FontAttributes="Bold" CornerRadius="40" HorizontalOptions="End" VerticalOptions="Start" Margin="0,0,20,0" />
 
         <StackLayout Grid.Row="1" Padding="10">
+            <!--Refresh button for data retrieval testing-->
+            <!--button retrieves data using getfitnesspostscommand-->
             <Button Text="Refresh" FontAttributes="Bold" BackgroundColor="Green" Command="{Binding GetFitnessPostsCommand}" />
+            <!--this part of code is temporary and shows that data is in the process of being retrieved-->
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
             <CollectionView ItemsSource="{Binding FitnessPosts}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+                        <!--post frame for each post-->
                         <Frame CornerRadius="10" BorderColor="LightGray" Padding="10" Margin="0,10,0,20" HorizontalOptions="FillAndExpand">
                             <VerticalStackLayout Spacing="10">
-                                <Label Text="{Binding Username}"
-                                       FontSize="18"
-                                       FontAttributes="Bold"
-                                       TextColor="Black" />
-
-                                <Image Source="{Binding ImageUrl}"
-                                       HeightRequest="210"
-                                       Aspect="AspectFill"
-                                       BackgroundColor="Green"
-                                       HorizontalOptions="FillAndExpand" />
-
-                                <Label Text="{Binding Caption}"
-                                       FontSize="14"
-                                       TextColor="Black"
-                                       LineBreakMode="WordWrap" />
-
-                                <Entry Placeholder="Enter Comment" Text="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=Comment}" /> <!--Comments come from viewmodel-->
-                                <CollectionView ItemsSource="{Binding Comments}"> <!--Commentsl-->
+                                <!--displays username of the post-->
+                                <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" TextColor="Black" />
+                                <!--displays image of the post -->
+                                <Image Source="{Binding ImageUrl}" HeightRequest="210" Aspect="AspectFill" BackgroundColor="Green" HorizontalOptions="FillAndExpand" />
+                                <!--displays the captions below the post -->
+                                <Label Text="{Binding Caption}" FontSize="14" TextColor="Black"/>
+                                <!--entry where a new comment is created -->
+                                <!--the additional binding allows the comments to be separated from fitnessposts -->
+                                <Entry Placeholder="Enter Comment" Text="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=Comment}" />
+                                <!--button for the new comment to be added -->
+                                <Button Text="Comment" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=CreateCommentCommand}" CommandParameter="{Binding .}" />
+                                <CollectionView ItemsSource="{Binding Comments}">
+                                    <!--Commentsl-->
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate>
                                             <StackLayout Padding="5">
-                                                <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="14"/> <!--Username field for the ui-->
-                                                <Label Text="{Binding Comment}" FontSize="12"/><!--Comments part for the ui-->
+                                                <!--displays username of who made the comment -->
+                                                <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="14"/>
+                                                <!--displays the comment made by the username -->
+                                                <Label Text="{Binding Comment}" FontSize="12"/>
                                             </StackLayout>
                                         </DataTemplate>
                                     </CollectionView.ItemTemplate>
                                 </CollectionView>
-
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
