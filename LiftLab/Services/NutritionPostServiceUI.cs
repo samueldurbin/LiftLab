@@ -51,6 +51,24 @@ namespace LiftLab.Services
             throw new Exception("Failed to get fitnessposts, please try again"); // failed to retrieve the posts exception message
         }
 
+        public async Task<NutritionPostComments> AddComment(string username, string comment, int nutritionPostId)
+        {
+            var response = await _httpClient.PostAsJsonAsync("NutritionPosts/addcomment", new NutritionPostComments // http post request to add comment to fitnesspost
+            {
+                Username = username, // hardcoded in api currently
+                Comment = comment, // adds the input to the new comment
+                NutritionPostId = nutritionPostId
+
+            });
+
+            if (response.IsSuccessStatusCode)  // checks for successs
+            {
+                return await response.Content.ReadFromJsonAsync<NutritionPostComments>(); // returns new comment
+            }
+
+            return null; // return null if not added correctly
+        }
+
         public async Task<List<NutritionPostComments>> GetCommentsByPost(int postId)
         {
             var response = await _httpClient.GetAsync($"NutritionPosts/comments/{postId}"); // recieves comments from a specific post
