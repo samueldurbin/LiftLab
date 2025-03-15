@@ -2,11 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.CreatePost"
-             xmlns:local="clr-namespace:LiftLab.ViewModels"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
              Title="CreatePost">
 
     <ContentPage.BindingContext>
-        <local:CreatePostViewModel />
+        <vm:CreatePostViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout Padding="30" Spacing="20">

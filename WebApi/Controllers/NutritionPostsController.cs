@@ -27,7 +27,7 @@ namespace WebApi.Controllers
                 return BadRequest("Error when creating new post");  // error exception message
             }
 
-            return Ok("Your post has been created successfully!"); // success message
+            return Ok(new { Message = "Your post has been created successfully!", Id = newPost.NutritionPostId }); // success message
         }
 
         [HttpGet("getallnutritionposts")] // api endpoint which is referenced in the front end
