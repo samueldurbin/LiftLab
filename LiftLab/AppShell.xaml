@@ -14,16 +14,16 @@
             <ShellContent Title="Community" ContentTemplate="{DataTemplate views:Community}" Route="Community" />
         </Tab>
         
-        <Tab Title="MyFitness">
+        <Tab Title="Fitness">
             <ShellContent Title="MyFitness" ContentTemplate="{DataTemplate views:MyFitness}" Route="MyFitness" />
         </Tab>
 
-        <Tab Title="MyHealth">
+        <Tab Title="Nutrition">
             <ShellContent Title="Nutrition" ContentTemplate="{DataTemplate views:NutritionHomePage}" Route="NutritionHomePage" />
         </Tab>
 
-        <Tab Title="MySettings">
-            <ShellContent Title="MySettings" ContentTemplate="{DataTemplate views:MySettings}" Route="MySettings" />
+        <Tab Title="SocialConnections">
+            <ShellContent Title="SocialConnections" ContentTemplate="{DataTemplate views:SocialConnections}" Route="SocialConnections" />
         </Tab>
 
     </TabBar>

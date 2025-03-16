@@ -57,5 +57,17 @@ namespace LiftLab.Services
 
             return null;
         }
+
+        public async Task<List<Users>> GetAllUsers()
+        {
+            var response = await _httpClient.GetAsync("Users/getallusers"); // get request to get a list of all users
+
+            if (response.IsSuccessStatusCode) // responds with success message
+            {
+                return await response.Content.ReadFromJsonAsync<List<Users>>();
+            }
+
+            throw new Exception("Failed to get any users."); // error message
+        }
     }
 }
