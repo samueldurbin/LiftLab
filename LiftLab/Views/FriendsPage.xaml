@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.SocialConnections"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
-             Title="SocialConnections">
-    
+             Title="FriendsPage">
+
     <ContentPage.BindingContext>
         <vm:FriendsViewModel />
     </ContentPage.BindingContext>

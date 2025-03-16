@@ -22,8 +22,8 @@
             <ShellContent Title="Nutrition" ContentTemplate="{DataTemplate views:NutritionHomePage}" Route="NutritionHomePage" />
         </Tab>
 
-        <Tab Title="SocialConnections">
-            <ShellContent Title="SocialConnections" ContentTemplate="{DataTemplate views:SocialConnections}" Route="SocialConnections" />
+        <Tab Title="Friends">
+            <ShellContent Title="FriendsPage" ContentTemplate="{DataTemplate views:FriendsPage}" Route="FriendsPage" />
         </Tab>
 
     </TabBar>
