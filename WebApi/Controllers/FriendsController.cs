@@ -29,5 +29,19 @@ namespace WebApi.Controllers
             return Ok("Friend added successfully!"); // success message
         }
 
+        [HttpGet("friends/{userId}")] // endpoint with input userid
+        public async Task<IActionResult> GetFriends(int userId)
+        {
+            var friends = await _friendService.GetUsersFriends(userId);
+            return Ok(friends);
+        }
+
+        [HttpGet("friends/posts/{userId}")] // endpoint with inputuserid
+        public async Task<IActionResult> GetFriendsPosts(int userId)
+        {
+            var posts = await _friendService.GetFriendsPosts(userId);
+            return Ok(posts);
+        }
+
     }
 }
