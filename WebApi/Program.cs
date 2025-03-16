@@ -13,7 +13,6 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IFitnessPostService, FitnessPostService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<IWorkoutPlansService, WorkoutPlansService>();
-builder.Services.AddScoped<IPalsService, PalsService>();
 builder.Services.AddScoped<INutritionPostService, NutritionPostService>();
 builder.Services.AddScoped<IFriendService, FriendService>();
 
