@@ -16,7 +16,7 @@ namespace LiftLab.ViewModels
     public class LoginViewModel : BaseViewModel // as a viewmodel, it connects the ui with the logic
     {
         #region Variables
-        private readonly UserServiceUI _apiUserService;
+        private readonly UserServiceUI _userService;
 
         private string username;
         private string password;
@@ -51,7 +51,7 @@ namespace LiftLab.ViewModels
 
         public LoginViewModel()
         {
-            _apiUserService = new UserServiceUI();
+            _userService = new UserServiceUI();
             LoginCommand = new Command(async () => await Login());  // links the button to the method
         }
 
@@ -63,13 +63,14 @@ namespace LiftLab.ViewModels
                 return;
             }
 
-            var user = await _apiUserService.Login(Username, Password); // calls this method to authenticate the user
+            var user = await _userService.Login(Username, Password); // calls this method to authenticate the user
 
             if (user != null)
             {
                 await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, {user.Username}!", "OK"); // successful login
 
-                Application.Current.MainPage = new NavigationPage(new CreateWorkout());
+                Application.Current.MainPage = new AppShell();
+ 
             }
             else
             {
