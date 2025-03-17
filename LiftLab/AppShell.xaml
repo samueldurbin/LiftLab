@@ -15,7 +15,7 @@
         </Tab>
         
         <Tab Title="Fitness">
-            <ShellContent Title="MyFitness" ContentTemplate="{DataTemplate views:MyFitness}" Route="MyFitness" />
+            <ShellContent Title="FitnessPage" ContentTemplate="{DataTemplate views:FitnessPage}" Route="FitnessPage" />
         </Tab>
 
         <Tab Title="Nutrition">

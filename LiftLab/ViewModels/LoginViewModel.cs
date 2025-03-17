@@ -69,7 +69,7 @@ namespace LiftLab.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, {user.Username}!", "OK"); // successful login
 
-                Application.Current.MainPage = new NavigationPage(new CreateWorkout());
+                Application.Current.MainPage = new NavigationPage(new CreateWorkoutPage());
             }
             else
             {
