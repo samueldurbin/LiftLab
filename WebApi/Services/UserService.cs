@@ -1,6 +1,6 @@
 ﻿using Shared.Models;
 using Microsoft.EntityFrameworkCore;
-using WebApi.Utilities;
+using Shared.Utilities;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -18,8 +18,7 @@ namespace WebApi.Services
 
         public async Task<Users> LoginAuthentication(string username, string password)
         {
-            var hash = new Hashing();
-            string hashPassword = hash.Hash(password); // allows the hash value to be compared by input
+            string hashPassword = Hashing.Hash(password); // allows the hash value to be compared by input
 
             return await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Username == username && u.Password == hashPassword); // matches the username and password to simulate authentication
@@ -33,8 +32,10 @@ namespace WebApi.Services
 
         public async Task<Users> CreateUser(Users user) // adds post to the database
         {
-            var hash = new Hashing(); // hashing method from the utility class
-            user.Password = hash.Hash(user.Password); // hashes the password before sending to database
+            //var hash = new Hashing(); // hashing method from the utility class
+            //user.Password = hash.Hash(user.Password); // hashes the password before sending to database
+
+            user.Password = Hashing.Hash(user.Password);
 
             _dbContext.Users.Add(user); // adds the user to te table
 
@@ -82,8 +83,8 @@ namespace WebApi.Services
             
             user.AccountCreationDate = updatedUser.AccountCreationDate;
             
-            var hash = new Hashing();
-            user.Password = hash.Hash(updatedUser.Password); // hashes the new updated password
+            //var hash = new Hashing();
+            user.Password = Hashing.Hash(updatedUser.Password); // hashes the new updated password
 
 
             await _dbContext.SaveChangesAsync();

@@ -26,8 +26,6 @@ namespace Shared.Models
 
         public string MobileNumber { get; set; }
 
-        public int MyPals { get; set; }
-
         public DateTime DateOfBirth { get; set; }
 
         public DateTime AccountCreationDate { get; set; }

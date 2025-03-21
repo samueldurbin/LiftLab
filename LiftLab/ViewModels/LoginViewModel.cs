@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiftLab.Views;
+using Shared.Utilities;
 using System.Text.Json;
 
 namespace LiftLab.ViewModels
@@ -63,7 +64,9 @@ namespace LiftLab.ViewModels
                 return;
             }
 
-            var user = await _apiUserService.Login(Username, Password); // calls this method to authenticate the user
+            var hashInputPassword = Hashing.Hash(Password);
+
+            var user = await _apiUserService.Login(Username, hashInputPassword); // calls this method to authenticate the user
 
             if (user != null)
             {

@@ -8,6 +8,8 @@
     FlyoutBehavior="Disabled"
     Title="LiftLab">
 
+    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
+
     <TabBar>
 
         <Tab Title="Community">
