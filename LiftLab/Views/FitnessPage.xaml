@@ -8,12 +8,12 @@
     <!--Responsive Layout-->
     <Grid RowDefinitions="Auto,*,Auto">
         <!--Top Area of the View that contains Title and First Horizontal Box-->
-        <VerticalStackLayout Spacing="10" Padding="15">
+        <VerticalStackLayout Spacing="20" Padding="20">
             <!--Title that is hardcoded for now-->
             <Label Text="!Push Day!" FontSize="32" FontAttributes="Bold" TextColor="Blue" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             <!--WorkoutPlan Suggestion Box-->
             <!--Frame for containers which is more custom-->
-            <Frame BackgroundColor="LightGreen" CornerRadius="20" HasShadow="True" Padding="25" VerticalOptions="FillAndExpand">
+            <Frame BackgroundColor="LightGreen" CornerRadius="20" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--WorkoutPlan Title which is also hardcoded for now-->
                 <Label Text="Shoulder Workouts" FontSize="22" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
             </Frame>
@@ -22,7 +22,7 @@
         <!--Column Defintions mean that one side will take up 4* (40%) on the left and 6*(60%) on the right to equal a 100% which helps splitting up the page-->
         <!--Row Definitions mean it takes up two equal heights-->
         <!--* means to recieve parts additional parts of the UI outside of percentages to make the views adaptative-->
-        <Grid Grid.Row="1" ColumnDefinitions="4*,6*" RowDefinitions="*,*" Padding="20" RowSpacing="20" VerticalOptions="FillAndExpand">
+        <Grid Grid.Row="1" ColumnDefinitions="4*,6*" RowDefinitions="*,*" Padding="20" ColumnSpacing="20" RowSpacing="20" VerticalOptions="FillAndExpand">
             <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="LightBlue" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--Text in Box-->
                 <Label Text="Create a Workout Plan" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
@@ -30,6 +30,11 @@
             <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--Text in Second Box-->
                 <Label Text="View all Workout Plans" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
+            </Frame>
+            <Frame Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" BackgroundColor="LightCoral" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
+                <VerticalStackLayout VerticalOptions="FillAndExpand" Spacing="10">
+                    <Label Text="Friend Activity" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
             </Frame>
         </Grid>
 
