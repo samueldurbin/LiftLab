@@ -22,12 +22,17 @@
         <!--Column Defintions mean that one side will take up 4* (40%) on the left and 6*(60%) on the right to equal a 100% which helps splitting up the page-->
         <!--Row Definitions mean it takes up two equal heights-->
         <!--* means to recieve parts additional parts of the UI outside of percentages to make the views adaptative-->
-        <Grid Grid.Row="1" ColumnDefinitions="4*,6*" RowDefinitions="*,*" Padding="20" VerticalOptions="FillAndExpand">
+        <Grid Grid.Row="1" ColumnDefinitions="4*,6*" RowDefinitions="*,*" Padding="20" RowSpacing="20" VerticalOptions="FillAndExpand">
             <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="LightBlue" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
-                <!--This is where onclicked code will go-->
+                <!--Text in Box-->
                 <Label Text="Create a Workout Plan" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
             </Frame>
+            <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
+                <!--Text in Second Box-->
+                <Label Text="View all Workout Plans" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
+            </Frame>
         </Grid>
+
     </Grid>
 
 </ContentPage>
