@@ -25,6 +25,7 @@ namespace LiftLab.ViewModels
 
         public ICommand CreatePlanCommand { get; }
         public ICommand GetWorkoutsCommand { get; }
+        public ICommand CreateWorkoutPlanButtonCommand { get; } // instead of using navigation in the backend of the xaml file, its better practise to keep in viewmodel
 
         public int UserId
         {
@@ -45,6 +46,11 @@ namespace LiftLab.ViewModels
 
             CreatePlanCommand = new Command(async () => await CreatePlan()); // links the methods to the buttons within the ui
             GetWorkoutsCommand = new Command(async () => await GetWorkouts());
+
+            CreateWorkoutPlanButtonCommand = new Command(async () => // add button in the ui navigates to create a post
+            {
+                await Shell.Current.GoToAsync(nameof(CreatePost));
+            });
 
         }
 
@@ -111,6 +117,7 @@ namespace LiftLab.ViewModels
                 IsBusy = false; // resets isbusy
             }
         }
+
     }
 
 }

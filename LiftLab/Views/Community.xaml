@@ -15,7 +15,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Button Text="+"  Command="{Binding NavigationCommand}" WidthRequest="40"  HeightRequest="40" BackgroundColor="Red" FontAttributes="Bold" CornerRadius="40" HorizontalOptions="End" VerticalOptions="Start" Margin="0,0,20,0" />
+        <Button Text="+" Command="{Binding NavigationCommand}" WidthRequest="40"  HeightRequest="40" BackgroundColor="Red" FontAttributes="Bold" CornerRadius="40" HorizontalOptions="End" VerticalOptions="Start" Margin="0,0,20,0" />
 
         <StackLayout Grid.Row="1" Padding="10">
             <!--Refresh button for data retrieval testing-->
