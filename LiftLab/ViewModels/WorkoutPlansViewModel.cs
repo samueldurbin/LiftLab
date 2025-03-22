@@ -26,7 +26,7 @@ namespace LiftLab.ViewModels
         public ICommand CreatePlanCommand { get; }
         public ICommand GetWorkoutsCommand { get; }
         public ICommand CreateWorkoutPlanButtonCommand { get; } // instead of using navigation in the backend of the xaml file, its better practise to keep in viewmodel
-
+        public ICommand ViewWorkoutPlansButtonCommand{ get; }
         public int UserId
         {
             get => userId;
@@ -52,8 +52,12 @@ namespace LiftLab.ViewModels
                 await Shell.Current.GoToAsync(nameof(CreatePost));
             });
 
-        }
+            ViewWorkoutPlansButtonCommand = new Command(async () => // add button in the ui navigates to create a post
+            {
+                await Shell.Current.GoToAsync(nameof(ViewAllWorkoutPlans));
+            });
 
+        }
         private async Task CreatePlan()
         {
             try
@@ -85,7 +89,6 @@ namespace LiftLab.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create the new plan: {ex.Message}", "OK");
             }
         }
-
         private async Task GetWorkouts() // method to get workouts
         {
             if (IsBusy) // to prevent multiple api calls

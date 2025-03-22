@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.ViewAllWorkoutPlans"
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
+             Title="Your Workout Plans">
+    
+    <!--scrollview for users to scroll through their different workoutplans-->
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="10" VerticalOptions="FillAndExpand">
+            <!--this view will include a list of boxes that contain the data of workout plans-->
+            <Frame BackgroundColor="LightBlue" CornerRadius="20" Padding="20" HeightRequest="120">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="Chest" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalOptions="Start" VerticalOptions="Start"/>
+                    <Label Text="Chest Day for a Monday" FontSize="14" TextColor="White" HorizontalOptions="Start" VerticalOptions="Start"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!--font awesome test-->
+            <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Guitar}"/> 
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

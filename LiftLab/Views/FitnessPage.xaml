@@ -38,6 +38,9 @@
             </Frame>
             <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--Text in Second Box-->
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ViewWorkoutPlansButtonCommand}" />
+                </Frame.GestureRecognizers>
                 <Label Text="View all Workout Plans" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
             </Frame>
             <Frame Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" BackgroundColor="LightCoral" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
