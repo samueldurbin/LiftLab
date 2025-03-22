@@ -8,7 +8,7 @@
     FlyoutBehavior="Disabled"
     Title="LiftLab">
 
-    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <!--<ShellContent Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />-->
 
     <TabBar>
 
@@ -20,12 +20,12 @@
             <ShellContent Title="FitnessPage" ContentTemplate="{DataTemplate views:FitnessPage}" Route="FitnessPage" />
         </Tab>
 
-        <Tab Title="Nutrition">
-            <ShellContent Title="Nutrition" ContentTemplate="{DataTemplate views:NutritionHomePage}" Route="NutritionHomePage" />
+        <Tab Title="New Post">
+            <ShellContent Title="CreatePost" ContentTemplate="{DataTemplate views:CreatePost}" Route="CreatePost" />
         </Tab>
 
-        <Tab Title="Friends">
-            <ShellContent Title="FriendsPage" ContentTemplate="{DataTemplate views:FriendsPage}" Route="FriendsPage" />
+        <Tab Title="Profile">
+            <ShellContent Title="ProfilePage" ContentTemplate="{DataTemplate views:ProfilePage}" Route="ProfilePage" />
         </Tab>
 
     </TabBar>
