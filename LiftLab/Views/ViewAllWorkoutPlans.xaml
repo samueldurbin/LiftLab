@@ -8,17 +8,24 @@
     <!--scrollview for users to scroll through their different workoutplans-->
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="10" VerticalOptions="FillAndExpand">
-            <!--this view will include a list of boxes that contain the data of workout plans-->
-            <Frame BackgroundColor="LightBlue" CornerRadius="20" Padding="20" HeightRequest="120">
-                <VerticalStackLayout Spacing="4">
-                    <Label Text="Chest" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalOptions="Start" VerticalOptions="Start"/>
-                    <Label Text="Chest Day for a Monday" FontSize="14" TextColor="White" HorizontalOptions="Start" VerticalOptions="Start"/>
-                </VerticalStackLayout>
+            <!--workout plan box-->
+            <!--colour and sizing of box-->
+            <Frame BackgroundColor="LightBlue" CornerRadius="20" HeightRequest="120" Padding="20">
+                <!--box is split using a grid to separate text and icon-->
+                <!--text side is * so it can take up as much space as needed, the icon recieves the top right spot-->
+                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+                    <!--name of the workout plan and description on the left-->
+                    <VerticalStackLayout Grid.Column="0" Spacing="4" VerticalOptions="Start" HorizontalOptions="Start">
+                        <Label Text="Chest" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                        <Label Text="Chest Day for a Monday" FontSize="14" TextColor="White"/>
+                    </VerticalStackLayout>
+                    <!--fontawesomeicon on the right-->
+                    <!--vertical start and horizontal end to locate the icon top right-->
+                    <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="28" TextColor="White" VerticalOptions="Start" HorizontalOptions="End"/>
+                </Grid>
             </Frame>
-
             <!--font awesome test-->
-            <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Guitar}"/> 
-
+            <!--<Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Guitar}"/>--> 
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
