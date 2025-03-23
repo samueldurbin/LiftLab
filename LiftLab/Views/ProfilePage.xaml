@@ -3,7 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.ProfilePage"
              xmlns:helper="clr-namespace:LiftLab.Helpers"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
              Title="Profile">
+
+    <!--ViewModel for Profile-->
+    <ContentPage.BindingContext>
+        <vm:ProfileViewModel />
+    </ContentPage.BindingContext>
 
     <!--Grid for responsive interface-->
     <Grid RowDefinitions="Auto, Auto, Auto" Padding="10">
@@ -26,6 +32,10 @@
             </VerticalStackLayout>
         </Grid>
         <!--Settings Icon-->
-        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Gear}" FontSize="35" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Start"/>
+        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Gear}" FontSize="35" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Start">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SettingsCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
     </Grid>
 </ContentPage>
