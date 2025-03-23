@@ -18,7 +18,7 @@
             <Label Text="!Push Day!" FontSize="32" FontAttributes="Bold" TextColor="Blue" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             <!--WorkoutPlan Suggestion Box-->
             <!--Frame for containers which is more custom-->
-            <Frame BackgroundColor="LightGreen" CornerRadius="20" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
+            <Frame BackgroundColor="LimeGreen" CornerRadius="20" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--WorkoutPlan Title which is also hardcoded for now-->
                 <Label Text="Shoulder Workouts" FontSize="22" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
             </Frame>

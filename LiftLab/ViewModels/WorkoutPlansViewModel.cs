@@ -49,7 +49,7 @@ namespace LiftLab.ViewModels
 
             CreateWorkoutPlanButtonCommand = new Command(async () => // add button in the ui navigates to create a post
             {
-                await Shell.Current.GoToAsync(nameof(CreatePost));
+                await Shell.Current.GoToAsync(nameof(CreateWorkoutPlanPage));
             });
 
             ViewWorkoutPlansButtonCommand = new Command(async () => // add button in the ui navigates to create a post
