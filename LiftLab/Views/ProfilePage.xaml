@@ -2,11 +2,28 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.ProfilePage"
-             Title="ProfilePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
+             Title="Profile">
+
+    <!--Grid for responsive interface-->
+    <Grid RowDefinitions="Auto, Auto, Auto" Padding="10">
+        <!--Profile picture and Username-->
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
+            <!--FontAwesomeIcon for now-->
+            <Frame WidthRequest="120" HeightRequest="120" CornerRadius="80" BackgroundColor="HotPink" HasShadow="True" HorizontalOptions="Center">
+                <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="56" TextColor="Yellow" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Frame>
+            <!--Username-->
+            <Label Text="Username" FontAttributes="Bold" FontSize="24" TextColor="Blue" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+        <!-- Bio -->
+        <Label Grid.Row="1" Text="This is where the bio will go" FontSize="16" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" Margin="0,10,0,0"/>
+        <!--Friends Count-->
+        <Grid Grid.Row="2" ColumnDefinitions="*">
+            <VerticalStackLayout HorizontalOptions="Center">
+                <Label Text="Friends Count" FontAttributes="Bold" FontSize="18"/>
+                <Label Text="Friends" FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
 </ContentPage>

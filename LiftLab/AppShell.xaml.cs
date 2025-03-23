@@ -10,13 +10,11 @@ namespace LiftLab
 
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
             Routing.RegisterRoute(nameof(Community), typeof(Community));
-            Routing.RegisterRoute(nameof(CreateWorkoutPlanPage), typeof(CreateWorkoutPlanPage));
             Routing.RegisterRoute(nameof(CreatePost), typeof(CreatePost));
             Routing.RegisterRoute(nameof(CreateNutritionPost), typeof(CreateNutritionPost));
             Routing.RegisterRoute(nameof(NutritionHomePage), typeof(NutritionHomePage));
             Routing.RegisterRoute(nameof(FriendsPage), typeof(FriendsPage));
             Routing.RegisterRoute(nameof(ViewAllWorkoutPlans), typeof(ViewAllWorkoutPlans));
-            Routing.RegisterRoute(nameof(SelectWorkoutsPage), typeof(SelectWorkoutsPage));
 
         }
     }
