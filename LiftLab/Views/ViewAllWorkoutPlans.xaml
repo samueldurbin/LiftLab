@@ -8,6 +8,31 @@
     <!--scrollview for users to scroll through their different workoutplans-->
     <ScrollView>
         <VerticalStackLayout Spacing="10" Padding="10" VerticalOptions="FillAndExpand">
+            <!--minicalendar-->
+            <Grid ColumnDefinitions="*,*,*,*,*,*,*" Padding="4" HeightRequest="50">
+                <Frame Grid.Column="0" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Mon" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+                <Frame Grid.Column="1" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Tue" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+                <Frame Grid.Column="2" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Wed" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+                <Frame Grid.Column="3" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Thu" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+                <Frame Grid.Column="4" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Fri" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+                <Frame Grid.Column="5" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Sat" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+                <Frame Grid.Column="6" CornerRadius="20" BackgroundColor="Green" Padding="5">
+                    <Label Text="Sun" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
+                </Frame>
+            </Grid>
+            
             <!--workout plan box-->
             <!--colour and sizing of box-->
             <Frame BackgroundColor="LightBlue" CornerRadius="20" HeightRequest="120" Padding="20">
