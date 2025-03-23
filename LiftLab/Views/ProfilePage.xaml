@@ -25,5 +25,7 @@
                 <Label Text="Friends" FontSize="14"/>
             </VerticalStackLayout>
         </Grid>
+        <!--Settings Icon-->
+        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Gear}" FontSize="35" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Start"/>
     </Grid>
 </ContentPage>
