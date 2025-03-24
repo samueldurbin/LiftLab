@@ -35,7 +35,5 @@ namespace LiftLab.ViewModels
             });
         }
     }
-    }
-
-    }
+    
 }
