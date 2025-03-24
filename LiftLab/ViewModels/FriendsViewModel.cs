@@ -14,7 +14,7 @@ namespace LiftLab.ViewModels
     public class FriendsViewModel : BaseViewModel
     {
         private readonly FriendServiceUI _friendService; // services instances
-        private readonly UserServiceUI _userService;
+        private readonly UsersServiceUI _userService;
 
         public ObservableCollection<Users> Users { get; set; } // list of users
         public ICommand AddFriendCommand { get; } // adds friend / button to add 
@@ -24,7 +24,7 @@ namespace LiftLab.ViewModels
         public FriendsViewModel()
         {
             _friendService = new FriendServiceUI();
-            _userService = new UserServiceUI();
+            _userService = new UsersServiceUI();
 
             Users = new ObservableCollection<Users>();
             AddFriendCommand = new Command<int>(async (friendId) => await AddFriend(friendId)); // adds method to add friend to the button

@@ -60,7 +60,7 @@ namespace LiftLab.ViewModels
         #region Create Account
         private async Task CreateAccount() // calls api to create a new account
         {
-            var apiService = new UserServiceUI();
+            var apiService = new UsersServiceUI();
 
             var newUser = await apiService.CreateAccount(Username, Password, Email, PhoneNumber, DateOfBirth);
 

@@ -19,8 +19,8 @@
             <Frame WidthRequest="120" HeightRequest="120" CornerRadius="80" BackgroundColor="HotPink" HasShadow="True" HorizontalOptions="Center">
                 <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="56" TextColor="Yellow" HorizontalOptions="Center" VerticalOptions="Center"/>
             </Frame>
-            <!--Username-->
-            <Label Text="Username" FontAttributes="Bold" FontSize="24" TextColor="Blue" HorizontalOptions="Center"/>
+            <!--Username that comes from the logged in preferences-->
+            <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="24" TextColor="Blue" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <!-- Bio -->
         <Label Grid.Row="1" Text="This is where the bio will go" FontSize="16" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" Margin="0,10,0,0"/>
