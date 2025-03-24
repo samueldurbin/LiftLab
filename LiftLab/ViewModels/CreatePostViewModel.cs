@@ -17,25 +17,12 @@ namespace LiftLab.ViewModels
         private string username;
         private string imageUrl;
         private string caption;
-        private DateTime createdDate;
         private WorkoutPlans selectedWorkoutPlan; // stores the selected workout plan
+
+        public ICommand CreatePostCommand { get; } // creates post onclick
         public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; } // collection of workoutplans, ui automatically updates through this dynamic list
 
-        public CreatePostViewModel()
-        {
-            _fitnessPostService = new FitnessPostServiceUI(); // creates instance
-            WorkoutPlans = new ObservableCollection<WorkoutPlans>();
-            Task.Run(async () => await LoadWorkoutPlans()); // this allows the loadworkoutplans command to initiate on run
-            CreatePostCommand = new Command(async () => await CreatePost()); // button on click
-        }
-
-        public string Username // gets ui data and sets them into the variables
-        {
-            get => username;
-            set => SetProperty(ref username, value);
-        }
-
-        public string ImageUrl
+        public string ImageUrl // this is how the user inpyt gets put into the methods below
         {
             get => imageUrl;
             set => SetProperty(ref imageUrl, value);
@@ -52,7 +39,17 @@ namespace LiftLab.ViewModels
             get => selectedWorkoutPlan;
             set => SetProperty(ref selectedWorkoutPlan, value);
         }
-        public ICommand CreatePostCommand { get; } // creates post onclick
+
+        public CreatePostViewModel()
+        {
+            _fitnessPostService = new FitnessPostServiceUI(); // creates instance
+
+            WorkoutPlans = new ObservableCollection<WorkoutPlans>(); // workout plans list
+
+            Task.Run(async () => await LoadWorkoutPlans()); // this allows the loadworkoutplans command to initiate on run
+
+            CreatePostCommand = new Command(async () => await CreatePost()); // button on click
+        }
 
         public async Task LoadWorkoutPlans()  // loads all of the workoutplans from the api
         {
@@ -69,24 +66,34 @@ namespace LiftLab.ViewModels
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load workout plans", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error!", "Failed to load worout plans", "OK");
             }
         }
 
         private async Task CreatePost()
         {
-            var newPost = await _fitnessPostService.CreatePost(Username, ImageUrl, Caption, SelectedWorkoutPlan.WorkoutPlanId); // creates post with the parameters // selectedworkoutplan is the selected from the ui
+            int userId = Preferences.Get("UserId", 0); // this method gets the user id from the login
+            string username = Preferences.Get("Username", "Unknown");  // this gets the username from the login (soon to be replaced for userid)
 
-            if (newPost != null)
+            if (userId == 0) // if the userId is not existent
             {
-                await Application.Current.MainPage.DisplayAlert("Nice!", "Your post has been created successfully!", "OK");
+                await Application.Current.MainPage.DisplayAlert("Not Account is Logged In", "Please Log In before making a post", "OK"); // alert message if no userid or username
+                return;
+            }
+
+            int? planId = SelectedWorkoutPlan?.WorkoutPlanId; // this gets the workoutplan id that is selected by the user, but it can also be nullable
+
+            var newPost = await _fitnessPostService.CreatePost(userId, username, ImageUrl, Caption, planId); // sends the input data
+
+            if (newPost != null) // checks if the data has been successfully sent or not
+            {
+                await Application.Current.MainPage.DisplayAlert("Success!", "Your post has now been created!", "OK"); // success message
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "FitnessPost creation has failed.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to create your post.", "OK"); // error message
             }
         }
-
     }
 }
 

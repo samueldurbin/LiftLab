@@ -5,45 +5,47 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Azure;
 
 namespace LiftLab.Services
 {
-    public class UserServiceUI
+    public class UsersServiceUI
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient; // this sends requests to the backend (http requests)
 
-        public UserServiceUI()
+        public UsersServiceUI()
         {
-            _httpClient = new HttpClient  // Creates an instance of HTTP Client
+            _httpClient = new HttpClient  // creates an instance of httpclient
             {
-                BaseAddress = new Uri("https://web.socem.plymouth.ac.uk/COMP3000/SDurbin/api/")  // URL for api requests
+                BaseAddress = new Uri("https://web.socem.plymouth.ac.uk/COMP3000/SDurbin/api/")  // URL for api requests (which requires additional endpoints for functions)
 
             };
         }
 
-        public async Task<Users> Login(string username, string password) // Asynchronous Task for Login
+        public async Task<Users> Login(string username, string password) // login function
         {
-            var login = await _httpClient.PostAsJsonAsync("Users/login", new Users // Login an Account EndPoint
+            // sends a post request
+            var login = await _httpClient.PostAsJsonAsync("Users/login", new LoginRequest // api endpoint for the login
             {
-                Username = username,  // Checks the username matches the entered username
+                Username = username, // this checks if the users input matches a record in the database
                 Password = password
 
             });
 
-            if (login.IsSuccessStatusCode) // Checks for success from call
+            if (login.IsSuccessStatusCode) // checks for success
             {
                 return await login.Content.ReadFromJsonAsync<Users>();  // Deserializes the JSON request body into the Model object
 
             }
 
-            return null;
+            return null; // if failed
         }
 
-        public async Task<Users> CreateAccount(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // Entered details
+        public async Task<Users> CreateAccount(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // create an account function
         {
-            var response = await _httpClient.PostAsJsonAsync("Users/register", new Users // Create an Account EndPoint
+            var response = await _httpClient.PostAsJsonAsync("Users/register", new Users // create an account endpoint
             {
-                Username = username, // matches with user inputs to save to database through api
+                Username = username, // saves the users input to the records required in the database
                 Password = password,
                 Email = email,
                 MobileNumber = mobileNumber,

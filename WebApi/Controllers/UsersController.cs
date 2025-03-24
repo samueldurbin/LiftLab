@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Shared.Models;
-using WebApi.Models;
 using WebApi.Services;
 
 namespace WebApi.Controllers
@@ -33,7 +32,7 @@ namespace WebApi.Controllers
                 return BadRequest("Incorrect username or password, please try again"); // error message
             }
 
-            return Ok();
+            return Ok(user);
         }
 
         [HttpPost("createuser")]  // api endpoint for creating user

@@ -10,6 +10,7 @@ namespace Shared.Models
     public class FitnessPost // contains all of the fitnessposts
     {
         public int FitnessPostId { get; set; } // Changed to FitnessPostId to make the foreign keys easier to understand
+        public int UserId { get; set; }
         public string Username { get; set; }
         public string ImageUrl { get; set; }
         public string Caption { get; set; }

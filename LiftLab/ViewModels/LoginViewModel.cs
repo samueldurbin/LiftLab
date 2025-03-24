@@ -11,20 +11,20 @@ using System.Windows.Input;
 using LiftLab.Views;
 using Shared.Utilities;
 using System.Text.Json;
+using Microsoft.Maui.Storage;
 
 namespace LiftLab.ViewModels
 {
-    public class LoginViewModel : BaseViewModel // as a viewmodel, it connects the ui with the logic
+    public class LoginViewModel : BaseViewModel
     {
-        #region Variables
-        private readonly UserServiceUI _apiUserService;
 
-        private string username;
+        private readonly UsersServiceUI _usersService;
+
+        private string username; // variables for user input
         private string password;
 
-        #endregion
+        public ICommand LoginCommand { get; } // this will be used as the onclick button for navigation
 
-        #region Actions
         public string Username
         {
             get => username;  // recieves whats typed into the ui
@@ -45,41 +45,37 @@ namespace LiftLab.ViewModels
             }
         }
 
-        #endregion
-
-        #region Login
-        public ICommand LoginCommand { get; } // for the button to login in the UI
-
         public LoginViewModel()
         {
-            _apiUserService = new UserServiceUI();
-            LoginCommand = new Command(async () => await Login());  // links the button to the method
+            _usersService = new UsersServiceUI();
+
+            LoginCommand = new Command(async () => await Login());  // links the button to the function
         }
 
-        private async Task Login()
+        private async Task Login() // login function
         {
-            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))  // displays an error if nothing is entered into the fields
+            if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))  // this displays an error if the fields are empty
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Please enter both username and password.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error!", "Please enter both a username and password.", "OK");
                 return;
             }
 
-            var hashInputPassword = Hashing.Hash(Password);
+            var user = await _usersService.Login(Username, Password); // calls this method to authenticate the user details
 
-            var user = await _apiUserService.Login(Username, hashInputPassword); // calls this method to authenticate the user
-
-            if (user != null)
+            if (user != null) // if the user is not empty / successfully authenticated
             {
-                await Application.Current.MainPage.DisplayAlert("Success", $"Welcome, {user.Username}!", "OK"); // successful login
+                Preferences.Set("UserId", user.UserId); // this sets the preferences of the application to the userid that has signed in
+                Preferences.Set("Username", user.Username); // this sets the preferences of the application to the username that has signed in, this will be changed in the future
 
-                Application.Current.MainPage = new NavigationPage(new FitnessPage());
+                await Application.Current.MainPage.DisplayAlert("Success!", $"Welcome, {user.Username}!", "OK"); // successful login message
+
+                await Shell.Current.GoToAsync("//FitnessPage"); // this starts shell navigation that then shows the navigation bar
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password.", "OK");  
+                await Application.Current.MainPage.DisplayAlert("Error!", "Invalid username or password, Please try agayun", "OK");   // error message
             }
         }
 
-        #endregion
     }
 }

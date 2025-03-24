@@ -10,7 +10,6 @@
     </ContentPage.BindingContext>
 
     <StackLayout Padding="30" Spacing="20">
-        <Entry Placeholder="Enter Username" Text="{Binding Username}" />
         <Entry Placeholder="Enter Image URL (optional)" Text="{Binding ImageUrl}" />
         <Editor Placeholder="Enter Caption" Text="{Binding Caption}"/>
 

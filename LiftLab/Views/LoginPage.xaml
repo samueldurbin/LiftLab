@@ -44,9 +44,7 @@
                         <FormattedString>
                             <!-- Create an Account Section -->
                             <Span Text="Don't have an account? " TextColor="Black" />
-                            <Span Text="Register Here" 
-                                         TextColor="Blue" 
-                                         TextDecorations="Underline">
+                            <Span Text="Register Here" TextColor="Blue" TextDecorations="Underline">
                             </Span>
                         </FormattedString>
                     </Label.FormattedText>

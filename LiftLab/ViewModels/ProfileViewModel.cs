@@ -14,6 +14,7 @@ namespace LiftLab.ViewModels
     public class ProfileViewModel : BaseViewModel
     {
         public ICommand SettingsCommand { get; }
+
         public ProfileViewModel()
         {
             SettingsCommand = new Command(async () => // add button in the ui navigates to create a post
