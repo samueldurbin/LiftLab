@@ -25,6 +25,14 @@ namespace WebApi.Services
                 .ToListAsync();
         }
 
+        public async Task<List<int>> GetPlanWorkoutsByPlan(int planId) // gets the workoutids that are in a workoutplan created by a user
+        {
+            return await _dbContext.WorkoutPlansData // workout plan data table that contains the many-to-many relationship of ids
+                .Where(u => u.WorkoutPlanId == planId) // rows match the input planid
+                .Select(u => u.WorkoutId) // selects the required ids
+                .ToListAsync(); // into a list
+        }
+
         public async Task<WorkoutPlans> CreatePlan(WorkoutPlans plan, List<int> workoutIds) // creates plan from plan name and all the select workouts
         {
 
