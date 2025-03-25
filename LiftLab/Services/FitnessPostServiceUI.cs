@@ -40,29 +40,6 @@ namespace LiftLab.Services
             return null;
         }
 
-        //public async Task<FitnessPost> CreatePost(int userId, string username, string imageUrl, string caption, int? workoutPlanId)  // Entered details // int? due to being nullable
-        //{
-        //    int userId = Preferences.Get("UserId", 0);
-        //    string username = Preferences.Get("Username", "Unknown");
-
-        //    var response = await _httpClient.PostAsJsonAsync("Fitnesspost/createfitnesspost", new FitnessPost // Create an Account EndPoint
-        //    {
-        //        UserId = userId,
-        //        Username = username, // posts the entries 
-        //        ImageUrl = imageUrl,
-        //        Caption = caption,
-        //        WorkoutPlanId = workoutPlanId // allows user to add a workout plan to a fitness post, this is not mandatory
-
-        //    });
-
-        //    if (response.IsSuccessStatusCode) // returns 200 code if correct, helps with postman
-        //    {
-        //        return await response.Content.ReadFromJsonAsync<FitnessPost>();
-        //    }
-
-        //    return null;
-        //}
-
         public async Task<List<FitnessPost>> GetAllFitnessPosts()
         {
             var response = await _httpClient.GetAsync("FitnessPost/getallfitnessposts"); // sends a http get request to the fitnessposts endpoint

@@ -49,7 +49,7 @@ namespace LiftLab.ViewModels
 
             CreateWorkoutPlanButtonCommand = new Command(async () => // add button in the ui navigates to create a post
             {
-                await Shell.Current.GoToAsync(nameof(FitnessPage));
+                await Shell.Current.GoToAsync(nameof(CreateWorkoutPlanPage));
             });
 
             ViewWorkoutPlansButtonCommand = new Command(async () => // add button in the ui navigates to create a post
@@ -67,10 +67,12 @@ namespace LiftLab.ViewModels
                     .Select(w => w.Workout.WorkoutId)
                     .ToList();
 
+                int userId = Preferences.Get("UserId", 0); // this method gets the user id from the login
+
                 var newPlan = await _workoutPlansService.CreatePlan(new CreateWorkoutPlan // creates new workout plan and puts in the list of selected workouts
                 {
                     WorkoutPlanName = WorkoutPlanName,
-                    UserId = UserId,
+                    UserId = userId,
                     WorkoutIds = selectedWorkouts
                 });
 

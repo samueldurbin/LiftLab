@@ -8,7 +8,7 @@
     FlyoutBehavior="Disabled"
     Title="LiftLab">
 
-    <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />
+    <!--<ShellContent Route="LoginPage" ContentTemplate="{DataTemplate views:LoginPage}" />-->
 
     <TabBar>
 

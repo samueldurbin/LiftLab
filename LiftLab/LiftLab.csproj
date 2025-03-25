@@ -90,6 +90,9 @@
 	  <MauiXaml Update="Views\CreatePost.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CreateWorkoutPlanPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\FitnessPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

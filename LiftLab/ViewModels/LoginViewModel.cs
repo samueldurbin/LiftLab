@@ -69,7 +69,9 @@ namespace LiftLab.ViewModels
 
                 await Application.Current.MainPage.DisplayAlert("Success!", $"Welcome, {user.Username}!", "OK"); // successful login message
 
-                await Shell.Current.GoToAsync("//FitnessPage"); // this starts shell navigation that then shows the navigation bar
+                Application.Current.MainPage = new AppShell();
+
+                //await Shell.Current.GoToAsync("//FitnessPage"); // this starts shell navigation that then shows the navigation bar
             }
             else
             {

@@ -16,6 +16,7 @@ namespace LiftLab
             Routing.RegisterRoute(nameof(FriendsPage), typeof(FriendsPage));
             Routing.RegisterRoute(nameof(ViewAllWorkoutPlans), typeof(ViewAllWorkoutPlans));
             Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
+            Routing.RegisterRoute(nameof(CreateWorkoutPlanPage), typeof(CreateWorkoutPlanPage));
 
         }
     }
