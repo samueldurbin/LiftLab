@@ -21,6 +21,18 @@ namespace LiftLab.Services
             };
         }
 
+        public async Task<List<WorkoutPlans>> GetPlansByUserId(int userId) // gets plans by userid
+        {
+            var response = await _httpClient.GetAsync($"WorkoutPlans/getworkoutplansbyuser/{userId}"); // HTTP Get request for workout plans created by a userid
+
+            if (response.IsSuccessStatusCode) // success
+            {
+                return await response.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // returns list of workout plans
+            }
+
+            throw new Exception("Failed to get workout plans for the logged in user");
+        }
+
         public async Task<WorkoutPlans> CreatePlan(CreateWorkoutPlan request)
         {
             var response = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", request);

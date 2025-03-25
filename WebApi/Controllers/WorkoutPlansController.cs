@@ -23,6 +23,13 @@ namespace WebApi.Controllers
             return Ok(plans);
         }
 
+        [HttpGet("getworkoutplansbyuser/{userId}")] // this gets the workout plans that are associated with a userid
+        public async Task<IActionResult> GetPlansByUserId(int userId)
+        {
+            var plans = await _workoutPlansService.GetPlansByUser(userId); // function to get plans by userid in services
+            return Ok(plans);
+        }
+
         [HttpPost("createplan")] // create plan request
         public async Task<IActionResult> CreatePlanWithWorkouts([FromBody] CreateWorkoutPlan request)
         {

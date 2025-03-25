@@ -21,6 +21,10 @@ namespace LiftLab.ViewModels
         private string workoutPlanName;
         private int userId;
 
+        public ObservableCollection<WorkoutPlans> UserWorkoutPlans { get; set; } = new ObservableCollection<WorkoutPlans>();
+
+        public ICommand LoadUserWorkoutPlansCommand { get; } 
+
         public ObservableCollection<WorkoutSelection> WorkoutList { get; set; }
 
         public ICommand CreatePlanCommand { get; }
@@ -56,6 +60,8 @@ namespace LiftLab.ViewModels
             {
                 await Shell.Current.GoToAsync(nameof(ViewAllWorkoutPlans));
             });
+
+            LoadUserWorkoutPlansCommand = new Command(async () => await LoadUserWorkoutPlans()); // this will be used to load the workout plans on load
 
         }
         private async Task CreatePlan()
@@ -120,6 +126,34 @@ namespace LiftLab.ViewModels
             finally
             {
                 IsBusy = false; // resets isbusy
+            }
+        }
+
+        private async Task LoadUserWorkoutPlans()
+        {
+            if (IsBusy) // this prevents multiple api calls
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                int userId = Preferences.Get("UserId", 0); // uses te set preferences from the login viewmodel
+                var plans = await _workoutPlansService.GetPlansByUserId(userId); // uses the HTTP Get request in the WorkoutPlansServiceUI
+
+                UserWorkoutPlans.Clear(); // clears data before displaying
+                foreach (var plan in plans) // shows all the workoutplans created by the userid
+                {
+                    UserWorkoutPlans.Add(plan);
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to load workout plans for this user: {ex.Message}", "OK"); // error message
+            }
+            finally
+            {
+                IsBusy = false; // resets isbsusy
             }
         }
 

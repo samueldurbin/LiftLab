@@ -44,21 +44,24 @@
 
         <!--row 2 is the workout plans themselves-->
         <ScrollView Grid.Row="2">
-            <VerticalStackLayout Spacing="10">
-                <!--workout plan frames-->
-                <Frame BackgroundColor="CornflowerBlue" CornerRadius="20" HeightRequest="120" Padding="20">
-                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
-                        <VerticalStackLayout Grid.Column="0" Spacing="4">
-                            <Label Text="Chest" FontSize="22" FontAttributes="Bold" TextColor="White"/>
-                            <Label Text="Chest Day for a Monday" FontSize="14" TextColor="White"/>
-                        </VerticalStackLayout>
-                        <!--fontawesomeicon on the right-->
-                        <!-- start and horizontal end to locate the icon top right-->
-                        <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="28" TextColor="White" VerticalOptions="Start" HorizontalOptions="End"/>
-                    </Grid>
-                </Frame>
-      
-            </VerticalStackLayout>
+            <!--collectionview of the incoming data for the workout plans associated with a user-->
+            <CollectionView ItemsSource="{Binding UserWorkoutPlans}"> 
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!--same template as before but now includes incoming data-->
+                        <Frame BackgroundColor="CornflowerBlue" CornerRadius="20" HeightRequest="120" Padding="20">
+                            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
+                                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                    <!--workoutplan name-->
+                                    <Label Text="{Binding WorkoutPlanName}" FontSize="22" FontAttributes="Bold" TextColor="White"/>
+                                </VerticalStackLayout>
+                                <!--view icon to view the workout plan-->
+                                <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="28" TextColor="White" VerticalOptions="Start" HorizontalOptions="End"/>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </ScrollView>
     </Grid>
     

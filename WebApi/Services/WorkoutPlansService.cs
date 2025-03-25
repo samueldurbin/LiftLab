@@ -14,8 +14,15 @@ namespace WebApi.Services
 
         public async Task<IEnumerable<WorkoutPlans>> GetPlans() // gets all the plans
         {
-            return await _dbContext.WorkoutPlans // gets all the plans from database
-                                            .ToListAsync();
+            return await _dbContext.WorkoutPlans
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<WorkoutPlans>> GetPlansByUser(int userId) // gets the plans assocoiated with the userid
+        {
+            return await _dbContext.WorkoutPlans // workout plans table
+                .Where(u => u.UserId == userId) // userid
+                .ToListAsync();
         }
 
         public async Task<WorkoutPlans> CreatePlan(WorkoutPlans plan, List<int> workoutIds) // creates plan from plan name and all the select workouts
@@ -32,7 +39,7 @@ namespace WebApi.Services
 
                     if (!workout) 
                     {
-                        throw new Exception("Error in making WorkoutPlan");
+                        throw new Exception("Error in creating a WorkoutPlan"); // error message
                     }
 
                     _dbContext.WorkoutPlansData.Add(new WorkoutPlanData // adds data and associates workouts with a plan

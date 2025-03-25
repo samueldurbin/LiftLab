@@ -42,18 +42,5 @@ namespace LiftLab.Services
             }
         }
 
-        // Create a new workout plan in the backend
-        public async Task<bool> CreateWorkoutPlanAsync(string planName, List<int> workoutIds)
-        {
-            var request = new
-            {
-                PlanName = planName,
-                WorkoutIds = workoutIds
-            };
-
-            var response = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", request);
-
-            return response.IsSuccessStatusCode;
-        }
     }
 }
