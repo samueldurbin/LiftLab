@@ -18,6 +18,7 @@ namespace LiftLab.ViewModels
         public ICommand GetFitnessPostsCommand { get; }  // gets and displays fitnessposts 
         public ICommand NavigationCommand { get; }
         public ICommand CreateCommentCommand { get; }
+        public ICommand LoadFitnessPostsCommand { get; }
 
         public ObservableCollection<FitnessPost> FitnessPosts { get; set; } // collection of posts objects
 
@@ -57,6 +58,7 @@ namespace LiftLab.ViewModels
             {
                 await Shell.Current.GoToAsync(nameof(CreatePost));
             });
+            LoadFitnessPostsCommand = new Command(async () => await GetsPosts()); // this will be used to load the workout plans on load
         }
 
         private async Task GetsPosts()

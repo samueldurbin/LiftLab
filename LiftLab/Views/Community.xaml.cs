@@ -4,10 +4,19 @@ namespace LiftLab.Views;
 
 public partial class Community : ContentPage
 {
-	public Community()
+    private readonly CommunityViewModel _communityViewModel;
+    public Community()
 	{
 		InitializeComponent();
-        BindingContext = new CommunityViewModel();
+        _communityViewModel = new CommunityViewModel();
+        BindingContext = _communityViewModel;
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        // this calls the laoduserworkoutplanscommand from the viewmodel
+        _communityViewModel.LoadFitnessPostsCommand.Execute(null); // this makes the data load when page is pressed
     }
 
 }
