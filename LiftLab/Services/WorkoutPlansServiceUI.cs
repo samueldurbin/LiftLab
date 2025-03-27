@@ -21,43 +21,52 @@ namespace LiftLab.Services
             };
         }
 
-        public async Task<List<WorkoutPlans>> GetPlansByUserId(int userId) // gets plans by userid
+        public async Task<List<WorkoutPlans>> GetPlansByUserId(int userId) // gets a list of workout plans by userid
         {
             var response = await _httpClient.GetAsync($"WorkoutPlans/getworkoutplansbyuser/{userId}"); // HTTP Get request for workout plans created by a userid
 
-            if (response.IsSuccessStatusCode) // success
+            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // returns list of workout plans
+                return await response.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // returns list of workout plans and deserialises it into a list of workout plans
             }
 
-            throw new Exception("Failed to get workout plans for the logged in user");
+            throw new Exception("Failed to get workout plans for the logged in user"); // if the response variable was not successful it will throw this error
         }
 
-        public async Task<WorkoutPlans> CreatePlan(CreateWorkoutPlan request)
+        public async Task<List<int>> GetWorkoutsByPlanId(int planId) // this function will get a list of all the workout ids by workoutplans, which will be used for showing workoutnames
         {
-            var response = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", request);
+            var response = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}"); // HTTP Get Request for getting all the workoutids for a planid
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<WorkoutPlans>();
+                return await response.Content.ReadFromJsonAsync<List<int>>();// returns list of workout ids
             }
-            else
-            {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Failed to create plan with workouts: {errorMessage}");
-            }
+
+            throw new Exception("Failed to get a list of workoutids"); // error message if the response is not a success
         }
 
-        public async Task<List<Workouts>> GetAllWorkouts()
+        public async Task<WorkoutPlans> CreateWorkoutPlan(CreateWorkoutPlan workoutPlan) // method that creates a workout plan
         {
-            var response = await _httpClient.GetAsync("Workouts/getallworkouts");
+            var response = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", workoutPlan); // HTTP post to create a workout plan
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<List<Workouts>>();
+                return await response.Content.ReadFromJsonAsync<WorkoutPlans>(); // shows the created workout plan
             }
 
-            throw new Exception("Failed to get workouts, please try again");
+            throw new Exception("Failed to create a new workout plan"); // error message if the response is not a success
+        }
+
+        public async Task<List<Workouts>> GetAllWorkouts()  // method to get a list of workouts
+        {
+            var response = await _httpClient.GetAsync("Workouts/getallworkouts"); // api endpoint to http get a list of workouts
+
+            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
+            {
+                return await response.Content.ReadFromJsonAsync<List<Workouts>>(); // deserialises and returns a list of workouts
+            }
+
+            throw new Exception("Failed to get workouts"); // error message 
         }
 
     }
