@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +17,6 @@ namespace LiftLab.ViewModels
         private readonly WorkoutPlansServiceUI _workoutPlansService;
 
         private string workoutPlanName;
-        //private int userId;
 
         public ObservableCollection<WorkoutPlans> UsersWorkoutPlans { get; set; } = new ObservableCollection<WorkoutPlans>(); // this will hold all of the incoming workoutplans created by the user
         public ObservableCollection<WorkoutSelection> WorkoutList { get; set; } // this will hold the list of workouts within each workoutplan
@@ -29,6 +26,7 @@ namespace LiftLab.ViewModels
         public ICommand ViewWorkoutsCommand { get; } // onclick to view a selected workout plan's workouts
         public ICommand CreatePlanCommand { get; } // onclick to create a workoutplan
         public ICommand GetWorkoutsCommand { get; } // onlick to get workouts
+        public ICommand NavigateToWorkoutSelectionCommand { get; }
 
         // buttons for navigation
         public ICommand CreateWorkoutPlanButtonCommand { get; } // onclick to navigate user to the create workoutplan page, better for redirection
@@ -73,7 +71,15 @@ namespace LiftLab.ViewModels
 
             LoadUserWorkoutPlansCommand = new Command(async () => await LoadUserWorkoutPlans()); // this will be used to load the workout plans on load
 
+            NavigateToWorkoutSelectionCommand = new Command(async () =>
+            {
+                await GetWorkouts(); //
+
+                await Shell.Current.GoToAsync(nameof(WorkoutSelectionPage));
+            });
+
         }
+
         private async Task CreatePlan() // method to create a workout plan
         {
             try

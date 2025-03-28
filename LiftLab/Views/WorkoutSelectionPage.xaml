@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.WorkoutSelectionPage"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             Title="WorkoutSelectionPage">
+
+    <!--List of workouts-->
+    <CollectionView ItemsSource="{Binding WorkoutList}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame Padding="20" Margin="4" BorderColor="LightBlue">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <!--Workout names-->
+                        <Label Text="{Binding Workout.WorkoutName}" />
+                        <!--when its selected it goes to the create workout page-->
+                        <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+</ContentPage>
