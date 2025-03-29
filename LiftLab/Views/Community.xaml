@@ -36,8 +36,6 @@
                                     <!-- Username -->
                                     <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" />
                                 </HorizontalStackLayout>
-                                <!--displays username of the post-->
-                                <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" TextColor="Black" />
                                 <!--displays image of the post -->
                                 <Image Source="{Binding ImageUrl}" HeightRequest="210" Aspect="AspectFill" BackgroundColor="Green" HorizontalOptions="FillAndExpand" />
                                 <!--displays the captions below the post -->
