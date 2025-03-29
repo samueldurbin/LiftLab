@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
              x:Class="LiftLab.Views.Community"
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
              Title="Community">
 
     <ContentPage.BindingContext>
@@ -18,9 +19,6 @@
         <Button Text="+" Command="{Binding NavigationCommand}" WidthRequest="40"  HeightRequest="40" BackgroundColor="Red" FontAttributes="Bold" CornerRadius="40" HorizontalOptions="End" VerticalOptions="Start" Margin="0,0,20,0" />
 
         <StackLayout Grid.Row="1" Padding="10">
-            <!--Refresh button for data retrieval testing-->
-            <!--button retrieves data using getfitnesspostscommand-->
-            <Button Text="Refresh" FontAttributes="Bold" BackgroundColor="Green" Command="{Binding GetFitnessPostsCommand}" />
             <!--this part of code is temporary and shows that data is in the process of being retrieved-->
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
             <CollectionView ItemsSource="{Binding FitnessPosts}" VerticalOptions="FillAndExpand">
@@ -29,6 +27,13 @@
                         <!--post frame for each post-->
                         <Frame CornerRadius="10" BorderColor="LightGray" Padding="10" Margin="0,10,0,20" HorizontalOptions="FillAndExpand">
                             <VerticalStackLayout Spacing="10">
+                                <!--using a horizontal stack means the icon can be placed next to the username text-->
+                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                    <!--UserIcon (profile pic in future)-->
+                                    <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="18" TextColor="Black" VerticalOptions="Center" />
+                                    <!-- Username -->
+                                    <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
                                 <!--displays username of the post-->
                                 <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" TextColor="Black" />
                                 <!--displays image of the post -->
