@@ -10,13 +10,15 @@
         <vm:CommunityViewModel />
     </ContentPage.BindingContext>
 
-    <Grid Padding="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid RowDefinitions="Auto,*" Padding="10">
 
-        <Button Text="+" Command="{Binding NavigationCommand}" WidthRequest="40"  HeightRequest="40" BackgroundColor="Red" FontAttributes="Bold" CornerRadius="40" HorizontalOptions="End" VerticalOptions="Start" Margin="0,0,20,0" />
+        <!--hardcoded icon is now a font awesome plus icon-->
+        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="28"  HorizontalOptions="End" VerticalOptions="Start" TextColor="Blue" Margin="0,0,20,0">
+            <Label.GestureRecognizers>
+                <!--this makes the icon clickable-->
+                <TapGestureRecognizer Command="{Binding NavigationCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
 
         <StackLayout Grid.Row="1" Padding="10">
             <!--this part of code is temporary and shows that data is in the process of being retrieved-->
