@@ -11,53 +11,82 @@
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,*" Padding="10">
-
-        <!--hardcoded icon is now a font awesome plus icon-->
-        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="28"  HorizontalOptions="End" VerticalOptions="Start" TextColor="Blue" Margin="0,0,20,0">
+        <!--Plus Icon from FontAwesome to create posts-->
+        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="28" HorizontalOptions="End" VerticalOptions="Start" TextColor="Blue" Margin="0,0,20,0">
             <Label.GestureRecognizers>
-                <!--this makes the icon clickable-->
                 <TapGestureRecognizer Command="{Binding NavigationCommand}" />
             </Label.GestureRecognizers>
         </Label>
 
-        <StackLayout Grid.Row="1" Padding="10">
-            <!--this part of code is temporary and shows that data is in the process of being retrieved-->
+        <StackLayout Grid.Row="1" Padding="0">
+            <!--this helps show that the data is loading-->
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+            <!--list of fitness posts-->
             <CollectionView ItemsSource="{Binding FitnessPosts}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <!--post frame for each post-->
-                        <Frame CornerRadius="10" BorderColor="LightGray" Padding="10" Margin="0,10,0,20" HorizontalOptions="FillAndExpand">
-                            <VerticalStackLayout Spacing="10">
-                                <!--using a horizontal stack means the icon can be placed next to the username text-->
-                                <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
-                                    <!--UserIcon (profile pic in future)-->
+                        <Frame BorderColor="LightBlue" Padding="0" Margin="0,10,0,0" HorizontalOptions="FillAndExpand">
+                            <VerticalStackLayout Padding="0" HorizontalOptions="FillAndExpand">
+                                <!--UserIcon (profile pic in future)-->
+                                <HorizontalStackLayout Spacing="6" Padding="10" VerticalOptions="Center">
                                     <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="18" TextColor="Black" VerticalOptions="Center" />
-                                    <!-- Username -->
                                     <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" />
                                 </HorizontalStackLayout>
-                                <!--displays image of the post -->
-                                <Image Source="{Binding ImageUrl}" HeightRequest="210" Aspect="AspectFill" BackgroundColor="Green" HorizontalOptions="FillAndExpand" />
-                                <!--displays the captions below the post -->
-                                <Label Text="{Binding Caption}" FontSize="14" TextColor="Black"/>
-                                <!--entry where a new comment is created -->
-                                <!--the additional binding allows the comments to be separated from fitnessposts -->
-                                <Entry Placeholder="Enter Comment" Text="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=Comment}" />
-                                <!--button for the new comment to be added -->
-                                <Button Text="Comment" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=CreateCommentCommand}" CommandParameter="{Binding .}" />
-                                <CollectionView ItemsSource="{Binding Comments}">
-                                    <!--Commentsl-->
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackLayout Padding="5">
-                                                <!--displays username of who made the comment -->
-                                                <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="14"/>
-                                                <!--displays the comment made by the username -->
-                                                <Label Text="{Binding Comment}" FontSize="12"/>
-                                            </StackLayout>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
+                                <!--displays image of the post, currently hardcoded-->
+                                <Image Source="{Binding ImageUrl}" HeightRequest="210" Aspect="AspectFill" HorizontalOptions="FillAndExpand" BackgroundColor="LightPink" />
+                                <HorizontalStackLayout Padding="10" Spacing="20">
+                                    <!--icon for the like button-->
+                                    <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Heart}" FontSize="20" TextColor="LightSkyBlue" VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <!--onclick for the like functionality-->
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=LikePostCommand}" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                    <!--like count of each post-->
+                                    <Label Text="{Binding LikeCount}" FontSize="14" TextColor="Gray" VerticalOptions="Center"/>
+                                    <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                                        <!--toggle to unhide comments-->
+                                        <CheckBox x:Name="CommentToggle" IsVisible="False" />
+                                        <!--Pressing the comment icon causes the comments to be revealed-->
+                                        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Comment}" FontSize="20" TextColor="LightSkyBlue" VerticalOptions="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Tapped="OnCommentIconTapped" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                        <!--this shows the amount of comments on each post-->
+                                        <Label Text="{Binding Comments.Count}" FontSize="14" TextColor="Gray" VerticalOptions="Center"/>
+                                    </HorizontalStackLayout>
+                                </HorizontalStackLayout>
+                                <!--Caption of the post-->
+                                <Label Text="{Binding Caption}" FontSize="14" TextColor="Black" Padding="10" />
+                                <!--Viewing and adding comments-->
+                                <VerticalStackLayout x:Name="CommentBox" IsVisible="False" Padding="10" Spacing="6">
+                                    <CollectionView ItemsSource="{Binding Comments}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <VerticalStackLayout Spacing="2">
+                                                    <!--User who wrote the comment-->
+                                                    <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="14" />
+                                                    <!--the comment itself-->
+                                                    <Label Text="{Binding Comment}" FontSize="12" />
+                                                </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                    <!--Adding the comment-->
+                                    <Grid ColumnDefinitions="*,Auto" Padding="0" Margin="0">
+                                        <Entry Grid.Column="0" Placeholder="Enter Comment" 
+                                               Text="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=Comment}" 
+                                               HorizontalOptions="FillAndExpand" FontSize="14" BackgroundColor="White" />
+                                        <!--button to add the comment-->
+                                        <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="20" TextColor="Blue" Padding="10,0" VerticalOptions="Center">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=CreateCommentCommand}" CommandParameter="{Binding .}" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+                                    </Grid>
+                                </VerticalStackLayout>
                             </VerticalStackLayout>
                         </Frame>
                     </DataTemplate>
@@ -65,5 +94,4 @@
             </CollectionView>
         </StackLayout>
     </Grid>
-
 </ContentPage>

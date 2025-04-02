@@ -21,6 +21,8 @@ namespace LiftLab.Services
             };
         }
 
+        // Post
+
         public async Task<FitnessPost> CreatePost(int userId, string username, string imageUrl, string caption, int? workoutPlanId)
         {
             var response = await _httpClient.PostAsJsonAsync("FitnessPost/createfitnesspost", new FitnessPost
@@ -52,6 +54,7 @@ namespace LiftLab.Services
             throw new Exception("Failed to get fitnessposts, please try again"); // failed to retrieve the posts exception message
         }
 
+        // Plans
         public async Task<List<WorkoutPlans>> GetAllPlans() // gets all workoutplans as a list
         {
             var response = await _httpClient.GetAsync("WorkoutPlans/getallplans"); // sends a get request to the api, to retrieve the list of plans
@@ -64,22 +67,19 @@ namespace LiftLab.Services
             throw new Exception("Failed to get workout plans, please try again.");
         }
 
-        public async Task<FitnessPostComments> AddComment(string username, string comment, int fitnessPostId)
+        // Comments
+        public async Task<bool> CreateComment(int postId, string username, string comment) 
         {
-            var response = await _httpClient.PostAsJsonAsync("FitnessPost/addcomment", new FitnessPostComments // http post request to add comment to fitnesspost
+            var commentDto = new AddNewCommentDTO // a dto to match the api request
             {
-                Username = username, // hardcoded in api currently
-                Comment = comment, // adds the input to the new comment
-                FitnessPostId = fitnessPostId
+                FitnessPostId = postId, // the fitnesspost that the comment is being added on
+                Username = username, // the user who is adding the comment
+                Comment = comment // the comment
+            };
 
-            });
+            var response = await _httpClient.PostAsJsonAsync("FitnessPost/addcomment", commentDto); // http post request to add comment to fitnesspost
 
-            if (response.IsSuccessStatusCode)  // checks for successs
-            {
-                return await response.Content.ReadFromJsonAsync<FitnessPostComments>(); // returns new comment
-            }
-
-            return null; // return null if not added correctly
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<List<FitnessPostComments>> GetCommentsByPost(int postId)
@@ -94,9 +94,14 @@ namespace LiftLab.Services
             return new List<FitnessPostComments>(); // returns a lsit of fitnesspost comments
         }
 
+        // Likes
+        public async Task<bool> LikePost(int postId, int userId) // method to like post
+        {
+            var response = await _httpClient.PostAsync($"FitnessPost/like/{postId}/{userId}", null); // sends a http post request and not sending a body (only uses parameters)
 
+            return response.IsSuccessStatusCode;
+        }
 
     }
-
     
 }

@@ -40,13 +40,18 @@ namespace WebApi.Controllers
 
         // -----------------------------Comments for Fitness Post Section ---------------------------------------------------------------------
 
-        [HttpPost("addcomment")] // endpoint for adding comments
-        public async Task<IActionResult> AddComment([FromBody] FitnessPostComments request) // gets data from json body request
+        [HttpPost("addcomment")] // endpoint for http post to add a comment
+        public async Task<IActionResult> AddComment([FromBody] AddNewCommentDTO request) // this has changed to a dto post request 
         {
-            request.Username = "admin"; // hardcoded username for now
+            // this has been changed to a dto in order to reduce the request body as before it had the entire fitnesspost object
+            var newComment = await _fitnessPostService.AddComment(new FitnessPostComments // dto into model to match table in database
+            {
+                FitnessPostId = request.FitnessPostId, // dto to model
+                Username = request.Username,
+                Comment = request.Comment
+            });
 
-            var newComment = await _fitnessPostService.AddComment(request); // calls the add comment method in service
-            return Ok(newComment);
+            return Ok(newComment); // returns http 200 ok and newly created comment
         }
 
         [HttpGet("comments/{fitnessPostId}")] // endpoint for comments and related postid
@@ -79,6 +84,21 @@ namespace WebApi.Controllers
             }
 
             return Ok(comment);
+        }
+
+        // -----------------------------Post Like Section---------------------------------------------------------------------
+
+        [HttpPost("like/{postId}/{userId}")] // this endpoint uses the id of the post and the userid who liked it
+        public async Task<IActionResult> LikePost(int postId, int userId)
+        {
+            var result = await _fitnessPostService.LikePost(postId, userId);
+
+            if (!result) // this wouldve checked if the post was liked twice
+            {
+                return BadRequest(""); // future development needs to prevent a badrequest from happening, as its not very fluent to recieve errors when double liking a post
+            }
+
+            return Ok(result); // http 200 ok
         }
     }
 }

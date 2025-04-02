@@ -22,7 +22,7 @@
             <!--Username that comes from the logged in preferences-->
             <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="24" TextColor="Blue" HorizontalOptions="Center"/>
         </VerticalStackLayout>
-        <!-- Bio -->
+        <!--Bio-->
         <Label Grid.Row="1" Text="This is where the bio will go" FontSize="16" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" Margin="0,10,0,0"/>
         <!--Friends Count-->
         <Grid Grid.Row="2" ColumnDefinitions="*">

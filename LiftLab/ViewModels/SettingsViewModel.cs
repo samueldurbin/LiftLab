@@ -17,23 +17,23 @@ namespace LiftLab.ViewModels
         public ICommand NotificationCommand { get; }
         public ICommand LogOutCommand { get; }
 
-        public SettingsViewModel()
-        {
-            AccountCommand = new Command(async () => // add button in the ui navigates to create a post
-            {
-                await Shell.Current.GoToAsync(nameof(SettingsPage));
-            });
+        //public SettingsViewModel()
+        //{
+        //    AccountCommand = new Command(async () => // add button in the ui navigates to create a post
+        //    {
+        //        await Shell.Current.GoToAsync(nameof(SettingsPage));
+        //    });
 
-            NotificationCommand = new Command(async () => // add button in the ui navigates to create a post
-            {
-                await Shell.Current.GoToAsync(nameof(SettingsPage));
-            });
+        //    NotificationCommand = new Command(async () => // add button in the ui navigates to create a post
+        //    {
+        //        await Shell.Current.GoToAsync(nameof(SettingsPage));
+        //    });
 
-            LogOutCommand = new Command(async () => // add button in the ui navigates to create a post
-            {
-                await Shell.Current.GoToAsync(nameof(SettingsPage));
-            });
-        }
+        //    LogOutCommand = new Command(async () => // add button in the ui navigates to create a post
+        //    {
+        //        await Shell.Current.GoToAsync(nameof(SettingsPage));
+        //    });
+        //}
     }
     
 }

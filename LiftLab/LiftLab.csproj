@@ -111,9 +111,6 @@
 	  <MauiXaml Update="Views\ProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\SettingsPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\UpdateUserInfoSettings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

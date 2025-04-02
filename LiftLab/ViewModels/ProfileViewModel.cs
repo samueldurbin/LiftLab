@@ -28,7 +28,7 @@ namespace LiftLab.ViewModels
 
             SettingsCommand = new Command(async () => // add button in the ui navigates to create a post
             {
-                await Shell.Current.GoToAsync(nameof(SettingsPage));
+                //await Shell.Current.GoToAsync(nameof(SettingsPage));
             });
         }
     }

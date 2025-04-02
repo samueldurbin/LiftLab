@@ -8,6 +8,7 @@ using System.Windows.Input;
 using LiftLab.Services;
 using Shared.Models;
 using System.Collections.ObjectModel;
+using LiftLab.Models;
 
 namespace LiftLab.ViewModels
 {
@@ -15,30 +16,16 @@ namespace LiftLab.ViewModels
     {
         private readonly FitnessPostServiceUI _fitnessPostService;  // gets fitness posts from api
 
+        private string comment;
+
         public ICommand GetFitnessPostsCommand { get; }  // gets and displays fitnessposts 
         public ICommand NavigationCommand { get; }
         public ICommand CreateCommentCommand { get; }
         public ICommand LoadFitnessPostsCommand { get; }
-
+        public ICommand LikePostCommand { get; }
         public ObservableCollection<FitnessPost> FitnessPosts { get; set; } // collection of posts objects
 
-        private string username;
-        private string comment;
-        private int fitnessPostId;
-
-        public string Username
-        {
-            get => username;
-            set => SetProperty(ref username, value); // checks if ui has updated and adds input
-        }
-
-        public int FitnessPostId
-        {
-            get => fitnessPostId;
-            set => SetProperty(ref fitnessPostId, value);
-        }
-
-        public string Comment
+        public string Comment // this is where the input of the users comment will be taken
         {
             get => comment;
             set => SetProperty(ref comment, value);
@@ -52,13 +39,17 @@ namespace LiftLab.ViewModels
 
             GetFitnessPostsCommand = new Command(async () => await GetsPosts());
 
-            CreateCommentCommand = new Command<FitnessPost>(async (post) => await CreateComment(post)); // assigns the function to a on vlick button in the ui
+            CreateCommentCommand = new Command<FitnessPost>(async (post) => await AddComment(post)); // assigns the function to a on vlick button in the ui
         
             NavigationCommand = new Command(async () => // add button in the ui navigates to create a post
             {
                 await Shell.Current.GoToAsync(nameof(CreatePost));
             });
+
             LoadFitnessPostsCommand = new Command(async () => await GetsPosts()); // this will be used to load the workout plans on load
+
+            LikePostCommand = new Command<FitnessPost>(async (post) => await LikePost(post));
+
         }
 
         private async Task GetsPosts()
@@ -93,30 +84,53 @@ namespace LiftLab.ViewModels
                 IsBusy = false; 
             }
 
-
         }
 
-        private async Task CreateComment(FitnessPost post)
+        private async Task AddComment(FitnessPost post) // creates a comment on a post
         {
             try
             {
-                var newComment = await _fitnessPostService.AddComment(Username, Comment, post.FitnessPostId); // gets method from serviceui to add comment
+                string username = Preferences.Get("Username", "Unknown"); // gets user preferences so the the comments can be linked to a user
 
-                if (newComment != null)
+                bool result = await _fitnessPostService.CreateComment(post.FitnessPostId, username, Comment); // calls the method from the service to send to api with the inputs from the user
+
+                if (result) // checks if the comment was added successfully
                 {
-                    await Application.Current.MainPage.DisplayAlert("Success!", "Your comment has been created successfully!", "OK"); // message to inform the users the comment was added successfully
+                    await GetsPosts(); // at the moment just focusing on recieving the comments as in other social media apps a message isnt granted to show its been added
+                    //await Application.Current.MainPage.DisplayAlert("Success!", "Your comment was added!", "OK");
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Comment has not been added.", "OK"); // error message if the new comment is null
+                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add new comment.", "OK"); // exception message if comment was not added
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) // exception
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to add comment: {ex.Message}", "OK"); // secomd error message for adding comments function
+                await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK");
             }
         }
 
+        private async Task LikePost(FitnessPost post)
+        {
+            try
+            {
+                int userId = Preferences.Get("UserId", 0); // gets user preferences of the logged in user
+
+                bool result = await _fitnessPostService.LikePost(post.FitnessPostId, userId); // this calls the service to send data to backend
+
+                if (result)
+                {
+                    await GetsPosts(); // this forces a refresh of getting posts to see if the posts were liked correctly
+                }
+                // no exception message as users dont need to be informed if theyve already liked a post (the colour will change if so)
+            }
+            catch (Exception ex) // exception
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK"); // basic exception message
+            }
+
+        }
+
     }
-    
+
 }
