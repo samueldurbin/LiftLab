@@ -18,7 +18,7 @@
             <Label Text="!Push Day!" FontSize="32" FontAttributes="Bold" TextColor="Blue" HorizontalOptions="Center" HorizontalTextAlignment="Center"/>
             <!--WorkoutPlan Suggestion Box-->
             <!--Frame for containers which is more custom-->
-            <Frame BackgroundColor="LimeGreen" CornerRadius="20" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
+            <Frame BackgroundColor="Red" CornerRadius="20" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--WorkoutPlan Title which is also hardcoded for now-->
                 <Label Text="Shoulder Workouts" FontSize="22" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
             </Frame>
@@ -28,7 +28,7 @@
         <!--Row Definitions mean it takes up two equal heights-->
         <!--* means to recieve parts additional parts of the UI outside of percentages to make the views adaptative-->
         <Grid Grid.Row="1" ColumnDefinitions="4*,6*" RowDefinitions="*,*" Padding="20" ColumnSpacing="20" RowSpacing="20" VerticalOptions="FillAndExpand">
-            <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="LightBlue" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
+            <Frame Grid.Row="0" Grid.Column="0" BackgroundColor="Red" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--makes the boxes clickable to navigate to other pages-->
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CreateWorkoutPlanButtonCommand}" />
@@ -36,7 +36,7 @@
                 <!--Text in Box-->
                 <Label Text="Create a Workout Plan" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Center"/>
             </Frame>
-            <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="Orange" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
+            <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="Red" CornerRadius="10" HasShadow="True" Padding="10" VerticalOptions="FillAndExpand">
                 <!--Text in Second Box-->
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding ViewWorkoutPlansButtonCommand}" />

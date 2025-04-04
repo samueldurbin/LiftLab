@@ -1,13 +1,12 @@
 using LiftLab.ViewModels;
-
 namespace LiftLab.Views;
 
-public partial class Community : ContentPage
+public partial class CommunityPage : ContentPage
 {
     private readonly CommunityViewModel _communityViewModel;
-    public Community()
-	{
-		InitializeComponent();
+    public CommunityPage()
+    {
+        InitializeComponent();
         _communityViewModel = new CommunityViewModel();
         BindingContext = _communityViewModel;
     }
@@ -18,5 +17,4 @@ public partial class Community : ContentPage
         // this calls the laoduserworkoutplanscommand from the viewmodel
         _communityViewModel.LoadFitnessPostsCommand.Execute(null); // this makes the data load when page is pressed
     }
-
 }

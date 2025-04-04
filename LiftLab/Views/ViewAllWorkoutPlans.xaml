@@ -10,67 +10,27 @@
         <vm:WorkoutPlansViewModel />
     </ContentPage.BindingContext>
 
-    <!--scrollview changed to grid view in order to make the views more responsive-->
     <Grid RowDefinitions="Auto, Auto, *" Padding="10">
-
-        <!--row 1 is the mini calendar-->
-        <!--mini calendar-->
-        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*,*,*,*" HeightRequest="50" Padding="4">
-            <Frame Grid.Column="0" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Mon" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-            <Frame Grid.Column="1" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Tue" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-            <Frame Grid.Column="2" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Wed" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-            <Frame Grid.Column="3" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Thu" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-            <Frame Grid.Column="4" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Fri" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-            <Frame Grid.Column="5" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Sat" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-            <Frame Grid.Column="6" CornerRadius="20" BackgroundColor="LimeGreen" Padding="5">
-                <Label Text="Sun" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" TextColor="White"/>
-            </Frame>
-        </Grid>
-
-        <!--the first row of the grid is the workout buttons to filter through created and added-->
         <Grid Grid.Row="1" ColumnDefinitions="*,*" Margin="0,10">
-            <!--button for usr created workouts-->
-            <Button Grid.Column="0" Text="My Workouts" Command="{Binding ViewWorkoutsCommand}" FontAttributes="Bold" BackgroundColor="HotPink" CornerRadius="20" Margin="5" HorizontalOptions="FillAndExpand"/>
-            <!--button for other usr created workouts that have been added by user-->
-            <Button Grid.Column="1" Text="Added Workouts" FontAttributes="Bold" BackgroundColor="Yellow" TextColor="Blue" CornerRadius="20" Margin="5" HorizontalOptions="FillAndExpand"/>
+            <Button Grid.Column="0" Text="My Workouts" Command="{Binding ViewWorkoutsCommand}" FontAttributes="Bold" BackgroundColor="Black" CornerRadius="20" Margin="5" HorizontalOptions="FillAndExpand"/>
+            <Button Grid.Column="1" Text="Added Workouts" FontAttributes="Bold" BackgroundColor="black" TextColor="Blue" CornerRadius="20" Margin="5" HorizontalOptions="FillAndExpand"/>
         </Grid>
-
-        <!--row 2 is the workout plans themselves-->
-        <ScrollView Grid.Row="2">
-            <!--collectionview of the incoming data for the workout plans associated with a user-->
-            <CollectionView ItemsSource="{Binding UsersWorkoutPlans}"> 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <!--same template as before but now includes incoming data-->
-                        <Frame BackgroundColor="CornflowerBlue" CornerRadius="20" HeightRequest="120" Padding="20">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer  Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewWorkoutsCommand}" CommandParameter="{Binding .}" />
-                            </Frame.GestureRecognizers>
-                            <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto">
-                                <VerticalStackLayout Grid.Column="0" Spacing="4">
-                                    <!--workoutplan name-->
-                                    <Label Text="{Binding WorkoutPlanName}" FontSize="22" FontAttributes="Bold" TextColor="White"/>
-                                </VerticalStackLayout>
-                                <!--view icon to view the workout plan-->
-                                <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="28" TextColor="White" VerticalOptions="Start" HorizontalOptions="End"/>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </ScrollView>
+        
+        <CollectionView Grid.Row="2" ItemsSource="{Binding UsersWorkoutPlans}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="Red" CornerRadius="20" HeightRequest="80" Padding="15" Margin="0,0,0,20">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewWorkoutsCommand}" CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center" HeightRequest="50">
+                            <Label Grid.Column="0" Text="{Binding WorkoutPlanName}" FontSize="18" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Start" Margin="0,0,10,0"/>
+                            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="22" TextColor="White" VerticalOptions="Center" HorizontalOptions="End"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
     </Grid>
     
 </ContentPage>

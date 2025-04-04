@@ -16,11 +16,11 @@
         <!--Profile picture and Username-->
         <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
             <!--FontAwesomeIcon for now-->
-            <Frame WidthRequest="120" HeightRequest="120" CornerRadius="80" BackgroundColor="HotPink" HasShadow="True" HorizontalOptions="Center">
-                <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="56" TextColor="Yellow" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Frame WidthRequest="120" HeightRequest="120" CornerRadius="80" BackgroundColor="Red" HasShadow="True" HorizontalOptions="Center">
+                <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="56" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
             </Frame>
             <!--Username that comes from the logged in preferences-->
-            <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="24" TextColor="Blue" HorizontalOptions="Center"/>
+            <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="24" TextColor="Black" HorizontalOptions="Center"/>
         </VerticalStackLayout>
         <!--Bio-->
         <Label Grid.Row="1" Text="This is where the bio will go" FontSize="16" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" Margin="0,10,0,0"/>
@@ -32,7 +32,7 @@
             </VerticalStackLayout>
         </Grid>
         <!--Settings Icon-->
-        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Gear}" FontSize="35" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Start">
+        <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Gear}" FontSize="35" TextColor="black" HorizontalOptions="End" VerticalOptions="Start">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SettingsCommand}" />
             </Label.GestureRecognizers>

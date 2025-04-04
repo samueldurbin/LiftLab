@@ -9,8 +9,8 @@
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions=".4*, .6*">
-        <Grid BackgroundColor="Green"/>
-        <!-- Central Title -->
+        <Grid BackgroundColor="Red"/>
+        <!-- Title -->
         <Label Text="LiftLab" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" />
 
         <Grid Grid.Row="1">
@@ -29,10 +29,10 @@
                 </Grid>
 
                 <!--Password Reset Link-->
-                <Label Margin="0, 25, 0, -10" HorizontalOptions="Center" Text="Forgot your password?" TextColor="Blue" TextDecorations="Underline"/>
+                <Label Margin="0, 25, 0, -10" HorizontalOptions="Center" Text="Forgot your password?" TextColor="Black" TextDecorations="Underline"/>
 
                 <!-- Login Button -->
-                <Button Text="Login" Margin="0, 40, 0, 0" BackgroundColor="Blue" Command="{Binding LoginCommand}" TextColor="White"/>
+                <Button Text="Login" Margin="0, 40, 0, 0" BackgroundColor="Black" Command="{Binding LoginCommand}" TextColor="White"/>
 
                 <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding IsErrorVisible}" HorizontalOptions="Center" />
 
@@ -44,7 +44,7 @@
                         <FormattedString>
                             <!-- Create an Account Section -->
                             <Span Text="Don't have an account? " TextColor="Black" />
-                            <Span Text="Register Here" TextColor="Blue" TextDecorations="Underline">
+                            <Span Text="Register Here" TextColor="Black" TextDecorations="Underline">
                             </Span>
                         </FormattedString>
                     </Label.FormattedText>
