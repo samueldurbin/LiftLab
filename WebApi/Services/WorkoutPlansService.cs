@@ -67,5 +67,51 @@ namespace WebApi.Services
             }
         }
 
+        public async Task<WorkoutPlans> AddExternalUserWorkoutPlan(int planId, int userId)
+        {
+            try
+            { 
+                var workoutPlan = await _dbContext.WorkoutPlans // finds the workout plan id to be added by a user
+                    .Include(p => p.WorkoutPlansData) // incldues the associated data with the workoutplan id
+                    .FirstOrDefaultAsync(p => p.WorkoutPlanId == planId);
+
+                if (workoutPlan == null) // if the workout plan doesnt exist, throw an error. however this is mainly for backend testing as a plan wouldnt be presnt in ui if didnt exist.
+                {
+                    throw new Exception("Original workout plan not found.");
+                }
+
+                var userPlan = new WorkoutPlans // create a new workoutplan with the name and a added message to test for frontend
+                {
+                    WorkoutPlanName = workoutPlan.WorkoutPlanName + " (Added)",
+                    UserId = userId // workout plan to the userid
+                };
+
+                _dbContext.WorkoutPlans.Add(userPlan); // adds new workout plan to the database
+
+                await _dbContext.SaveChangesAsync(); // saves changes
+
+                var workouts = await _dbContext.WorkoutPlansData
+                    .Where(w => w.WorkoutPlanId == planId)
+                    .ToListAsync();
+
+                foreach (var item in workouts) // adding workouts to the new workout plan that was just created
+                {
+                    _dbContext.WorkoutPlansData.Add(new WorkoutPlanData // adds copied workouts to the workoutplan
+                    {
+                        WorkoutPlanId = userPlan.WorkoutPlanId, // new planid
+                        WorkoutId = item.WorkoutId // use same workout ids as original
+                    });
+                }
+
+                await _dbContext.SaveChangesAsync(); // saves changes
+
+                return userPlan; // returns new workoutplan
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while adding the workout plan to your account!", ex);
+            }
+        }
+
     }
 }

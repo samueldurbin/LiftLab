@@ -23,6 +23,8 @@ namespace LiftLab.ViewModels
         public ICommand CreateCommentCommand { get; }
         public ICommand LoadFitnessPostsCommand { get; }
         public ICommand LikePostCommand { get; }
+
+        public ICommand AddWorkoutPlanCommand { get; }
         public ObservableCollection<FitnessPost> FitnessPosts { get; set; } // collection of posts objects
 
         public string Comment // this is where the input of the users comment will be taken
@@ -50,8 +52,10 @@ namespace LiftLab.ViewModels
 
             LikePostCommand = new Command<FitnessPost>(async (post) => await LikePost(post));
 
-        }
+            AddWorkoutPlanCommand = new Command<FitnessPost>(async (post) => await AddExternalWorkoutPlan(post));
 
+
+        }
         private async Task GetsPosts()
         {
             if (IsBusy) // prevents the retrieving of data fetching if its already in progress
@@ -85,7 +89,6 @@ namespace LiftLab.ViewModels
             }
 
         }
-
         private async Task AddComment(FitnessPost post) // creates a comment on a post
         {
             try
@@ -130,7 +133,34 @@ namespace LiftLab.ViewModels
             }
 
         }
+        private async Task AddExternalWorkoutPlan(FitnessPost post)
+        {
+            try
+            {
+                if (post.WorkoutPlanId == null) // this if statement displays an unavailable message to the usr if no workoutplan exists
+                {
+                    await Application.Current.MainPage.DisplayAlert("Unavailable!", "This post unfortunately does not have a workout plan", "OK");
+                    return;
+                }
 
+                int userId = Preferences.Get("UserId", 0); // gets user preferences
+
+                var response = await _fitnessPostService.AddExternalUserWorkoutPlan((int)post.WorkoutPlanId, userId); // call method to add workoutplan for user
+
+                if (response)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Success!", "Workout plan has been successfullly added to your account.", "Nice!"); // success messsage if added correctly
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Oops!", "Something went wrong when addding the workoutplan!", "OK"); // error message
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Error adding the workout plan: {ex.Message}", "OK");
+            }
+        }
     }
 
 }

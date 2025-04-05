@@ -40,7 +40,12 @@
                             <Grid HeightRequest="210">
                                 <Image Source="{Binding ImageUrl}" Aspect="AspectFill" HorizontalOptions="FillAndExpand" BackgroundColor="LightPink" />
                                 <!-- Plus icon top-left -->
-                                <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="18" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start" Margin="10" />
+                                <!--<Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="18" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start" Margin="10" />-->
+                                <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="18" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start" Margin="10">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityViewModel}}, Path=AddWorkoutPlanCommand}" CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
                                 <!-- Eye icon top-right -->
                                 <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="18" TextColor="Black" HorizontalOptions="End" VerticalOptions="Start" Margin="10" />
                             </Grid>

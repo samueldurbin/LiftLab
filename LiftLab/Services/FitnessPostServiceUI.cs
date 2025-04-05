@@ -102,6 +102,12 @@ namespace LiftLab.Services
             return response.IsSuccessStatusCode;
         }
 
+        public async Task<bool> AddExternalUserWorkoutPlan(int planId, int userId)
+        {
+            var response = await _httpClient.PostAsync($"WorkoutPlans/adduserworkoutplan/{planId}/{userId}", null); // sends a http post request with the ids
+
+            return response.IsSuccessStatusCode; // returns true if success
+        }
     }
     
 }

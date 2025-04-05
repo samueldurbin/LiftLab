@@ -5,10 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:views="clr-namespace:LiftLab.Views"
     xmlns:local="clr-namespace:LiftLab.Views"
-    Shell.TabBarBackgroundColor="Red"
-    Shell.TabBarTitleColor="White"
-    Shell.TabBarUnselectedColor="White"
-    Shell.TabBarForegroundColor="black"
     FlyoutBehavior="Disabled"
     Title="LiftLab">
 

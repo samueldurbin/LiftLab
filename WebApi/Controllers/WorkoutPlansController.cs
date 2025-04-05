@@ -60,5 +60,21 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpPost("adduserworkoutplan/{planId}/{userId}")] // api endpoints for a http post request, workoutoutplanid to be added by userId
+        public async Task<IActionResult> AddExternalWorkoutPlan(int planId, int userId)
+        {
+            try
+            {
+                var addedUserPlan = await _workoutPlansService.AddExternalUserWorkoutPlan(planId, userId); // calls function in the service
+
+                return Ok(new { Message = "Workout Plan successfully added to your account!", PlanId = addedUserPlan.WorkoutPlanId }); // return success 200 message with the workoutplanid if success
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message }); // if theres an error return badrequest
+            }
+        }
+
+
     }
 }
