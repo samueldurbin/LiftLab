@@ -36,23 +36,23 @@ namespace WebApi.Services
 
         // compared to the previous method, this one checks if the post exists, increments a comment counter needed for front end
         // and is better for data integrity
-        public async Task<FitnessPostComments> AddComment(FitnessPostComments comment)
-        {
-            var post = await _dbContext.FitnessPosts.FindAsync(comment.FitnessPostId); // finds the fitnesspost from the database using the fitnesspostid
+        //public async Task<FitnessPostComments> AddComment(FitnessPostComments comment)
+        //{
+        //    var post = await _dbContext.FitnessPosts.FindAsync(comment.FitnessPostId); // finds the fitnesspost from the database using the fitnesspostid
 
-            if (post == null)
-            {
-                throw new Exception("Fitness post has not been found"); // this is mainly for backend testing as a fitness post that did not exist would not show in the front end
-            }
+        //    if (post == null)
+        //    {
+        //        throw new Exception("Fitness post has not been found"); // this is mainly for backend testing as a fitness post that did not exist would not show in the front end
+        //    }
 
-            _dbContext.FitnessPostComments.Add(comment); // adds the comment to the fitnesspost
+        //    _dbContext.FitnessPostComments.Add(comment); // adds the comment to the fitnesspost
 
-            post.CommentCount += 1; // this increments the comment counter in the database
+        //    post.CommentCount += 1; // this increments the comment counter in the database
 
-            await _dbContext.SaveChangesAsync(); // saves both the comment and the counter
+        //    await _dbContext.SaveChangesAsync(); // saves both the comment and the counter
 
-            return comment;
-        }
+        //    return comment;
+        //}
 
         public async Task<bool> DeleteComment(int commentId)
         {

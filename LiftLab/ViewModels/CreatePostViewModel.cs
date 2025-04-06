@@ -12,7 +12,7 @@ namespace LiftLab.ViewModels
 {
     public class CreatePostViewModel : BaseViewModel
     {
-        private readonly FitnessPostServiceUI _fitnessPostService;
+        private readonly CommunityServiceUI _communityService;
 
         private string username;
         private string imageUrl;
@@ -42,7 +42,7 @@ namespace LiftLab.ViewModels
 
         public CreatePostViewModel()
         {
-            _fitnessPostService = new FitnessPostServiceUI(); // creates instance
+            _communityService = new CommunityServiceUI(); // creates instance
 
             WorkoutPlans = new ObservableCollection<WorkoutPlans>(); // workout plans list
 
@@ -55,7 +55,7 @@ namespace LiftLab.ViewModels
         {
             try
             {
-                var plans = await _fitnessPostService.GetAllPlans(); // fetches all of the plans
+                var plans = await _communityService.GetAllPlans(); // fetches all of the plans
 
                 WorkoutPlans.Clear(); // this removes old data that may have been deletec or edited previously
 
@@ -83,7 +83,7 @@ namespace LiftLab.ViewModels
 
             int? planId = SelectedWorkoutPlan?.WorkoutPlanId; // this gets the workoutplan id that is selected by the user, but it can also be nullable
 
-            var newPost = await _fitnessPostService.CreatePost(userId, username, ImageUrl, Caption, planId); // sends the input data
+            var newPost = await _communityService.CreatePost(userId, username, ImageUrl, Caption, planId); // sends the input data
 
             if (newPost != null) // checks if the data has been successfully sent or not
             {

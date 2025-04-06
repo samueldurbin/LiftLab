@@ -10,7 +10,7 @@ namespace Shared.Models
     public class AddNewCommentDTO
     {
         //public int FitnessPostCommentId { get; set; }
-        public int FitnessPostId { get; set; }
+        public int CommunityPostId { get; set; }
         public string Username { get; set; }
         public string Comment { get; set; }
     }

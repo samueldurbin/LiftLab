@@ -10,7 +10,7 @@ namespace WebApi.Services
         Task<IEnumerable<FitnessPost>> GetPosts(); // gets all posts
 
         // Comments
-        Task<FitnessPostComments> AddComment(FitnessPostComments comment); // adds comments
+        //Task<FitnessPostComments> AddComment(FitnessPostComments comment); // adds comments
         Task<bool> DeleteComment(int commentId); // deletes comment
         Task<FitnessPostComments> UpdateComments(FitnessPostComments updatedComment); // updates comment
         Task<IEnumerable<FitnessPostComments>> GetComments(int postId); // gets comments from related posts

@@ -11,7 +11,7 @@
     <TabBar>
 
         <Tab Title="Community">
-            <ShellContent Title="CommunityPage" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:CommunityPage}" Route="CommunityPage" />
+            <ShellContent Title="Community" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:Community}" Route="Community" />
         </Tab>
         
         <Tab Title="Fitness">

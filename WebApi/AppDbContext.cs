@@ -11,11 +11,11 @@ namespace WebApi
         public DbSet<Users> Users { get; set; } // table for Users
 
         // Fitness Posts
-        public DbSet<FitnessPost> FitnessPosts { get; set; } // table for Fitness related Posts
+        //public DbSet<FitnessPost> FitnessPosts { get; set; } // table for Fitness related Posts
 
-        public DbSet<FitnessPostComments> FitnessPostComments { get; set; } // Comments for fitness posts
+        //public DbSet<FitnessPostComments> FitnessPostComments { get; set; } // Comments for fitness posts
 
-        public DbSet<FitnessPostLike> FitnessPostLikes { get; set; } // Comments for fitness posts
+        //public DbSet<FitnessPostLike> FitnessPostLikes { get; set; } // Comments for fitness posts
 
         // Workouts
         public DbSet<Workouts> Workouts { get; set; } // table for Fitness related Posts
@@ -32,5 +32,11 @@ namespace WebApi
         // Friends
         public DbSet<Friend> Friends { get; set; }
 
+
+        public DbSet<CommunityPost> CommunityPosts { get; set; } // table for Fitness related Posts
+
+        public DbSet<CommunityPostComments> CommunityPostComments { get; set; } // Comments for fitness posts
+
+        public DbSet<CommunityPostLike> CommunityPostLikes { get; set; } // Comments for fitness posts
     }
 }

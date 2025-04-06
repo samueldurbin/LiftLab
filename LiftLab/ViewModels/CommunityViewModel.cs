@@ -41,7 +41,7 @@ namespace LiftLab.ViewModels
 
             GetFitnessPostsCommand = new Command(async () => await GetsPosts());
 
-            CreateCommentCommand = new Command<FitnessPost>(async (post) => await AddComment(post)); // assigns the function to a on vlick button in the ui
+            //CreateCommentCommand = new Command<FitnessPost>(async (post) => await AddComment(post)); // assigns the function to a on vlick button in the ui
         
             NavigationCommand = new Command(async () => // add button in the ui navigates to create a post
             {
@@ -89,29 +89,29 @@ namespace LiftLab.ViewModels
             }
 
         }
-        private async Task AddComment(FitnessPost post) // creates a comment on a post
-        {
-            try
-            {
-                string username = Preferences.Get("Username", "Unknown"); // gets user preferences so the the comments can be linked to a user
+        //private async Task AddComment(FitnessPost post) // creates a comment on a post
+        //{
+        //    try
+        //    {
+        //        string username = Preferences.Get("Username", "Unknown"); // gets user preferences so the the comments can be linked to a user
 
-                bool result = await _fitnessPostService.CreateComment(post.FitnessPostId, username, Comment); // calls the method from the service to send to api with the inputs from the user
+        //        bool result = await _fitnessPostService.CreateComment(post.FitnessPostId, username, Comment); // calls the method from the service to send to api with the inputs from the user
 
-                if (result) // checks if the comment was added successfully
-                {
-                    await GetsPosts(); // at the moment just focusing on recieving the comments as in other social media apps a message isnt granted to show its been added
-                    //await Application.Current.MainPage.DisplayAlert("Success!", "Your comment was added!", "OK");
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add new comment.", "OK"); // exception message if comment was not added
-                }
-            }
-            catch (Exception ex) // exception
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK");
-            }
-        }
+        //        if (result) // checks if the comment was added successfully
+        //        {
+        //            await GetsPosts(); // at the moment just focusing on recieving the comments as in other social media apps a message isnt granted to show its been added
+        //            //await Application.Current.MainPage.DisplayAlert("Success!", "Your comment was added!", "OK");
+        //        }
+        //        else
+        //        {
+        //            await Application.Current.MainPage.DisplayAlert("Error!", "Failed to add new comment.", "OK"); // exception message if comment was not added
+        //        }
+        //    }
+        //    catch (Exception ex) // exception
+        //    {
+        //        await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK");
+        //    }
+        //}
 
         private async Task LikePost(FitnessPost post)
         {
@@ -125,7 +125,7 @@ namespace LiftLab.ViewModels
                 {
                     await GetsPosts(); // this forces a refresh of getting posts to see if the posts were liked correctly
                 }
-                // no exception message as users dont need to be informed if theyve already liked a post (the colour will change if so)
+               // this forces a refresh of getting posts to see if the posts were liked correctly
             }
             catch (Exception ex) // exception
             {

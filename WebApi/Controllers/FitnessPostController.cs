@@ -40,19 +40,19 @@ namespace WebApi.Controllers
 
         // -----------------------------Comments for Fitness Post Section ---------------------------------------------------------------------
 
-        [HttpPost("addcomment")] // endpoint for http post to add a comment
-        public async Task<IActionResult> AddComment([FromBody] AddNewCommentDTO request) // this has changed to a dto post request 
-        {
-            // this has been changed to a dto in order to reduce the request body as before it had the entire fitnesspost object
-            var newComment = await _fitnessPostService.AddComment(new FitnessPostComments // dto into model to match table in database
-            {
-                FitnessPostId = request.FitnessPostId, // dto to model
-                Username = request.Username,
-                Comment = request.Comment
-            });
+        //[HttpPost("addcomment")] // endpoint for http post to add a comment
+        //public async Task<IActionResult> AddComment([FromBody] AddNewCommentDTOF request) // this has changed to a dto post request 
+        //{
+        //    // this has been changed to a dto in order to reduce the request body as before it had the entire fitnesspost object
+        //    var newComment = await _fitnessPostService.AddComment(new FitnessPostComments // dto into model to match table in database
+        //    {
+        //        FitnessPostId = request.FitnessPostId, // dto to model
+        //        Username = request.Username,
+        //        Comment = request.Comment
+        //    });
 
-            return Ok(newComment); // returns http 200 ok and newly created comment
-        }
+        //    return Ok(newComment); // returns http 200 ok and newly created comment
+        //}
 
         [HttpGet("comments/{fitnessPostId}")] // endpoint for comments and related postid
         public async Task<IActionResult> GetAllComments(int fitnessPostId) // method to get all comments

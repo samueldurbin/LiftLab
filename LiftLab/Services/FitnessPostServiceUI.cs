@@ -67,20 +67,20 @@ namespace LiftLab.Services
             throw new Exception("Failed to get workout plans, please try again.");
         }
 
-        // Comments
-        public async Task<bool> CreateComment(int postId, string username, string comment) 
-        {
-            var commentDto = new AddNewCommentDTO // a dto to match the api request
-            {
-                FitnessPostId = postId, // the fitnesspost that the comment is being added on
-                Username = username, // the user who is adding the comment
-                Comment = comment // the comment
-            };
+        //// Comments
+        //public async Task<bool> CreateComment(int postId, string username, string comment) 
+        //{
+        //    var commentDto = new AddNewCommentDTOF // a dto to match the api request
+        //    {
+        //        FitnessPostId = postId, // the fitnesspost that the comment is being added on
+        //        Username = username, // the user who is adding the comment
+        //        Comment = comment // the comment
+        //    };
 
-            var response = await _httpClient.PostAsJsonAsync("FitnessPost/addcomment", commentDto); // http post request to add comment to fitnesspost
+        //    var response = await _httpClient.PostAsJsonAsync("FitnessPost/addcomment", commentDto); // http post request to add comment to fitnesspost
 
-            return response.IsSuccessStatusCode;
-        }
+        //    return response.IsSuccessStatusCode;
+        //}
 
         public async Task<List<FitnessPostComments>> GetCommentsByPost(int postId)
         {
