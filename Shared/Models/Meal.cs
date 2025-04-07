@@ -14,8 +14,7 @@ namespace Shared.Models
         [Key]
         public int MealId { get; set; }
 
-        [Required]
-        public int MealPlanId { get; set; } // foreign key to mealplan table
+        public int? MealPlanId { get; set; } // foreign key to mealplan table
          
         [Required]
         public string MealName { get; set; } // name of the meal
@@ -27,6 +26,8 @@ namespace Shared.Models
 
         [Required]
         public string Recipe { get; set; } // essentially the description box
+
+        public int? UserId { get; set; }
 
         [ForeignKey("MealPlanId")] // foreign key reference
         [JsonIgnore] // prevents model binding errors

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shared.Models;
 using WebApi.Services;
 
@@ -56,6 +57,27 @@ namespace WebApi.Controllers
             {
                 return BadRequest(new { Message = ex.Message });
             }
+        }
+
+        [HttpPost("createmeal")]
+        public async Task<IActionResult> CreateMeals([FromBody] Meal meal)
+        {
+            try
+            {
+                var createdMeal = await _mealPlansService.CreateMeal(meal); // method from the service to create a meal
+                return Ok(new { Message = "Meal has been created successfully", MealId = createdMeal.MealId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Failed to create meal", Error = ex.Message });
+            }
+        }
+
+        [HttpGet("meals/{userId}")] // endpoint that requires a userid so that it gets the associated meals with that user
+        public async Task<IActionResult> GetMeals(int userId)
+        {
+            var meals = await _mealPlansService.GetMealsByUser(userId); // calls method from service to do a GET request
+            return Ok(meals);
         }
     }
 }

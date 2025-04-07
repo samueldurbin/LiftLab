@@ -53,5 +53,32 @@ namespace WebApi.Services
                 throw new Exception("CreateMealPlan has failed: " + ex.InnerException?.Message, ex); // postman and swaggerui debug testing
             }
         }
+
+        public async Task<Meal> CreateMeal(Meal meal)
+        {
+            try
+            {
+                if (meal.MealPlanId == null && meal.UserId == null)
+                {
+                    throw new Exception("UserId is required for creating meals.");
+                }
+
+                _dbContext.Meals.Add(meal);
+                await _dbContext.SaveChangesAsync();
+
+                return meal;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Creating a Meal failed: " + ex.InnerException?.Message, ex);
+            }
+        }
+
+        public async Task<IEnumerable<Meal>> GetMealsByUser(int userId)
+        {
+            return await _dbContext.Meals
+                .Where(m => m.MealPlanId == null && m.UserId == userId)
+                .ToListAsync();
+        }
     }
 }
