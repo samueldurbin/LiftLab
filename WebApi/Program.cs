@@ -10,12 +10,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IFitnessPostService, FitnessPostService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<IWorkoutPlansService, WorkoutPlansService>();
-builder.Services.AddScoped<INutritionPostService, NutritionPostService>();
+builder.Services.AddScoped<IMealPlansService, MealPlansService>();
 builder.Services.AddScoped<ICommunityPostService, CommunityPostService>();
 builder.Services.AddScoped<IFriendService, FriendService>();
+
 
 // Add controllers (API).
 builder.Services.AddControllers();

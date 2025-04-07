@@ -17,26 +17,7 @@ namespace WebApi.Controllers
             _nutritionPostService = nutritionPostService;
         }
 
-        [HttpPost("createnutritionpost")]  // api endpoint to create nutrition post
-        public async Task<IActionResult> CreatePost([FromBody] NutritionPost request) // json body in the api request
-        {
-            var newPost = await _nutritionPostService.CreatePosts(request); // creates a new post
 
-            if (newPost == null) // checks if posts does not exist, error with request
-            {
-                return BadRequest("Error when creating new post");  // error exception message
-            }
-
-            return Ok(new { Message = "Your post has been created successfully!", Id = newPost.NutritionPostId }); // success message
-        }
-
-        [HttpGet("getallnutritionposts")] // api endpoint which is referenced in the front end
-        public async Task<IActionResult> GetAllPosts() // gets all nutritionposts
-        {
-            var posts = await _nutritionPostService.GetPosts(); // calls method in services
-            return Ok(posts);
-
-        }
         
         // Comments for Nutrition Posts -----------------------------------------------------------------------------------------------
 

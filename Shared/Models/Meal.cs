@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+
+namespace Shared.Models
+{
+    public class Meal
+    {
+        [Key]
+        public int MealId { get; set; }
+
+        [Required]
+        public int MealPlanId { get; set; } // foreign key to mealplan table
+         
+        [Required]
+        public string MealName { get; set; } // name of the meal
+
+        [Required]
+        public string Type { get; set; } // type of meal, so users will have the option to select breakfast, lunch or dinner etc
+
+        public int? Calories { get; set; } // optional to put how many calories
+
+        [Required]
+        public string Recipe { get; set; } // essentially the description box
+
+        [ForeignKey("MealPlanId")] // foreign key reference
+        [JsonIgnore] // prevents model binding errors
+        public MealPlan? MealPlan { get; set; }
+    }
+}

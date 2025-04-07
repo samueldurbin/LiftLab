@@ -10,6 +10,8 @@
     <Compile Remove="Models\FitnessPost.cs" />
     <Compile Remove="Models\FitnessPostComments.cs" />
     <Compile Remove="Models\FitnessPostLike.cs" />
+    <Compile Remove="Models\NutritionPost.cs" />
+    <Compile Remove="Models\NutritionPostComments.cs" />
   </ItemGroup>
 
 </Project>
