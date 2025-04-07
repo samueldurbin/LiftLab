@@ -75,6 +75,30 @@ namespace WebApi.Controllers
             }
         }
 
+        [HttpPost("addworkouttoplan/{workoutPlanId}/{workoutId}")] // api endpoint for adding workoutid input into workoutplan
+        public async Task<IActionResult> AddWorkoutToPlan(int workoutPlanId, int workoutId)
+        {
+            var result = await _workoutPlansService.AddWorkoutToPlan(workoutPlanId, workoutId); // calls method from service
+            if (!result)
+            {
+                return BadRequest("Could not add new workout! Please try again"); // if duplicated or does not ecist through error
+            }
+
+            return Ok("Workout has been added to the workout plan.");
+        }
+
+        [HttpDelete("removeworkoutfromplan/{workoutPlanId}/{workoutId}")] // api endpoint for removing workoutid input from workoutplan
+        public async Task<IActionResult> RemoveWorkoutFromPlan(int workoutPlanId, int workoutId)
+        {
+            var result = await _workoutPlansService.DeleteWorkoutFromPlan(workoutPlanId, workoutId); // calls method from service
+            if (!result)
+            {
+                return NotFound("Workout has not found in workout plan."); // if workout does not ecist through error
+            }
+
+            return Ok("Workout has been removed from the workout plan.");
+        }
+
 
     }
 }

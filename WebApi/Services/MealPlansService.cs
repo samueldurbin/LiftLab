@@ -14,7 +14,10 @@ namespace WebApi.Services
 
         public async Task<IEnumerable<MealPlan>> GetAllMealPlans()
         {
-            return await _dbContext.MealPlans.ToListAsync(); // gets all meal plans from the database
+            return await _dbContext.MealPlans
+                .Include(p => p.Meals) //  includes the associated meals
+                .ToListAsync();
+
         }
 
         public async Task<IEnumerable<MealPlan>> GetMealPlansByUser(int userId)
@@ -79,6 +82,21 @@ namespace WebApi.Services
             return await _dbContext.Meals
                 .Where(m => m.MealPlanId == null && m.UserId == userId)
                 .ToListAsync();
+        }
+
+        public async Task<Meal> AddMealToExistingMealPlan(Meal meal)
+        {
+            var existingPlan = await _dbContext.MealPlans.FindAsync(meal.MealPlanId);
+
+            if (existingPlan == null)
+            {
+                throw new Exception("Meal plan has not been found.");
+            }
+
+            _dbContext.Meals.Add(meal);
+            await _dbContext.SaveChangesAsync();
+
+            return meal;
         }
     }
 }

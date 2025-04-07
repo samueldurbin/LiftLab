@@ -10,6 +10,7 @@ namespace WebApi.Services
         Task<MealPlan> CreateMealPlan(MealPlan plan, List<Meal> meals);
         Task<Meal> CreateMeal(Meal meal);
         Task<IEnumerable<Meal>> GetMealsByUser(int userId);
+        Task<Meal> AddMealToExistingMealPlan(Meal meal);
 
     }
 }

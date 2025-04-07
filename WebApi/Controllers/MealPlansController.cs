@@ -79,5 +79,19 @@ namespace WebApi.Controllers
             var meals = await _mealPlansService.GetMealsByUser(userId); // calls method from service to do a GET request
             return Ok(meals);
         }
+
+        [HttpPost("addmealtoexistingmealplan")]
+        public async Task<IActionResult> AddMealToExistingPlan([FromBody] Meal meal)
+        {
+            try
+            {
+                var addedMeal = await _mealPlansService.AddMealToExistingMealPlan(meal);
+                return Ok(new { Message = "Meal added to plan", MealId = addedMeal.MealId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Failed to add meal", Error = ex.Message });
+            }
+        }
     }
 }
