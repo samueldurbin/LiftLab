@@ -14,7 +14,6 @@ namespace Shared.Models
         public int WorkoutPlanId { get; set; }
         public string WorkoutPlanName { get; set; }
         public int UserId { get; set; }
-
         public virtual ICollection<WorkoutPlanData> WorkoutPlansData { get; set; } = new List<WorkoutPlanData>();
 
     }

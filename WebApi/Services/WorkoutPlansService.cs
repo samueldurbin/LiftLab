@@ -113,29 +113,26 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<bool> AddWorkoutToPlan(int workoutPlanId, int workoutId)
+        public async Task<bool> AddWorkoutToPlan(int workoutPlanId, int workoutId, int reps, int sets)
         {
-            var workoutPlanExists = await _dbContext.WorkoutPlans.AnyAsync(p => p.WorkoutPlanId == workoutPlanId); // this checks if the workoutplan exists
-
+            var workoutPlanExists = await _dbContext.WorkoutPlans.AnyAsync(p => p.WorkoutPlanId == workoutPlanId);  // this checks if the workoutplan exists
             var workoutExists = await _dbContext.Workouts.AnyAsync(w => w.WorkoutId == workoutId); // this checks if the workout exists
 
             if (!workoutPlanExists || !workoutExists) // checks if both the workoutplan and the workout that is going to be added exists first to prevent errors
-            {
                 return false;
-            }
 
             var alreadyAdded = await _dbContext.WorkoutPlansData
                 .AnyAsync(w => w.WorkoutPlanId == workoutPlanId && w.WorkoutId == workoutId); // this checks the workoutplansdata table to see if the workout already exists witin the plan to prevent duplicate workouts
 
             if (alreadyAdded) // this prevents duplicates
-            {
                 return false;
-            }
 
             _dbContext.WorkoutPlansData.Add(new WorkoutPlanData // this essentially adds the new workoutid to the plan
             {
                 WorkoutPlanId = workoutPlanId,
-                WorkoutId = workoutId
+                WorkoutId = workoutId,
+                Reps = reps,
+                Sets = sets
             });
 
             await _dbContext.SaveChangesAsync();

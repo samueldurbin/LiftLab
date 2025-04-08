@@ -14,6 +14,8 @@ namespace Shared.Models
         public int WorkoutPlanDataId { get; set; }
         public int WorkoutPlanId { get; set; }
         public int WorkoutId { get; set; }
+        public int? Reps { get; set; }
+        public int? Sets { get; set; }
 
         [ForeignKey("WorkoutPlanId")] // foreign key to workout plans table
         public WorkoutPlans WorkoutPlan { get; set; }

@@ -9,8 +9,8 @@ namespace WebApi.Services
         Task<IEnumerable<WorkoutPlans>> GetPlansByUser(int userId); // method to get plans by userid
         Task<List<int>> GetPlanWorkoutsByPlan(int planId); // this gets the workout ids in a list by planid
         Task<WorkoutPlans> AddExternalUserWorkoutPlan(int planId, int userId);
+        Task<bool> AddWorkoutToPlan(int workoutPlanId, int workoutId, int reps, int sets);
 
-        Task<bool> AddWorkoutToPlan(int workoutPlanId, int workoutId);
         Task<bool> DeleteWorkoutFromPlan(int workoutPlanId, int workoutId);
 
     }

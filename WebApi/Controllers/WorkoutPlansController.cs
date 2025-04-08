@@ -75,25 +75,25 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost("addworkouttoplan/{workoutPlanId}/{workoutId}")] // api endpoint for adding workoutid input into workoutplan
-        public async Task<IActionResult> AddWorkoutToPlan(int workoutPlanId, int workoutId)
+        [HttpPost("addworkouttoplan/{planId}")]
+        public async Task<IActionResult> AddWorkoutToPlan(int planId, [FromBody] AddWorkoutToPlanDTO dto)  // api endpoint for adding workoutid input into workoutplan
         {
-            var result = await _workoutPlansService.AddWorkoutToPlan(workoutPlanId, workoutId); // calls method from service
-            if (!result)
+            var addedWorkout = await _workoutPlansService.AddWorkoutToPlan(planId, dto.WorkoutId, dto.Reps, dto.Sets); // calls method from service
+            if (!addedWorkout)
             {
-                return BadRequest("Could not add new workout! Please try again"); // if duplicated or does not ecist through error
+                return BadRequest("Workout already added or not found."); // if duplicated or does not ecist through error but this is mainly for testing
             }
 
-            return Ok("Workout has been added to the workout plan.");
+            return Ok("Workout added with reps and sets.");
         }
 
         [HttpDelete("removeworkoutfromplan/{workoutPlanId}/{workoutId}")] // api endpoint for removing workoutid input from workoutplan
         public async Task<IActionResult> RemoveWorkoutFromPlan(int workoutPlanId, int workoutId)
         {
-            var result = await _workoutPlansService.DeleteWorkoutFromPlan(workoutPlanId, workoutId); // calls method from service
-            if (!result)
+            var deletedWorkout = await _workoutPlansService.DeleteWorkoutFromPlan(workoutPlanId, workoutId); // calls method from service
+            if (!deletedWorkout)
             {
-                return NotFound("Workout has not found in workout plan."); // if workout does not ecist through error
+                return NotFound("Workout has not found in the workout plan."); // if workout does not ecist through error
             }
 
             return Ok("Workout has been removed from the workout plan.");
