@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.Models;
+using System.Numerics;
 
 namespace WebApi.Services
 {
@@ -15,45 +16,43 @@ namespace WebApi.Services
         public async Task<IEnumerable<MealPlan>> GetAllMealPlans()
         {
             return await _dbContext.MealPlans
-                .Include(p => p.Meals) //  includes the associated meals
+                .Include(p => p.Meals) // include meals associated with the plan
                 .ToListAsync();
-
         }
 
         public async Task<IEnumerable<MealPlan>> GetMealPlansByUser(int userId)
         {
-            return await _dbContext.MealPlans
-                .Where(mp => mp.UserId == userId) // gets all meal plans created by a userid
+            return await _dbContext.MealPlans // get meal plans by userid
+                .Where(mp => mp.UserId == userId)
                 .ToListAsync();
         }
 
         public async Task<List<Meal>> GetMealsByPlanId(int planId)
         {
             return await _dbContext.Meals
-                .Where(m => m.MealPlanId == planId) // gest meals associated with a mealplan
+                .Where(m => m.MealPlanId == planId) // get the associated meals within a planid
                 .ToListAsync();
         }
 
         public async Task<MealPlan> CreateMealPlan(MealPlan plan, List<Meal> meals)
         {
-            try // try catch
+            try
             {
-                _dbContext.MealPlans.Add(plan); // adds plan to the database
-                await _dbContext.SaveChangesAsync(); // this creates the planid which is needed for the meals to be added too
-
-                foreach (var meal in meals)
-                {
-                    meal.MealPlanId = plan.MealPlanId; // adds mealplanid to a meal
-                    _dbContext.Meals.Add(meal); // add meal to database
-                }
-
+                _dbContext.MealPlans.Add(plan);  // add the mealplan
                 await _dbContext.SaveChangesAsync();
 
+                foreach (var meal in meals) // add the meals to the mealplan
+                {
+                    meal.MealPlanId = plan.MealPlanId; 
+                    _dbContext.Meals.Add(meal);
+                }
+
+                await _dbContext.SaveChangesAsync(); 
                 return plan;
             }
-            catch (Exception ex) // catch
+            catch (Exception ex)
             {
-                throw new Exception("CreateMealPlan has failed: " + ex.InnerException?.Message, ex); // postman and swaggerui debug testing
+                throw new Exception("CreateMealPlan has failed: " + ex.InnerException?.Message, ex);
             }
         }
 
@@ -73,7 +72,7 @@ namespace WebApi.Services
             }
             catch (Exception ex)
             {
-                throw new Exception("Creating a Meal failed: " + ex.InnerException?.Message, ex);
+                throw new Exception("Creating a Meal has failed: " + ex.InnerException?.Message, ex);
             }
         }
 
@@ -86,7 +85,7 @@ namespace WebApi.Services
 
         public async Task<Meal> AddMealToExistingMealPlan(Meal meal)
         {
-            var existingPlan = await _dbContext.MealPlans.FindAsync(meal.MealPlanId);
+            var existingPlan = await _dbContext.MealPlans.FindAsync(meal.MealPlanId); // check if mealplan exists
 
             if (existingPlan == null)
             {

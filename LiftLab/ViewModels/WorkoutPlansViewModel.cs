@@ -95,7 +95,7 @@ namespace LiftLab.ViewModels
                 {
                     WorkoutPlanName = WorkoutPlanName, // the workoutplan name that has been created by the user input
                     UserId = userId, // userid from preferences
-                    WorkoutIds = selectedWorkouts // all of the workouts that have been selected by the user
+                    //WorkoutIds = selectedWorkouts // all of the workouts that have been selected by the user
                 });
 
                 if (newPlan != null)

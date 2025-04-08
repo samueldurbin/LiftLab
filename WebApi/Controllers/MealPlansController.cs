@@ -11,38 +11,38 @@ namespace WebApi.Controllers
     {
         private readonly IMealPlansService _mealPlansService;
 
-        public MealPlansController(IMealPlansService mealPlansService)
+        public MealPlansController(IMealPlansService mealPlansService) // dependency injection
         {
             _mealPlansService = mealPlansService;
         }
 
-        [HttpGet("getallmealplans")]
+        [HttpGet("getallmealplans")] // api endpoint foe getting all meal plans created by all users. Mainly for testing
         public async Task<IActionResult> GetAllMealPlans()
         {
-            var plans = await _mealPlansService.GetAllMealPlans();
-            return Ok(plans);
+            var plans = await _mealPlansService.GetAllMealPlans(); // Ggets all meal plans from the service method
+            return Ok(plans); // returns 200 message if success
         }
 
-        [HttpGet("getmealplansbyuser/{userId}")]
+        [HttpGet("getmealplansbyuser/{userId}")] // api endpoint for geting meal plans created by the input userId
         public async Task<IActionResult> GetMealPlansByUser(int userId)
         {
-            var plans = await _mealPlansService.GetMealPlansByUser(userId);
+            var plans = await _mealPlansService.GetMealPlansByUser(userId); // this gets meal plans by input userid
             return Ok(plans);
         }
 
-        [HttpGet("getmealsbyplan/{planId}")]
+        [HttpGet("getmealsbyplan/{planId}")] // uses planid input
         public async Task<IActionResult> GetMealsByPlanId(int planId)
         {
-            var meals = await _mealPlansService.GetMealsByPlanId(planId);
+            var meals = await _mealPlansService.GetMealsByPlanId(planId); // this method in the service gets all the meals that
             return Ok(meals);
         }
 
         [HttpPost("createmealplan")]
-        public async Task<IActionResult> CreateMealPlan([FromBody] CreateMealPlanDTO request)
+        public async Task<IActionResult> CreateMealPlan([FromBody] CreateMealPlanDTO request) // creates meal plan with the DTO
         {
             try
             {
-                var newPlan = await _mealPlansService.CreateMealPlan( // create a new meal plan and save the meals
+                var newPlan = await _mealPlansService.CreateMealPlan(
                     new MealPlan
                     {
                         MealPlanName = request.MealPlanName,
@@ -60,11 +60,11 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("createmeal")]
-        public async Task<IActionResult> CreateMeals([FromBody] Meal meal)
+        public async Task<IActionResult> CreateMeals([FromBody] Meal meal) // this creates a single meal, outside of a plan and can be included into plan later
         {
             try
             {
-                var createdMeal = await _mealPlansService.CreateMeal(meal); // method from the service to create a meal
+                var createdMeal = await _mealPlansService.CreateMeal(meal);
                 return Ok(new { Message = "Meal has been created successfully", MealId = createdMeal.MealId });
             }
             catch (Exception ex)
@@ -73,10 +73,10 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpGet("meals/{userId}")] // endpoint that requires a userid so that it gets the associated meals with that user
+        [HttpGet("meals/{userId}")]
         public async Task<IActionResult> GetMeals(int userId)
         {
-            var meals = await _mealPlansService.GetMealsByUser(userId); // calls method from service to do a GET request
+            var meals = await _mealPlansService.GetMealsByUser(userId); // gets independent meals outside of meal plans
             return Ok(meals);
         }
 
@@ -85,7 +85,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                var addedMeal = await _mealPlansService.AddMealToExistingMealPlan(meal);
+                var addedMeal = await _mealPlansService.AddMealToExistingMealPlan(meal); // adds an independent meal to a meal plan
                 return Ok(new { Message = "Meal added to plan", MealId = addedMeal.MealId });
             }
             catch (Exception ex)

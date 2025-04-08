@@ -18,8 +18,8 @@
             <ShellContent Title="FitnessPage" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:FitnessPage}" Route="FitnessPage" />
         </Tab>
 
-        <Tab Title="New Post">
-            <ShellContent Title="CreatePost" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:CreatePost}" Route="CreatePost" />
+        <Tab Title="Nutrition">
+            <ShellContent Title="NutritionPage" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:NutritionPage}" Route="NutritionPage" />
         </Tab>
 
         <Tab Title="Profile">

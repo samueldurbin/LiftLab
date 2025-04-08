@@ -58,12 +58,16 @@
 
 	<ItemGroup>
 	  <Compile Remove="Services\FitnessPostServiceUI.cs" />
+	  <Compile Remove="Services\NutritionPostServiceUI.cs" />
 	  <Compile Remove="ViewModels\CommunityViewModel.cs" />
+	  <Compile Remove="ViewModels\CreateNutritionPostViewModel.cs" />
 	  <Compile Remove="Views\CommunityPage.xaml.cs" />
+	  <Compile Remove="Views\CreateNutritionPost.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Remove="Views\CommunityPage.xaml" />
+	  <MauiXaml Remove="Views\CreateNutritionPost.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -91,9 +95,6 @@
 	  <MauiXaml Update="Views\CreateAccount.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CreateNutritionPost.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\CreatePost.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -110,6 +111,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\NutritionCommunityPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\NutritionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfilePage.xaml">
