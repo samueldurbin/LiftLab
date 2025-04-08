@@ -33,40 +33,32 @@ namespace WebApi.Services
                 .ToListAsync(); // into a list
         }
 
-        public async Task<WorkoutPlans> CreatePlan(WorkoutPlans plan, List<int> workoutIds) // creates plan from plan name and all the select workouts
+        public async Task<WorkoutPlans> CreatePlan(WorkoutPlans plan, List<WorkoutInPlanDTO> workouts)
         {
+            _dbContext.WorkoutPlans.Add(plan); // this adds the workout plan to the database
+            await _dbContext.SaveChangesAsync();
 
-            try
+            foreach (var workout in workouts) // this loops through each workout beimg added
             {
-                _dbContext.WorkoutPlans.Add(plan); // add the wokrout plan before the data
-                await _dbContext.SaveChangesAsync();
+                var workoutExists = await _dbContext.Workouts.AnyAsync(w => w.WorkoutId == workout.WorkoutId); // checks if the workout actually exists
 
-                foreach (var workoutId in workoutIds)
+                if (!workoutExists)
                 {
-                    var workout = await _dbContext.Workouts.AnyAsync(w => w.WorkoutId == workoutId); // checks if workout exists
-
-                    if (!workout) 
-                    {
-                        throw new Exception("Error in creating a WorkoutPlan"); // error message
-                    }
-
-                    _dbContext.WorkoutPlansData.Add(new WorkoutPlanData // adds data and associates workouts with a plan
-                    {
-                        WorkoutPlanId = plan.WorkoutPlanId, // inputs
-                        WorkoutId = workoutId
-                    });
+                    throw new Exception($"Workout with Id {workout.WorkoutId} has nt been found!");
                 }
 
-                await _dbContext.SaveChangesAsync(); // saves the data
+                _dbContext.WorkoutPlansData.Add(new WorkoutPlanData // this adds the workouts, reps and sets to the workoutplan that was just created
+                {
+                    WorkoutPlanId = plan.WorkoutPlanId,
+                    WorkoutId = workout.WorkoutId,
+                    Reps = workout.Reps,
+                    Sets = workout.Sets
+                });
+            }
 
-                return plan;
-            }
-            catch (Exception)
-            {
-                throw; // just a basic exception for now to see if it works
-            }
+            await _dbContext.SaveChangesAsync();
+            return plan;
         }
-
         public async Task<WorkoutPlans> AddExternalUserWorkoutPlan(int planId, int userId)
         {
             try

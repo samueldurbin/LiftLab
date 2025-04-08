@@ -37,8 +37,7 @@ namespace WebApi.Controllers
             return Ok(plans);
         }
 
-
-        [HttpPost("createplan")] // create plan api endpoint request
+        [HttpPost("createplan")]
         public async Task<IActionResult> CreatePlanWithWorkouts([FromBody] CreateWorkoutPlan request) // creates workout plan from the inserted body
         {
             try
@@ -49,7 +48,7 @@ namespace WebApi.Controllers
                         WorkoutPlanName = request.WorkoutPlanName, // workoutplan name 
                         UserId = request.UserId // in the backend this needs to be manually inserted but in the front end the preferences does this
                     },
-                    request.WorkoutIds
+                    request.Workouts
                 );
 
                 return Ok(new { Message = "Your Workout Plan has been created!", PlanId = newPlan.WorkoutPlanId });
