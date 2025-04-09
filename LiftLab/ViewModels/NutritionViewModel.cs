@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using LiftLab.Services;
+using LiftLab.Views;
 
 namespace LiftLab.ViewModels
 {
@@ -18,12 +19,28 @@ namespace LiftLab.ViewModels
         public ObservableCollection<MealPlan> UserMealPlans { get; set; } = new();
 
         public ICommand LoadUserMealsCommand { get; }
+        public ICommand OpenMealCommand { get; }
 
         public NutritionViewModel()
         {
             _nutritionService = new NutritionServiceUI();
 
-            LoadUserMealsCommand = new Command(async () => await LoadData());
+            LoadUserMealsCommand = new Command(async () => await LoadData()); // navigation to page
+
+            OpenMealCommand = new Command<Meal>(async (selectedMeal) => await NavigateToMealDetails(selectedMeal)); // navigation to page
+        }
+
+        private async Task NavigateToMealDetails(Meal meal)
+        {
+            if (meal == null) // checks if the meal actually exists
+            {
+                return;
+            }
+            
+            await Shell.Current.GoToAsync(nameof(ViewMealsPage), true, new Dictionary<string, object>  // shell navigation to viewmealspage
+            {
+               { "Meal", meal } // passes the selected meal parameter
+            });
         }
 
         private async Task LoadData()
@@ -34,7 +51,7 @@ namespace LiftLab.ViewModels
 
             try
             {
-                int userId = Preferences.Get("UserId", 0);
+                int userId = Preferences.Get("UserId", 0); // user preferences
 
                 var meals = await _nutritionService.GetMealsByUserId(userId);
                 var plans = await _nutritionService.GetMealPlansByUser(userId);
@@ -42,12 +59,12 @@ namespace LiftLab.ViewModels
                 UserMeals.Clear();
                 UserMealPlans.Clear();
 
-                foreach (var meal in meals)
+                foreach (var meal in meals) // display all the meals
                 {
                     UserMeals.Add(meal);
                 }
 
-                foreach (var plan in plans)
+                foreach (var plan in plans) // display all the plans
                 {
                     UserMealPlans.Add(plan);
                 }
