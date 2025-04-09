@@ -128,6 +128,9 @@
 	  <MauiXaml Update="Views\ViewAllWorkoutsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewMealPlanPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewMealsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

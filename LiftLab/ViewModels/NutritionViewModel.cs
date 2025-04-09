@@ -19,7 +19,8 @@ namespace LiftLab.ViewModels
         public ObservableCollection<MealPlan> UserMealPlans { get; set; } = new();
 
         public ICommand LoadUserMealsCommand { get; }
-        public ICommand OpenMealCommand { get; }
+        public ICommand NavigateToMealDetailsCommand { get; }
+        public ICommand NavigateToMealPlanDetailsCommand { get; }
 
         public NutritionViewModel()
         {
@@ -27,7 +28,8 @@ namespace LiftLab.ViewModels
 
             LoadUserMealsCommand = new Command(async () => await LoadData()); // navigation to page
 
-            OpenMealCommand = new Command<Meal>(async (selectedMeal) => await NavigateToMealDetails(selectedMeal)); // navigation to page
+            NavigateToMealDetailsCommand = new Command<Meal>(async (meal) => await NavigateToMealDetails(meal));
+            NavigateToMealPlanDetailsCommand = new Command<MealPlan>(async (plan) => await NavigateToMealPlanDetails(plan));
         }
 
         private async Task NavigateToMealDetails(Meal meal)
@@ -41,6 +43,17 @@ namespace LiftLab.ViewModels
             {
                { "Meal", meal } // passes the selected meal parameter
             });
+        }
+
+
+        private async Task NavigateToMealPlanDetails(MealPlan plan)
+        {
+            if (plan == null) return;
+
+            await Shell.Current.GoToAsync(nameof(ViewMealPlanPage), true, new Dictionary<string, object>
+            {
+              { "MealPlan", plan }
+             });
         }
 
         private async Task LoadData()

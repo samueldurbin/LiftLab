@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.ViewMealPlanPage"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             Title="ViewMealPlanPage">
+
+    <ContentPage.BindingContext>
+        <vm:MealPlanViewModel />
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="{Binding MealPlanName}" FontSize="24" FontAttributes="Bold" />
+            <Label Text="{Binding CreatedAt, StringFormat='Created on: {0:MMMM dd, yyyy}'}" FontSize="14" TextColor="Gray" />
+
+            <Label Text="Meals in this plan:" FontSize="18" FontAttributes="Bold" Margin="0,20,0,10" />
+
+            <CollectionView ItemsSource="{Binding Meals}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="LightGray" Padding="10" CornerRadius="8">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding MealName}" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding Type}" FontSize="14" TextColor="Gray" />
+                                <Label Text="{Binding Calories, StringFormat='Calories: {0}'}" FontSize="14" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
