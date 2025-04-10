@@ -106,6 +106,19 @@ namespace LiftLab.Services
             var response = await _httpClient.PostAsync($"WorkoutPlans/adduserworkoutplan/{planId}/{userId}", null); // sends a http post request with the ids
             return response.IsSuccessStatusCode;  // returns true if success
         }
+
+        // Gets userid for profile viewing
+        public async Task<Users> GetUserById(int userId)
+        {
+            var response = await _httpClient.GetAsync($"Users/getuserbyid/{userId}"); // aoi endpoint with the inserted userId
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<Users>();
+            }
+
+            return null;
+        }
     }
 
 }

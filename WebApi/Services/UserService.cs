@@ -46,7 +46,8 @@ namespace WebApi.Services
 
         public async Task<bool> DeleteUser(int userId)
         {
-            var user = await _dbContext.Users.FindAsync(userId); // finds the userid
+            var user = await _dbContext.Users
+                .FindAsync(userId); // finds the userid
 
             if (user == null) // checks if the user exists
             {
@@ -62,7 +63,8 @@ namespace WebApi.Services
 
         public async Task<Users?> UpdateUser(Users updatedUser) // updates the user
         {
-            var user = await _dbContext.Users.FindAsync(updatedUser.UserId); // searches the id
+            var user = await _dbContext.Users
+                .FindAsync(updatedUser.UserId); // searches the id
 
             if(user == null) // checks to see if user exists
             {
@@ -91,6 +93,12 @@ namespace WebApi.Services
 
             return user;
             
+        }
+
+        public async Task<Users> GetUserById(int userId)
+        {
+            return await _dbContext.Users // finds the userid from the users table
+                .FindAsync(userId);
         }
     }
 }

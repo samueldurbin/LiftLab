@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.PublicProfilePage"
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
+             Title="PublicProfilePage">
+
+    <Grid RowDefinitions="Auto, Auto, Auto" Padding="10">
+        <VerticalStackLayout Grid.Row="0" HorizontalOptions="Center" VerticalOptions="Center" Spacing="8">
+            <Frame WidthRequest="120" HeightRequest="120" CornerRadius="80" BackgroundColor="Red" HasShadow="True" HorizontalOptions="Center">
+                <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="56" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Frame>
+
+            <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="24" TextColor="Black" HorizontalOptions="Center"/>
+        </VerticalStackLayout>
+        <Label Grid.Row="1" Text="This is where the bio will go" FontSize="16" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" Margin="0,10,0,0"/>
+        
+        <Grid Grid.Row="2" ColumnDefinitions="*">
+            <VerticalStackLayout HorizontalOptions="Center">
+                <Label Text="Friends Count" FontAttributes="Bold" FontSize="18"/>
+                <Label Text="Friends" FontSize="14"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

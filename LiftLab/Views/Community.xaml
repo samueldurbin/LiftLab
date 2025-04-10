@@ -13,12 +13,12 @@
     <Grid RowDefinitions="Auto,*" Padding="10">
         <!-- Top Bar -->
         <Grid ColumnDefinitions="Auto,*,Auto" Padding="10">
-            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="28" TextColor="Red">
+            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="28" TextColor="blue">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NavigationCommand}" />
                 </Label.GestureRecognizers>
             </Label>
-            <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.PeopleGroup}" FontSize="28" TextColor="Red">
+            <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.PeopleGroup}" FontSize="28" TextColor="blue">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding NavigationCommand}" />
                 </Label.GestureRecognizers>
@@ -37,7 +37,11 @@
                             <!-- Username -->
                             <HorizontalStackLayout Spacing="10" Padding="10">
                                 <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.User}" FontSize="18" />
-                                <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" />
+                                <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=ViewUserProfileCommand}" CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
                             </HorizontalStackLayout>
 
                             <!-- Post Image -->

@@ -17,6 +17,7 @@ namespace LiftLab.ViewModels
 
         private string comment;
 
+        public ICommand ViewUserProfileCommand { get; }
         public ICommand GetCommunityPostsCommand { get; }  // gets and displays posts
         public ICommand NavigationCommand { get; }
         public ICommand CreateCommentCommand { get; }
@@ -52,8 +53,20 @@ namespace LiftLab.ViewModels
             LikePostCommand = new Command<CommunityPost>(async (post) => await LikePost(post));
 
             AddWorkoutPlanCommand = new Command<CommunityPost>(async (post) => await AddExternalWorkoutPlan(post));
+            ViewUserProfileCommand = new Command<CommunityPost>(async (post) => await ViewUserProfile(post));
+
+
+
         }
 
+        private async Task ViewUserProfile(CommunityPost post)
+        {
+            if (post == null || post.UserId <= 0)
+                return;
+
+            var profilePage = new PublicProfilePage(post.UserId); // pass userId into constructor
+            await Shell.Current.Navigation.PushAsync(profilePage); // push the page manually
+        }
         private async Task GetsPosts()
         {
             if (IsBusy) return; // prevents the retrieving of data fetching if its already in progress

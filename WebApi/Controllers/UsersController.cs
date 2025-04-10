@@ -67,7 +67,20 @@ namespace WebApi.Controllers
 
             if (user == null) // method to see if the required user to update exists
             {
-                return BadRequest("User not found" );
+                return BadRequest("User has not been found" );
+            }
+
+            return Ok(user);
+        }
+
+        [HttpGet("getuserbyid/{userId}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+            var user = await _userService.GetUserById(userid); // call service method
+
+            if (user == null) // checks if the user actually exists, but mainly for testing as the user wouldnt be in the UI if it didnt exist
+            {
+                return NotFound("User has not been found");
             }
 
             return Ok(user);
