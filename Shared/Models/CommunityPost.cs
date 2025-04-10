@@ -16,8 +16,6 @@ namespace Shared.Models
 
         public string Username { get; set; }
 
-        public string? ImageUrl { get; set; }
-
         public string? Caption { get; set; }
 
         public int CommentCount { get; set; }
@@ -27,6 +25,8 @@ namespace Shared.Models
         public int? WorkoutPlanId { get; set; } // optional workoutplan additon
 
         public int? MealPlanId { get; set; } // optional mealplan addition
+
+        public DateTime CreatedDate { get; set; }
 
         public List<CommunityPostComments> Comments { get; set; } = new();
     }

@@ -57,7 +57,7 @@ namespace LiftLab.ViewModels
                     .Where(u => !string.Equals(u.Username, currentUsername, StringComparison.OrdinalIgnoreCase))
                     .ToList();
 
-                ApplySearchFilter(); // shows the filtered users
+                SearchFilter(); // shows the filtered users
             }
             catch (Exception ex)
             {

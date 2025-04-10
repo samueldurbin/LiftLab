@@ -20,13 +20,12 @@ namespace LiftLab.Services
         }
 
         // Create Community Post
-        public async Task<CommunityPost> CreatePost(int userId, string username, string imageUrl, string caption, int? workoutPlanId)
+        public async Task<CommunityPost> CreatePost(int userId, string username, string caption, int? workoutPlanId)
         {
             var response = await _httpClient.PostAsJsonAsync("CommunityPosts/createcommunitypost", new CommunityPost // sends a http get request to the fitnessposts endpoint
             {
                 UserId = userId,
                 Username = username,
-                ImageUrl = imageUrl,
                 Caption = caption,
                 WorkoutPlanId = workoutPlanId
             });

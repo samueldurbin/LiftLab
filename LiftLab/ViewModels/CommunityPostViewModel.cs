@@ -63,18 +63,20 @@ namespace LiftLab.ViewModels
 
             ViewUserProfileCommand = new Command<CommunityPost>(async (post) => await ViewUserProfile(post));
 
-
-
         }
 
-        private async Task ViewUserProfile(CommunityPost post)
+        private async Task ViewUserProfile(CommunityPost post) // viewing user profiles
         {
             if (post == null || post.UserId <= 0)
+            {
                 return;
+            }
 
             var profilePage = new PublicProfilePage(post.UserId); // pass userId into constructor
-            await Shell.Current.Navigation.PushAsync(profilePage); // push the page manually
+
+            await Shell.Current.Navigation.PushAsync(profilePage); // page navigation
         }
+
         private async Task GetsPosts()
         {
             if (IsBusy) return; // prevents the retrieving of data fetching if its already in progress
@@ -85,9 +87,13 @@ namespace LiftLab.ViewModels
             {
                 var posts = await _communityService.GetAllCommunityPosts(); // fetches all of the posts
 
+                var sortedPosts = posts
+                    .OrderByDescending(p => p.CreatedDate) 
+                    .ToList();
+
                 CommunityPosts.Clear(); // this method updates the ui with the new posts, removing old data
 
-                foreach (var post in posts)
+                foreach (var post in sortedPosts)
                 {
                     var comments = await _communityService.GetCommentsByPost(post.CommunityPostId); // gets comments for each post
 

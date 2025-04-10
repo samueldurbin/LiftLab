@@ -83,7 +83,7 @@ namespace LiftLab.ViewModels
 
             int? planId = SelectedWorkoutPlan?.WorkoutPlanId; // this gets the workoutplan id that is selected by the user, but it can also be nullable
 
-            var newPost = await _communityService.CreatePost(userId, username, ImageUrl, Caption, planId); // sends the input data
+            var newPost = await _communityService.CreatePost(userId, username, Caption, planId); // sends the input data
 
             if (newPost != null) // checks if the data has been successfully sent or not
             {
