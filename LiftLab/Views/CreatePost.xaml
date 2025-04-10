@@ -10,25 +10,39 @@
     </ContentPage.BindingContext>
 
     <StackLayout Padding="30" Spacing="20">
-        <Entry Placeholder="Enter Image URL (optional)" Text="{Binding ImageUrl}" />
         <Editor Placeholder="Enter Caption" Text="{Binding Caption}"/>
-
-        <ListView ItemsSource="{Binding WorkoutPlans}" SelectionMode="Single" SelectedItem="{Binding SelectedWorkoutPlan, Mode=TwoWay}"> <!--List of plans/twoway allows the viewmodel to be updated with user choice-->
+        <ListView ItemsSource="{Binding WorkoutPlans}" SelectionMode="Single" SelectedItem="{Binding SelectedWorkoutPlan, Mode=TwoWay}">
+            <!--List of plans/twoway allows the viewmodel to be updated with user choice-->
             <!--Selects the workout-->
-            <ListView.ItemTemplate> <!--display-->
+            <ListView.ItemTemplate>
+                <!--display-->
                 <DataTemplate>
                     <ViewCell>
                         <!--single row-->
                         <StackLayout Padding="10">
-                            <Label Text="{Binding WorkoutPlanName}" FontSize="18"/> <!--Lists the workoutplan names-->
+                            <Label Text="{Binding WorkoutPlanName}" FontSize="18"/>
+                            <!--Lists the workoutplan names-->
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
+        <ListView ItemsSource="{Binding MealPlans}" SelectionMode="Single" SelectedItem="{Binding SelectedMealPlan, Mode=TwoWay}">
+            <!--List of plans/twoway allows the viewmodel to be updated with user choice-->
+            <!--Selects the workout-->
+            <ListView.ItemTemplate>
+                <!--display-->
+                <DataTemplate>
+                    <ViewCell>
+                        <!--single row-->
+                        <StackLayout Padding="10">
+                            <Label Text="{Binding MealPlanName}" FontSize="18"/>
+                            <!--Lists the workoutplan names-->
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Button Text="Submit Post" Command="{Binding CreatePostCommand}" />
     </StackLayout>
-    
-    
 </ContentPage>

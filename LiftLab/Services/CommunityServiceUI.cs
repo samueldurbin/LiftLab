@@ -20,14 +20,16 @@ namespace LiftLab.Services
         }
 
         // Create Community Post
-        public async Task<CommunityPost> CreatePost(int userId, string username, string caption, int? workoutPlanId)
+        public async Task<CommunityPost> CreatePost(int userId, string username, string caption, int? workoutPlanId, int? mealPlanId)
         {
             var response = await _httpClient.PostAsJsonAsync("CommunityPosts/createcommunitypost", new CommunityPost // sends a http get request to the fitnessposts endpoint
             {
                 UserId = userId,
                 Username = username,
                 Caption = caption,
-                WorkoutPlanId = workoutPlanId
+                WorkoutPlanId = workoutPlanId,
+                MealPlanId = mealPlanId,
+                CreatedDate = DateTime.UtcNow // datetime for when post was created
             });
 
             if (response.IsSuccessStatusCode)
@@ -59,6 +61,18 @@ namespace LiftLab.Services
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // shows a 200 code if success
+            }
+
+            throw new Exception("Failed to get workout plans, please try again.");
+        }
+
+        public async Task<List<MealPlans>> GetAllMealPlans() // gets all workoutplans as a list
+        {
+            var response = await _httpClient.GetAsync("MealPlans/getallmealplans"); // sends a get request to the api, to retrieve the list of plans
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<MealPlans>>(); // shows a 200 code if success
             }
 
             throw new Exception("Failed to get workout plans, please try again.");

@@ -16,7 +16,7 @@ namespace LiftLab.ViewModels
         private readonly NutritionServiceUI _nutritionService;
 
         public ObservableCollection<Meal> UserMeals { get; set; } = new();
-        public ObservableCollection<MealPlan> UserMealPlans { get; set; } = new();
+        public ObservableCollection<MealPlans> UserMealPlans { get; set; } = new();
 
         public ICommand LoadUserMealsCommand { get; }
         public ICommand NavigateToMealDetailsCommand { get; }
@@ -29,7 +29,7 @@ namespace LiftLab.ViewModels
             LoadUserMealsCommand = new Command(async () => await LoadData()); // navigation to page
 
             NavigateToMealDetailsCommand = new Command<Meal>(async (meal) => await NavigateToMealDetails(meal));
-            NavigateToMealPlanDetailsCommand = new Command<MealPlan>(async (plan) => await NavigateToMealPlanDetails(plan));
+            NavigateToMealPlanDetailsCommand = new Command<MealPlans>(async (plan) => await NavigateToMealPlanDetails(plan));
         }
 
         private async Task NavigateToMealDetails(Meal meal)
@@ -46,7 +46,7 @@ namespace LiftLab.ViewModels
         }
 
 
-        private async Task NavigateToMealPlanDetails(MealPlan plan)
+        private async Task NavigateToMealPlanDetails(MealPlans plan)
         {
             if (plan == null) return;
 

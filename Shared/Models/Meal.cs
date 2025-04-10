@@ -31,6 +31,6 @@ namespace Shared.Models
 
         [ForeignKey("MealPlanId")] // foreign key reference
         [JsonIgnore] // prevents model binding errors
-        public MealPlan? MealPlan { get; set; }
+        public MealPlans? MealPlan { get; set; }
     }
 }

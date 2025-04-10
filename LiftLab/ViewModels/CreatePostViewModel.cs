@@ -19,19 +19,25 @@ namespace LiftLab.ViewModels
         private string caption;
         private WorkoutPlans selectedWorkoutPlan; // stores the selected workout plan
 
+        private MealPlans selectedMealPlan;
+
+
         public ICommand CreatePostCommand { get; } // creates post onclick
         public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; } // collection of workoutplans, ui automatically updates through this dynamic list
 
-        public string ImageUrl // this is how the user inpyt gets put into the methods below
-        {
-            get => imageUrl;
-            set => SetProperty(ref imageUrl, value);
-        }
+        public ObservableCollection<MealPlans> MealPlans { get; set; }
 
+        
         public string Caption
         {
             get => caption;
             set => SetProperty(ref caption, value);
+        }
+
+        public MealPlans SelectedMealPlan
+        {
+            get => selectedMealPlan;
+            set => SetProperty(ref selectedMealPlan, value);
         }
 
         public WorkoutPlans SelectedWorkoutPlan
@@ -40,13 +46,19 @@ namespace LiftLab.ViewModels
             set => SetProperty(ref selectedWorkoutPlan, value);
         }
 
+
+
         public CreatePostViewModel()
         {
             _communityService = new CommunityServiceUI(); // creates instance
 
             WorkoutPlans = new ObservableCollection<WorkoutPlans>(); // workout plans list
 
+            MealPlans = new ObservableCollection<MealPlans>();
+
+
             Task.Run(async () => await LoadWorkoutPlans()); // this allows the loadworkoutplans command to initiate on run
+            Task.Run(async () => await LoadMealPlans());
 
             CreatePostCommand = new Command(async () => await CreatePost()); // button on click
         }
@@ -70,6 +82,25 @@ namespace LiftLab.ViewModels
             }
         }
 
+        public async Task LoadMealPlans()  // loads all of the workoutplans from the api
+        {
+            try
+            {
+                var mealPlans = await _communityService.GetAllMealPlans(); // fetches all of the plans
+
+                MealPlans.Clear(); // this removes old data that may have been deletec or edited previously
+
+                foreach (var plan in mealPlans)
+                {
+                    MealPlans.Add(plan); // adds all the plans to the ui list
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error!", "Failed to load worout plans", "OK");
+            }
+        }
+
         private async Task CreatePost()
         {
             int userId = Preferences.Get("UserId", 0); // this method gets the user id from the login
@@ -83,7 +114,9 @@ namespace LiftLab.ViewModels
 
             int? planId = SelectedWorkoutPlan?.WorkoutPlanId; // this gets the workoutplan id that is selected by the user, but it can also be nullable
 
-            var newPost = await _communityService.CreatePost(userId, username, Caption, planId); // sends the input data
+            int? mealPlanId = SelectedMealPlan?.MealPlanId;
+
+            var newPost = await _communityService.CreatePost(userId, username, Caption, planId, mealPlanId);
 
             if (newPost != null) // checks if the data has been successfully sent or not
             {

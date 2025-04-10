@@ -28,12 +28,12 @@ namespace LiftLab.Services
             throw new Exception("Failed to get meals for the user");
         }
 
-        public async Task<List<MealPlan>> GetMealPlansByUser(int userId)
+        public async Task<List<MealPlans>> GetMealPlansByUser(int userId)
         {
             var response = await _httpClient.GetAsync($"MealPlans/getmealplansbyuser/{userId}");
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<MealPlan>>();
+                return await response.Content.ReadFromJsonAsync<List<MealPlans>>();
             }
             throw new Exception("Failed to get meal plans for the user");
         }

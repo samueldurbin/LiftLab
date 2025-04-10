@@ -13,14 +13,14 @@ namespace WebApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<MealPlan>> GetAllMealPlans()
+        public async Task<IEnumerable<MealPlans>> GetAllMealPlans()
         {
             return await _dbContext.MealPlans
                 .Include(p => p.Meals) // include meals associated with the plan
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<MealPlan>> GetMealPlansByUser(int userId)
+        public async Task<IEnumerable<MealPlans>> GetMealPlansByUser(int userId)
         {
             return await _dbContext.MealPlans // get meal plans by userid
                 .Where(mp => mp.UserId == userId)
@@ -34,7 +34,7 @@ namespace WebApi.Services
                 .ToListAsync();
         }
 
-        public async Task<MealPlan> CreateMealPlan(MealPlan plan, List<Meal> meals)
+        public async Task<MealPlans> CreateMealPlan(MealPlans plan, List<Meal> meals)
         {
             try
             {

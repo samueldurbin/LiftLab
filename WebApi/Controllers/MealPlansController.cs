@@ -43,7 +43,7 @@ namespace WebApi.Controllers
             try
             {
                 var newPlan = await _mealPlansService.CreateMealPlan(
-                    new MealPlan
+                    new MealPlans
                     {
                         MealPlanName = request.MealPlanName,
                         UserId = request.UserId

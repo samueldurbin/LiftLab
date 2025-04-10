@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Models
 {
-    public class MealPlan
+    public class MealPlans
     {
         [Key]
         public int MealPlanId { get; set; }

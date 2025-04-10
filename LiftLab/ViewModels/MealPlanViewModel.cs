@@ -10,9 +10,9 @@ namespace LiftLab.ViewModels
     [QueryProperty(nameof(MealPlan), "MealPlan")]
     public class MealPlanViewModel : BaseViewModel
     {
-        private MealPlan _mealPlan;
+        private MealPlans _mealPlan;
 
-        public MealPlan MealPlan
+        public MealPlans MealPlan
         {
             get => _mealPlan;
             set
