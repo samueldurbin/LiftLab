@@ -23,6 +23,8 @@ namespace LiftLab.ViewModels
         public ICommand CreateCommentCommand { get; }
         public ICommand LoadCommunityPostsCommand { get; }
         public ICommand LikePostCommand { get; }
+
+        public ICommand AddFriendsCommand { get; }
         public ICommand AddWorkoutPlanCommand { get; }
 
         public ObservableCollection<CommunityPost> CommunityPosts { get; set; } // collection of posts objects
@@ -48,11 +50,17 @@ namespace LiftLab.ViewModels
                 await Shell.Current.GoToAsync(nameof(CreatePost));
             });
 
+            AddFriendsCommand = new Command(async () => // add button in the ui navigates to create a post
+            {
+                await Shell.Current.GoToAsync(nameof(FriendsPage));
+            });
+
             LoadCommunityPostsCommand = new Command(async () => await GetsPosts()); // this will be used to load the workout plans on load
 
             LikePostCommand = new Command<CommunityPost>(async (post) => await LikePost(post));
 
             AddWorkoutPlanCommand = new Command<CommunityPost>(async (post) => await AddExternalWorkoutPlan(post));
+
             ViewUserProfileCommand = new Command<CommunityPost>(async (post) => await ViewUserProfile(post));
 
 

@@ -14,6 +14,8 @@
         <!--Tempp title-->
         <Label Text="Find my Friends" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
 
+        <SearchBar Placeholder="Search friends..." Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" />
+
         <!--Loading-->
         <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
 
@@ -22,12 +24,13 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame CornerRadius="5" BorderColor="Green" Padding="15" Margin="5">
-                        <HorizontalStackLayout Spacing="10">
-                            <!-- Username of new friend-->
-                            <Label Text="{Binding Username}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center"/>
-                            <!--add-->
-                            <Button Text="Add Friend" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FriendsViewModel}}, Path=AddFriendCommand}" CommandParameter="{Binding UserId}" FontAttributes="Bold" BackgroundColor="Black" TextColor="White"/>
-                        </HorizontalStackLayout>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <!-- Username -->
+                            <Label Text="{Binding Username}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" Grid.Column="0" />
+
+                            <!-- Add Friend button on the right -->
+                            <Button Text="Add Friend" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FriendsViewModel}}, Path=AddFriendCommand}" CommandParameter="{Binding UserId}" FontAttributes="Bold" BackgroundColor="Black" TextColor="White" Grid.Column="1" />
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

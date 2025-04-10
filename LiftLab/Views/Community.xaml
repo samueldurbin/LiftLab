@@ -20,7 +20,7 @@
             </Label>
             <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.PeopleGroup}" FontSize="28" TextColor="blue">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NavigationCommand}" />
+                    <TapGestureRecognizer Command="{Binding AddFriendsCommand}" />
                 </Label.GestureRecognizers>
             </Label>
         </Grid>

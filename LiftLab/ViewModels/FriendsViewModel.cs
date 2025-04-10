@@ -13,13 +13,16 @@ namespace LiftLab.ViewModels
 {
     public class FriendsViewModel : BaseViewModel
     {
-        private readonly FriendServiceUI _friendService; // services instances
+        private readonly FriendServiceUI _friendService;
         private readonly UsersServiceUI _userService;
 
-        public ObservableCollection<Users> Users { get; set; } // list of users
-        public ICommand AddFriendCommand { get; } // adds friend / button to add 
+        public ObservableCollection<Users> Users { get; set; } // filtered list
 
-        private int currentUserId = 9; // hardcoded logged in user for the moment
+        private List<Users> AllUsers { get; set; } // unfiltered lsit
+
+        public ICommand AddFriendCommand { get; } // add friend button
+
+        private string currentUsername; // for preferences
 
         public FriendsViewModel()
         {
@@ -27,37 +30,42 @@ namespace LiftLab.ViewModels
             _userService = new UsersServiceUI();
 
             Users = new ObservableCollection<Users>();
-            AddFriendCommand = new Command<int>(async (friendId) => await AddFriend(friendId)); // adds method to add friend to the button
 
-            LoadUsers(); // loads users once page is loaded
+            AllUsers = new List<Users>();
+
+            AddFriendCommand = new Command<int>(async (friendId) => await AddFriend(friendId)); // adds a friend by userid
+
+            currentUsername = Preferences.Get("Username", "Unknown"); // gests the current logged in user
+
+            LoadUsers();
         }
 
-        // loads list of all users
         private async void LoadUsers()
         {
-            if (IsBusy) return; // prevents doubled ui
-            IsBusy = true; // shows loading
+            if (IsBusy) // prevents multiple calls from happening
+            {
+                return;
+            }
+
+            IsBusy = true;
 
             try
             {
-                var allUsers = await _userService.GetAllUsers(); // gets a list of all users from the api in services
-                Users.Clear(); // clears existing data before fetching
+                var fetchedUsers = await _userService.GetAllUsers(); // gets all users from api
 
-                foreach (var user in allUsers)
-                {
-                    if (user.UserId != currentUserId) // logged in user cant be added
-                    {
-                        Users.Add(user); // adds user to the ui
-                    }
-                }
+                AllUsers = fetchedUsers // this prevents the logged in use from adding themselves
+                    .Where(u => !string.Equals(u.Username, currentUsername, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+
+                ApplySearchFilter(); // shows the filtered users
             }
-            catch (Exception ex) // fail from api call
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to load users: {ex.Message}", "Please Try Again");
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to load the users: {ex.Message}", "Please Try Again");
             }
             finally
             {
-                IsBusy = false; // hides loading
+                IsBusy = false;
             }
         }
 
@@ -65,7 +73,7 @@ namespace LiftLab.ViewModels
         {
             try
             {
-                var success = await _friendService.AddFriend(currentUserId, friendUserId); // add friends method from service
+                var success = await _friendService.AddFriend(GetCurrentUserId(), friendUserId);
 
                 if (success)
                 {
@@ -76,9 +84,43 @@ namespace LiftLab.ViewModels
                     await Application.Current.MainPage.DisplayAlert("Error!", "Friend request failed or it already exists.", "OK!");
                 }
             }
-            catch (Exception ex) // error with adding friend
+            catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to add new friend: {ex.Message}", "OK!");
+            }
+        }
+
+        private int GetCurrentUserId()
+        {
+            return Preferences.Get("UserId", 0); // gets the current logged in userid
+        }
+
+        private string _searchText;
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                if (_searchText != value)
+                {
+                    _searchText = value;
+                    OnPropertyChanged();
+                    SearchFilter(); // refilter the lsit based on searchbar entry
+                }
+            }
+        }
+
+        private void SearchFilter()
+        {
+            var filteredUsers = string.IsNullOrWhiteSpace(SearchText) // if search is empty, show all users,if not then show by uersname
+                ? AllUsers // quick value checks, essentially if searchtext  is null, return all users else return the new filtered list of users
+                : AllUsers.Where(u => u.Username.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList(); // compares the strings and treats both upper and lower cases as the same search characters
+
+            Users.Clear();
+
+            foreach (var user in filteredUsers) // add filtered users to the list
+            {
+                Users.Add(user);
             }
         }
     }
