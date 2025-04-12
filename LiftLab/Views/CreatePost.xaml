@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.CreatePost"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
              Title="CreatePost">
 
     <ContentPage.BindingContext>
@@ -38,7 +39,7 @@
                         ItemsSource="{Binding MealPlans}"
                         ItemDisplayBinding="{Binding MealPlanName}"
                         SelectedItem="{Binding SelectedMealPlan}" />
-                <Label Grid.Column="1" Text="&#xf2ed;" FontFamily="FASolid" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
+                <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ClearMealPlanCommand}" />
                     </Label.GestureRecognizers>
@@ -50,7 +51,7 @@
                         ItemsSource="{Binding Meals}"
                         ItemDisplayBinding="{Binding MealName}"
                         SelectedItem="{Binding SelectedMeals}" />
-                <Label Grid.Column="1" Text="&#xf2ed;" FontFamily="FASolid" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
+                <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ClearMealsCommand}" />
                     </Label.GestureRecognizers>

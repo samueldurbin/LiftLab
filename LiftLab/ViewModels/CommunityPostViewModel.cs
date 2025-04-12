@@ -10,6 +10,7 @@ using Shared.Models;
 using System.Collections.ObjectModel;
 using LiftLab.Helpers;
 using System.Net.Http;
+using CommunityToolkit.Maui.Views;
 
 namespace LiftLab.ViewModels
 {
@@ -28,6 +29,7 @@ namespace LiftLab.ViewModels
         public ICommand AddPlansToUserAccountCommand { get; }
         public ICommand AddFriendsCommand { get; }
         public ICommand AddWorkoutPlanCommand { get; }
+        public ICommand ShowPlanDetailsCommand { get; }
 
         #endregion
 
@@ -73,6 +75,14 @@ namespace LiftLab.ViewModels
 
             AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlansToUserAccount(post));
 
+            ShowPlanDetailsCommand = new Command<CommunityPost>(ShowBasicPopup);
+
+        }
+
+        private void ShowBasicPopup(CommunityPost post)
+        {
+            var popup = new ViewAddedPlan();
+            Shell.Current.CurrentPage.ShowPopup(popup);
         }
 
         private async Task AddPlansToUserAccount(CommunityPost post)
