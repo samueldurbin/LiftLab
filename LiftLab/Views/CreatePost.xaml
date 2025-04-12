@@ -9,40 +9,56 @@
         <vm:CreatePostViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="30" Spacing="20">
-        <Editor Placeholder="Enter Caption" Text="{Binding Caption}"/>
-        <ListView ItemsSource="{Binding WorkoutPlans}" SelectionMode="Single" SelectedItem="{Binding SelectedWorkoutPlan, Mode=TwoWay}">
-            <!--List of plans/twoway allows the viewmodel to be updated with user choice-->
-            <!--Selects the workout-->
-            <ListView.ItemTemplate>
-                <!--display-->
-                <DataTemplate>
-                    <ViewCell>
-                        <!--single row-->
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding WorkoutPlanName}" FontSize="18"/>
-                            <!--Lists the workoutplan names-->
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <ListView ItemsSource="{Binding MealPlans}" SelectionMode="Single" SelectedItem="{Binding SelectedMealPlan, Mode=TwoWay}">
-            <!--List of plans/twoway allows the viewmodel to be updated with user choice-->
-            <!--Selects the workout-->
-            <ListView.ItemTemplate>
-                <!--display-->
-                <DataTemplate>
-                    <ViewCell>
-                        <!--single row-->
-                        <StackLayout Padding="10">
-                            <Label Text="{Binding MealPlanName}" FontSize="18"/>
-                            <!--Lists the workoutplan names-->
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        <Button Text="Submit Post" Command="{Binding CreatePostCommand}" />
-    </StackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Label Text="Create a Post" FontSize="24" FontAttributes="Bold" />
+
+            <Editor Placeholder="Write a caption..." AutoSize="TextChanges" HeightRequest="100" Text="{Binding Caption}" />
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Workout Plan" Command="{Binding ToggleWorkoutPlansCommand}" />
+                <Button Text="Meal Plan" Command="{Binding ToggleMealPlansCommand}" />
+                <Button Text="Meal" Command="{Binding ToggleMealsCommand}" />
+            </HorizontalStackLayout>
+            <Grid IsVisible="{Binding ShowWorkoutPlans}" ColumnDefinitions="*, Auto" Padding="0,10,0,0">
+                <Picker Grid.Column="0"
+                        Title="Select a workout plan"
+                        ItemsSource="{Binding WorkoutPlans}"
+                        ItemDisplayBinding="{Binding WorkoutPlanName}"
+                        SelectedItem="{Binding SelectedWorkoutPlan}" />
+                <Label Grid.Column="1" Text="&#xf2ed;" FontFamily="FASolid" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClearWorkoutPlanCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <Grid IsVisible="{Binding ShowMealPlans}" ColumnDefinitions="*, Auto" Padding="0,10,0,0">
+                <Picker Grid.Column="0"
+                        Title="Select a meal plan"
+                        ItemsSource="{Binding MealPlans}"
+                        ItemDisplayBinding="{Binding MealPlanName}"
+                        SelectedItem="{Binding SelectedMealPlan}" />
+                <Label Grid.Column="1" Text="&#xf2ed;" FontFamily="FASolid" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClearMealPlanCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <Grid IsVisible="{Binding ShowMeals}" ColumnDefinitions="*, Auto" Padding="0,10,0,0">
+                <Picker Grid.Column="0"
+                        Title="Select a meal"
+                        ItemsSource="{Binding Meals}"
+                        ItemDisplayBinding="{Binding MealName}"
+                        SelectedItem="{Binding SelectedMeals}" />
+                <Label Grid.Column="1" Text="&#xf2ed;" FontFamily="FASolid" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClearMealsCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Button Text="Create Post" Command="{Binding CreatePostCommand}" BackgroundColor="DarkGreen" TextColor="White" />
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

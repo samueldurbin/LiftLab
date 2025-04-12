@@ -24,6 +24,8 @@ namespace Shared.Models
 
         public int? WorkoutPlanId { get; set; } // optional workoutplan additon
 
+        public int? MealId { get; set; } // optional meal
+
         public int? MealPlanId { get; set; } // optional mealplan addition
 
         public DateTime CreatedDate { get; set; }

@@ -25,6 +25,6 @@ namespace WebApi
 
         public DbSet<MealPlans> MealPlans { get; set; } // Meal Plan
 
-        public DbSet<Meal> Meals { get; set; } // Meals within a Meal Plan
+        public DbSet<Meals> Meals { get; set; } // Meals within a Meal Plan
     }
 }

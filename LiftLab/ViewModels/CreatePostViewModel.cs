@@ -14,119 +14,284 @@ namespace LiftLab.ViewModels
     {
         private readonly CommunityServiceUI _communityService;
 
-        private string username;
-        private string imageUrl;
-        private string caption;
-        private WorkoutPlans selectedWorkoutPlan; // stores the selected workout plan
-
-        private MealPlans selectedMealPlan;
-
-
-        public ICommand CreatePostCommand { get; } // creates post onclick
-        public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; } // collection of workoutplans, ui automatically updates through this dynamic list
-
+        public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; }
         public ObservableCollection<MealPlans> MealPlans { get; set; }
+        public ObservableCollection<Meals> Meals { get; set; }
 
-        
-        public string Caption
+        #region Variables
+        private WorkoutPlans selectedWorkoutPlan;
+        private MealPlans selectedMealPlan;
+        private Meals selectedMeals;
+        private bool showWorkoutPlans;
+        private bool showMealPlans;
+        private bool showMeals;
+        private string caption;
+        #endregion
+
+        #region ICommands
+
+        public ICommand ToggleWorkoutPlansCommand { get; }
+        public ICommand ToggleMealPlansCommand { get; }
+        public ICommand ToggleMealsCommand { get; }
+        public ICommand ClearWorkoutPlanCommand { get; }
+        public ICommand ClearMealPlanCommand { get; }
+        public ICommand ClearMealsCommand { get; }
+        public ICommand CreatePostCommand { get; }
+
+        #endregion
+
+        public CreatePostViewModel()
+        {
+            #region Instance Setting
+            _communityService = new CommunityServiceUI();
+            WorkoutPlans = new ObservableCollection<WorkoutPlans>();
+            MealPlans = new ObservableCollection<MealPlans>();
+            Meals = new ObservableCollection<Meals>();
+
+            #endregion
+
+            #region ToggleVisbility
+            ToggleWorkoutPlansCommand = new Command(async () =>
+            {
+                ClearOtherSelections("Workout");
+
+                ShowWorkoutPlans = !ShowWorkoutPlans;
+
+                if (ShowWorkoutPlans && WorkoutPlans.Count == 0)
+                {
+                    await LoadWorkoutPlans();
+                }
+            });
+
+            ToggleMealPlansCommand = new Command(async () =>
+            {
+                ClearOtherSelections("MealPlan");
+
+                ShowMealPlans = !ShowMealPlans;
+
+                if (ShowMealPlans && MealPlans.Count == 0)
+                {
+                    await LoadMealPlans();
+                }
+            });
+
+            ToggleMealsCommand = new Command(async () =>
+            {
+                ClearOtherSelections("Meal");
+
+                ShowMeals = !ShowMeals;
+
+                if (ShowMeals && Meals.Count == 0)
+                {
+                    await LoadMeals();
+                }
+            });
+            #endregion
+
+            #region Bin Clear
+            ClearWorkoutPlanCommand = new Command(() => // bin icon to clear the entry of the user input
+            {
+                SelectedWorkoutPlan = null;
+                ShowWorkoutPlans = false;
+            });
+
+            ClearMealPlanCommand = new Command(() =>
+            {
+                SelectedMealPlan = null;
+                ShowMealPlans = false;
+            });
+
+            ClearMealsCommand = new Command(() =>
+            {
+                SelectedMeals = null;
+                ShowMeals = false;
+            });
+            #endregion
+
+            #region Create Post
+            CreatePostCommand = new Command(async () => await CreatePost());
+            #endregion
+        }
+
+        #region Caption
+        public string Caption // gets the user input for the caption and sets the value
         {
             get => caption;
             set => SetProperty(ref caption, value);
+        }
+        #endregion
+
+        #region Selected Plans
+
+        public WorkoutPlans SelectedWorkoutPlan
+        {
+            get => selectedWorkoutPlan;
+            set
+            {
+                if (SetProperty(ref selectedWorkoutPlan, value))
+                {
+                    if (value != null)
+                    {
+                        ClearOtherSelections("Workout");
+                    }
+                }
+            }
         }
 
         public MealPlans SelectedMealPlan
         {
             get => selectedMealPlan;
-            set => SetProperty(ref selectedMealPlan, value);
-        }
-
-        public WorkoutPlans SelectedWorkoutPlan
-        {
-            get => selectedWorkoutPlan;
-            set => SetProperty(ref selectedWorkoutPlan, value);
-        }
-
-
-
-        public CreatePostViewModel()
-        {
-            _communityService = new CommunityServiceUI(); // creates instance
-
-            WorkoutPlans = new ObservableCollection<WorkoutPlans>(); // workout plans list
-
-            MealPlans = new ObservableCollection<MealPlans>();
-
-
-            Task.Run(async () => await LoadWorkoutPlans()); // this allows the loadworkoutplans command to initiate on run
-            Task.Run(async () => await LoadMealPlans());
-
-            CreatePostCommand = new Command(async () => await CreatePost()); // button on click
-        }
-
-        public async Task LoadWorkoutPlans()  // loads all of the workoutplans from the api
-        {
-            try
+            set
             {
-                var plans = await _communityService.GetAllPlans(); // fetches all of the plans
-
-                WorkoutPlans.Clear(); // this removes old data that may have been deletec or edited previously
-
-                foreach (var plan in plans)
+                if (SetProperty(ref selectedMealPlan, value))
                 {
-                    WorkoutPlans.Add(plan); // adds all the plans to the ui list
+                    if (value != null)
+                    {
+                        ClearOtherSelections("MealPlan");
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error!", "Failed to load worout plans", "OK");
-            }
         }
 
-        public async Task LoadMealPlans()  // loads all of the workoutplans from the api
+        public Meals SelectedMeals
         {
-            try
+            get => selectedMeals;
+            set
             {
-                var mealPlans = await _communityService.GetAllMealPlans(); // fetches all of the plans
-
-                MealPlans.Clear(); // this removes old data that may have been deletec or edited previously
-
-                foreach (var plan in mealPlans)
+                if (SetProperty(ref selectedMeals, value))
                 {
-                    MealPlans.Add(plan); // adds all the plans to the ui list
+                    if (value != null)
+                    {
+                        ClearOtherSelections("Meal");
+                    }
                 }
             }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error!", "Failed to load worout plans", "OK");
-            }
         }
+
+        #endregion
+
+        #region Show
+        public bool ShowWorkoutPlans
+        {
+            get => showWorkoutPlans;
+            set => SetProperty(ref showWorkoutPlans, value);
+        }
+
+        public bool ShowMealPlans
+        {
+            get => showMealPlans;
+            set => SetProperty(ref showMealPlans, value);
+        }
+
+        public bool ShowMeals
+        {
+            get => showMeals;
+            set => SetProperty(ref showMeals, value);
+        }
+
+        #endregion
+
+        #region Loading Plans
+        private async Task LoadWorkoutPlans()
+        {
+            int userId = Preferences.Get("UserId", 0);
+
+            var plans = await _communityService.GetWorkoutPlansByUserId(userId);
+
+            WorkoutPlans.Clear();
+
+            foreach (var plan in plans)
+            {
+                WorkoutPlans.Add(plan);
+            }
+             
+        }
+
+        private async Task LoadMealPlans()
+        {
+            int userId = Preferences.Get("UserId", 0);
+
+            var plans = await _communityService.GetMealPlansByUserId(userId);
+
+            MealPlans.Clear();
+
+            foreach (var plan in plans)
+            {
+                MealPlans.Add(plan);
+            }
+                
+        }
+
+        private async Task LoadMeals()
+        {
+            int userId = Preferences.Get("UserId", 0);
+
+            var meals = await _communityService.GetMealsByUserId(userId);
+
+            Meals.Clear();
+
+            foreach (var meal in meals)
+            {
+                Meals.Add(meal);
+            }
+                
+        }
+
+        #endregion
 
         private async Task CreatePost()
         {
-            int userId = Preferences.Get("UserId", 0); // this method gets the user id from the login
-            string username = Preferences.Get("Username", "Unknown");  // this gets the username from the login (soon to be replaced for userid)
+            int userId = Preferences.Get("UserId", 0);
+            string username = Preferences.Get("Username", "Unknown");
 
-            if (userId == 0) // if the userId is not existent
+            if (userId == 0)
             {
-                await Application.Current.MainPage.DisplayAlert("Not Account is Logged In", "Please Log In before making a post", "OK"); // alert message if no userid or username
+                await Application.Current.MainPage.DisplayAlert("Login Required", "Please log in to create a post", "OK");
                 return;
             }
 
-            int? planId = SelectedWorkoutPlan?.WorkoutPlanId; // this gets the workoutplan id that is selected by the user, but it can also be nullable
-
+            int? planId = SelectedWorkoutPlan?.WorkoutPlanId; // optional selections
             int? mealPlanId = SelectedMealPlan?.MealPlanId;
+            int? mealId = SelectedMeals?.MealId;
 
-            var newPost = await _communityService.CreatePost(userId, username, Caption, planId, mealPlanId);
+            var newPost = await _communityService.CreatePost(userId, username, Caption, planId, mealId, mealPlanId);
 
-            if (newPost != null) // checks if the data has been successfully sent or not
+            if (newPost != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Success!", "Your post has now been created!", "OK"); // success message
+                await Application.Current.MainPage.DisplayAlert("Success!", "Your post has been created!", "OK");
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to create your post.", "OK"); // error message
+                await Application.Current.MainPage.DisplayAlert("Error", "Failed to create post.", "OK");
             }
         }
+
+
+        #region Helper Methods
+
+        private void ClearOtherSelections(string clear)
+        {
+            if (clear != "Workout")
+            {
+                SelectedWorkoutPlan = null;
+                ShowWorkoutPlans = false;
+            }
+
+            if (clear != "MealPlan")
+            {
+                SelectedMealPlan = null;
+                ShowMealPlans = false;
+            }
+
+            if (clear != "Meal")
+            {
+                SelectedMeals = null;
+                ShowMeals = false;
+            }
+        }
+
+        #endregion
+
     }
 }
 

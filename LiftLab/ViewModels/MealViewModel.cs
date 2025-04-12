@@ -11,9 +11,9 @@ namespace LiftLab.ViewModels
     [QueryProperty(nameof(Meal), "Meal")] // binds the meal parameter 
     public class MealViewModel : BaseViewModel
     {
-        private Meal _meal;
+        private Meals _meal;
 
-        public Meal Meal
+        public Meals Meal
         {
             get => _meal; // returns the selected meal 
             set

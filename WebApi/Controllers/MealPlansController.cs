@@ -60,7 +60,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("createmeal")]
-        public async Task<IActionResult> CreateMeals([FromBody] Meal meal) // this creates a single meal, outside of a plan and can be included into plan later
+        public async Task<IActionResult> CreateMeals([FromBody] Meals meal) // this creates a single meal, outside of a plan and can be included into plan later
         {
             try
             {
@@ -76,12 +76,12 @@ namespace WebApi.Controllers
         [HttpGet("meals/{userId}")]
         public async Task<IActionResult> GetMeals(int userId)
         {
-            var meals = await _mealPlansService.GetMealsByUser(userId); // gets independent meals outside of meal plans
+            var meals = await _mealPlansService.GetMealsByUser(userId); // gets meals outside of meal plans
             return Ok(meals);
         }
 
         [HttpPost("addmealtoexistingmealplan")]
-        public async Task<IActionResult> AddMealToExistingPlan([FromBody] Meal meal)
+        public async Task<IActionResult> AddMealToExistingPlan([FromBody] Meals meal)
         {
             try
             {
@@ -91,6 +91,34 @@ namespace WebApi.Controllers
             catch (Exception ex)
             {
                 return BadRequest(new { Message = "Failed to add meal", Error = ex.Message });
+            }
+        }
+
+        [HttpPost("addusermealplan/{mealPlanId}/{userId}")] // adds mealplanids to a userids account
+        public async Task<IActionResult> AddExternalMealPlans(int mealPlanId, int userId)
+        {
+            try
+            {
+                var newPlan = await _mealPlansService.AddExternalUserMealPlan(mealPlanId, userId);
+                return Ok(new { Message = "Meal Plan added!", MealPlanId = newPlan.MealPlanId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpPost("addusermeal/{mealId}/{userId}")] // adds mealids to a userids account
+        public async Task<IActionResult> AddExternalMeal(int mealId, int userId)
+        {
+            try
+            {
+                var newMeal = await _mealPlansService.AddExternalUserMeal(mealId, userId);
+                return Ok(new { Message = "Meal copied!", MealId = newMeal.MealId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
             }
         }
     }

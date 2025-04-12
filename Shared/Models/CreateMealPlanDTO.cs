@@ -10,6 +10,6 @@ namespace Shared.Models
     {
         public int UserId { get; set; }
         public string MealPlanName { get; set; }
-        public List<Meal> Meals { get; set; }
+        public List<Meals> Meals { get; set; }
     }
 }

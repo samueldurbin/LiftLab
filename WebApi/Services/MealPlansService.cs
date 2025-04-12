@@ -27,14 +27,14 @@ namespace WebApi.Services
                 .ToListAsync();
         }
 
-        public async Task<List<Meal>> GetMealsByPlanId(int planId)
+        public async Task<List<Meals>> GetMealsByPlanId(int planId)
         {
             return await _dbContext.Meals
                 .Where(m => m.MealPlanId == planId) // get the associated meals within a planid
                 .ToListAsync();
         }
 
-        public async Task<MealPlans> CreateMealPlan(MealPlans plan, List<Meal> meals)
+        public async Task<MealPlans> CreateMealPlan(MealPlans plan, List<Meals> meals)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<Meal> CreateMeal(Meal meal)
+        public async Task<Meals> CreateMeal(Meals meal)
         {
             try
             {
@@ -76,14 +76,14 @@ namespace WebApi.Services
             }
         }
 
-        public async Task<IEnumerable<Meal>> GetMealsByUser(int userId)
+        public async Task<IEnumerable<Meals>> GetMealsByUser(int userId)
         {
             return await _dbContext.Meals
                 .Where(m => m.MealPlanId == null && m.UserId == userId)
                 .ToListAsync();
         }
 
-        public async Task<Meal> AddMealToExistingMealPlan(Meal meal)
+        public async Task<Meals> AddMealToExistingMealPlan(Meals meal)
         {
             var existingPlan = await _dbContext.MealPlans.FindAsync(meal.MealPlanId); // check if mealplan exists
 
@@ -96,6 +96,74 @@ namespace WebApi.Services
             await _dbContext.SaveChangesAsync();
 
             return meal;
+        }
+
+        public async Task<Meals> AddExternalUserMeal(int mealId, int userId)
+        {
+            var meal = await _dbContext.Meals.FirstOrDefaultAsync(m => m.MealId == mealId);
+
+            if (meal == null)
+                throw new Exception("Meal not found.");
+
+            var copiedMeal = new Meals
+            {
+                MealName = meal.MealName,
+                Type = meal.Type,
+                Calories = meal.Calories,
+                Recipe = meal.Recipe,
+                UserId = userId
+            };
+
+            _dbContext.Meals.Add(copiedMeal);
+            await _dbContext.SaveChangesAsync();
+
+            return copiedMeal;
+        }
+
+        public async Task<MealPlans> AddExternalUserMealPlan(int mealPlanId, int userId)
+        {
+            try
+            {
+                var mealPlan = await _dbContext.MealPlans
+                    .Include(p => p.Meals)
+                    .FirstOrDefaultAsync(p => p.MealPlanId == mealPlanId);
+
+                if (mealPlan == null)
+                {
+                    throw new Exception("Meal plan not found.");
+                }
+
+                var userPlan = new MealPlans
+                {
+                    MealPlanName = mealPlan.MealPlanName + " (Added)",
+                    UserId = userId
+                };
+
+                _dbContext.MealPlans.Add(userPlan);
+                await _dbContext.SaveChangesAsync();
+
+                foreach (var item in mealPlan.Meals)
+                {
+                    var copiedMeal = new Meals
+                    {
+                        MealPlanId = userPlan.MealPlanId,
+                        MealName = item.MealName,
+                        Type = item.Type,
+                        Calories = item.Calories,
+                        Recipe = item.Recipe,
+                        UserId = userId
+                    };
+
+                    _dbContext.Meals.Add(copiedMeal);
+                }
+
+                await _dbContext.SaveChangesAsync();
+                return userPlan;
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("An error occurred while adding the meal plan to your account!", ex);
+            }
         }
     }
 }

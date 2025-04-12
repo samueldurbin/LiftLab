@@ -27,6 +27,6 @@ namespace LiftLab.ViewModels
 
         public string MealPlanName => MealPlan?.MealPlanName;
         public DateTime CreatedAt => MealPlan?.CreatedAt ?? DateTime.MinValue;
-        public ICollection<Meal> Meals => MealPlan?.Meals ?? new List<Meal>();
+        public ICollection<Meals> Meals => MealPlan?.Meals ?? new List<Meals>();
     }
 }

@@ -18,12 +18,12 @@ namespace LiftLab.Services
                 BaseAddress = new Uri("https://web.socem.plymouth.ac.uk/COMP3000/SDurbin/api/") // URL for api requests
             };
         }
-        public async Task<List<Meal>> GetMealsByUserId(int userId)
+        public async Task<List<Meals>> GetMealsByUserId(int userId)
         {
             var response = await _httpClient.GetAsync($"MealPlans/meals/{userId}");
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<Meal>>();
+                return await response.Content.ReadFromJsonAsync<List<Meals>>();
             }
             throw new Exception("Failed to get meals for the user");
         }

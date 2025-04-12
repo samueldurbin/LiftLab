@@ -8,6 +8,8 @@ using System.Windows.Input;
 using LiftLab.Services;
 using Shared.Models;
 using System.Collections.ObjectModel;
+using LiftLab.Helpers;
+using System.Net.Http;
 
 namespace LiftLab.ViewModels
 {
@@ -15,7 +17,7 @@ namespace LiftLab.ViewModels
     {
         private readonly CommunityServiceUI _communityService;  // gets community posts from api
 
-        private string comment;
+        #region ICommands - OnClickLisenters
 
         public ICommand ViewUserProfileCommand { get; }
         public ICommand GetCommunityPostsCommand { get; }  // gets and displays posts
@@ -23,17 +25,23 @@ namespace LiftLab.ViewModels
         public ICommand CreateCommentCommand { get; }
         public ICommand LoadCommunityPostsCommand { get; }
         public ICommand LikePostCommand { get; }
-
+        public ICommand AddPlansToUserAccountCommand { get; }
         public ICommand AddFriendsCommand { get; }
         public ICommand AddWorkoutPlanCommand { get; }
 
+        #endregion
+
         public ObservableCollection<CommunityPost> CommunityPosts { get; set; } // collection of posts objects
 
+        #region Comment Variables
+        private string comment;
         public string Comment // this is where the input of the users comment will be taken
         {
             get => comment;
             set => SetProperty(ref comment, value);
         }
+
+        #endregion
 
         public CommunityPostViewModel()
         {
@@ -63,6 +71,31 @@ namespace LiftLab.ViewModels
 
             ViewUserProfileCommand = new Command<CommunityPost>(async (post) => await ViewUserProfile(post));
 
+            AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlansToUserAccount(post));
+
+        }
+
+        private async Task AddPlansToUserAccount(CommunityPost post)
+        {
+            try
+            {
+                int userId = Preferences.Get("UserId", 0); // user preferences
+
+                bool addedPlan = await _communityService.AddExternalPlans(post, userId); // if the plus button is pressed, it calls the adding method from the service then presents a success or error message
+
+                if (addedPlan)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Success!", "The plan has been added to your account", "OK");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Unavailable!", "This post doesn't contain any plan attatched.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Something went wrong: {ex.Message}", "OK");
+            }
         }
 
         private async Task ViewUserProfile(CommunityPost post) // viewing user profiles

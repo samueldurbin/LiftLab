@@ -4,24 +4,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Shared.Models
 {
-    public class Meal
+    public class Meals
     {
         [Key]
         public int MealId { get; set; }
 
         public int? MealPlanId { get; set; } // foreign key to mealplan table
-         
+
         [Required]
         public string MealName { get; set; } // name of the meal
 
         [Required]
         public string Type { get; set; } // type of meal, so users will have the option to select breakfast, lunch or dinner etc
-
+        
         public int? Calories { get; set; } // optional to put how many calories
 
         [Required]
