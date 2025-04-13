@@ -17,6 +17,7 @@ namespace LiftLab.ViewModels
     public class CommunityPostViewModel : BaseViewModel
     {
         private readonly CommunityServiceUI _communityService;  // gets community posts from api
+        private readonly WorkoutPlansServiceUI _workoutPlansService;
 
         #region ICommands - OnClickLisenters
 
@@ -48,6 +49,7 @@ namespace LiftLab.ViewModels
         public CommunityPostViewModel()
         {
             _communityService = new CommunityServiceUI();
+            _workoutPlansService = new WorkoutPlansServiceUI();
 
             CommunityPosts = new ObservableCollection<CommunityPost>(); // initializes empty to store fitness posts
 
@@ -75,14 +77,83 @@ namespace LiftLab.ViewModels
 
             AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlansToUserAccount(post));
 
-            ShowPlanDetailsCommand = new Command<CommunityPost>(ShowBasicPopup);
+            ShowPlanDetailsCommand = new Command<CommunityPost>(async (post) => await ShowPlanDetails(post));
 
         }
 
-        private void ShowBasicPopup(CommunityPost post)
+        private async Task ShowPlanDetails(CommunityPost post) // this method is what will be called by the view icon to view a plan or meal
         {
-            var popup = new ViewAddedPlan();
-            Shell.Current.CurrentPage.ShowPopup(popup);
+            try // try catch method
+            {
+                if (post.WorkoutPlanId != null) // initially checks if the post contains a WorkoutPlanId (contains a workout plan)
+                {
+                    var userId = post.UserId;
+
+                    var userPlans = await _communityService.GetWorkoutPlansByUserId(userId); // gets the workout plans made by the user who made the post
+
+                    var thisPlan = userPlans.FirstOrDefault(p => p.WorkoutPlanId == post.WorkoutPlanId); // finds the plan attatched to the post
+
+                    if (thisPlan != null) // checks if the plan exists and contains data
+                    {
+                        var workoutIds = await _workoutPlansService.GetWorkoutsByPlanId(thisPlan.WorkoutPlanId); // gets all associated workouts with the plan
+                        var allWorkouts = await _workoutPlansService.GetAllWorkouts(); // then gets all the workouts that exists to match the ids with whats in the plan
+
+                        var workoutNames = allWorkouts // filters through and gets the matching ids with a workoutname, and puts them into a list to be displayed in the popup view
+                            .Where(w => workoutIds.Contains(w.WorkoutId))
+                            .Select(w => w.WorkoutName)
+                            .ToList();
+
+                        var popup = new ViewAddedPlan(thisPlan.WorkoutPlanName ?? "Workout Plan", workoutNames, string.Empty); // this is the popup itsself that will display the workoutplan name with the list of workouts
+                        await Shell.Current.CurrentPage.ShowPopupAsync(popup); // this initiates the popup view
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Not Found!", "Workout plan could not be found, please try again soon.", "OK"); // error display maessage if an error occured within the process
+                    }
+                }
+                else if (post.MealPlanId != null) // checks if a meal plan is atta
+                {
+                    var userId = post.UserId;
+                    var mealPlans = await new NutritionServiceUI().GetMealPlansByUser(userId);
+                    var mealPlan = mealPlans.FirstOrDefault(mp => mp.MealPlanId == post.MealPlanId);
+
+                    if (mealPlan != null)
+                    {
+                        var mealNames = mealPlan.Meals.Select(m => m.MealName).ToList();
+                        var popup = new ViewAddedPlan(mealPlan.MealPlanName ?? "Meal Plan", mealNames, string.Empty);
+                        await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Not Found", "Meal plan could not be found.", "OK");
+                    }
+                }
+                else if (post.MealId != null)
+                {
+                    var userId = post.UserId;
+                    var meals = await new NutritionServiceUI().GetMealsByUserId(userId);
+                    var meal = meals.FirstOrDefault(m => m.MealId == post.MealId);
+
+                    if (meal != null)
+                    {
+                        var popup = new ViewAddedPlan(meal.MealName, new List<string>(), meal.Recipe);
+                        await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Not Found", "Meal could not be found.", "OK");
+                    }
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Oops", "No plan or meal attached to this post.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Could not load plan details: {ex.Message}", "OK");
+            }
+
         }
 
         private async Task AddPlansToUserAccount(CommunityPost post)

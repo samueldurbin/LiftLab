@@ -4,8 +4,25 @@
                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                x:Class="LiftLab.Views.ViewAddedPlan">
 
-    <VerticalStackLayout>
-        <Label Text="This is a very important message!" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="15" Spacing="10">
+
+            <!--this is the title of the plan to display to the user -->
+            <Label Text="{Binding PlanTitle}" FontAttributes="Bold" FontSize="18" />
+
+            <Label Text="{Binding Description}" FontSize="14" />
+
+            <!--list of either workouts or meals-->
+            <CollectionView ItemsSource="{Binding ItemNames}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding}" FontSize="14" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Close" Command="{Binding CloseCommand}" Margin="0,20,0,0"/>
+        </VerticalStackLayout>
+    </ScrollView>
 
 </toolkit:Popup>

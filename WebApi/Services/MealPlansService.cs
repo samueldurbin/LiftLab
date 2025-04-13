@@ -22,7 +22,8 @@ namespace WebApi.Services
 
         public async Task<IEnumerable<MealPlans>> GetMealPlansByUser(int userId)
         {
-            return await _dbContext.MealPlans // get meal plans by userid
+            return await _dbContext.MealPlans
+                .Include(mp => mp.Meals)
                 .Where(mp => mp.UserId == userId)
                 .ToListAsync();
         }

@@ -1,16 +1,24 @@
 using CommunityToolkit.Maui.Views;
+using System.Windows.Input;
 
 namespace LiftLab.Views;
 
 public partial class ViewAddedPlan : Popup
 {
-	public ViewAddedPlan()
-	{
-		InitializeComponent();
-	}
+    public ICommand CloseCommand { get; }
 
-    private void OnCloseClicked(object sender, EventArgs e)
-    {
-        Close();
+    // constructor for the popup view
+    public ViewAddedPlan(string title, List<string> items, string? description = null)
+	{
+        InitializeComponent();
+
+        BindingContext = new
+        {
+            PlanTitle = title,
+            ItemNames = items,
+            Description = description,
+            CloseCommand = new Command(() => Close())
+        };
     }
+
 }
