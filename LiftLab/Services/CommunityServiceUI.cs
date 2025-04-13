@@ -146,6 +146,15 @@ namespace LiftLab.Services
         }
         #endregion
 
+        public async Task<List<Meals>> GetMealsByUser(int userId)
+        {
+            var response = await _httpClient.GetAsync($"MealPlans/meals/{userId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<Meals>>();
+            }
+            throw new Exception("Failed to get meals for the user");
+        }
 
         #region Adding External Plans and Meals
 

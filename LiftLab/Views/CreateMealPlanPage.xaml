@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.CreateMealPlanPage"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             Title="CreateMealPlanPage">
+    
+    <ContentPage.BindingContext>
+        <vm:NutritionViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="10">
+            <Label Text="Create New Meal" FontAttributes="Bold" />
+            <Entry Placeholder="Meal Name" Text="{Binding NewMealName}" />
+            <Entry Placeholder="Type (Breakfast/Lunch/etc)" Text="{Binding NewMealType}" />
+            <Entry Placeholder="Calories" Keyboard="Numeric" Text="{Binding NewMealCalories}" />
+            <Editor Placeholder="Recipe" AutoSize="TextChanges" Text="{Binding NewMealRecipe}" />
+            <Button Text="Create Meal" Command="{Binding CreateMealCommand}" />
+
+            <BoxView HeightRequest="2" BackgroundColor="black" Margin="0,10"/>
+            
+            <Label Text="Create New Meal Plan" FontAttributes="Bold" />
+            <Entry Placeholder="Meal Plan Name" Text="{Binding MealPlanName}" />
+            <Button Text="Load Existing Meals" Command="{Binding LoadMealsCommand}" />
+
+            <Label Text="Select Meals to include:" FontAttributes="Bold" />
+            <CollectionView ItemsSource="{Binding MealList}" HeightRequest="300">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                            <Label Text="{Binding Meal.MealName}" VerticalOptions="Center" />
+                            <CheckBox IsChecked="{Binding IsSelected}" HorizontalOptions="EndAndExpand" />
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Create Meal Plan" Command="{Binding CreateMealPlanCommand}" Margin="0,20,0,0" />
+
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

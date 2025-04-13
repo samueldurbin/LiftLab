@@ -131,7 +131,7 @@ namespace LiftLab.ViewModels
                 else if (post.MealId != null)
                 {
                     var userId = post.UserId;
-                    var meals = await new NutritionServiceUI().GetMealsByUserId(userId);
+                    var meals = await new NutritionServiceUI().GetMealsByUser(userId);
                     var meal = meals.FirstOrDefault(m => m.MealId == post.MealId);
 
                     if (meal != null)

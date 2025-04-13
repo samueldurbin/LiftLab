@@ -18,23 +18,52 @@ namespace LiftLab.Services
                 BaseAddress = new Uri("https://web.socem.plymouth.ac.uk/COMP3000/SDurbin/api/") // URL for api requests
             };
         }
-        public async Task<List<Meals>> GetMealsByUserId(int userId)
+
+        public async Task<Meals> CreateMeal(Meals meal)
         {
-            var response = await _httpClient.GetAsync($"MealPlans/meals/{userId}");
+            var createMeal = await _httpClient.PostAsJsonAsync("MealPlans/createmeal", meal);
+
+            if (createMeal.IsSuccessStatusCode)
+            {
+                return await createMeal.Content.ReadFromJsonAsync<Meals>();
+            }
+
+            throw new Exception(await createMeal.Content.ReadAsStringAsync());
+        }
+
+        public async Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto) // sends the dto to the api
+        {
+            var response = await _httpClient.PostAsJsonAsync("MealPlans/mealplan", dto);
+
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<Meals>>();
+                return await response.Content.ReadFromJsonAsync<MealPlans>();
             }
+
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<List<Meals>> GetMealsByUser(int userId)
+        {
+            var getMealsByUser = await _httpClient.GetAsync($"MealPlans/meals/{userId}");
+
+            if (getMealsByUser.IsSuccessStatusCode)
+            {
+                return await getMealsByUser.Content.ReadFromJsonAsync<List<Meals>>();
+            }
+
             throw new Exception("Failed to get meals for the user");
         }
 
         public async Task<List<MealPlans>> GetMealPlansByUser(int userId)
         {
-            var response = await _httpClient.GetAsync($"MealPlans/getmealplansbyuser/{userId}");
-            if (response.IsSuccessStatusCode)
+            var getPlansByUser = await _httpClient.GetAsync($"MealPlans/getmealplansbyuser/{userId}");
+
+            if (getPlansByUser.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<MealPlans>>();
+                return await getPlansByUser.Content.ReadFromJsonAsync<List<MealPlans>>();
             }
+
             throw new Exception("Failed to get meal plans for the user");
         }
     }

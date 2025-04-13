@@ -16,15 +16,12 @@ namespace Shared.Models
 
         public int? MealPlanId { get; set; } // foreign key to mealplan table
 
-        [Required]
         public string MealName { get; set; } // name of the meal
 
-        [Required]
         public string Type { get; set; } // type of meal, so users will have the option to select breakfast, lunch or dinner etc
         
         public int? Calories { get; set; } // optional to put how many calories
 
-        [Required]
         public string Recipe { get; set; } // essentially the description box
 
         public int? UserId { get; set; }

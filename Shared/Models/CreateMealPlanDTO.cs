@@ -8,8 +8,8 @@ namespace Shared.Models
 {
     public class CreateMealPlanDTO
     {
-        public int UserId { get; set; }
         public string MealPlanName { get; set; }
-        public List<Meals> Meals { get; set; }
+        public int UserId { get; set; }
+        public List<int> MealIds { get; set; } // list of mealids to be selected into a plan
     }
 }

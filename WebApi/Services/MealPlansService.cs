@@ -16,7 +16,7 @@ namespace WebApi.Services
         public async Task<IEnumerable<MealPlans>> GetAllMealPlans()
         {
             return await _dbContext.MealPlans
-                .Include(p => p.Meals) // include meals associated with the plan
+                .Include(p => p.Meals)
                 .ToListAsync();
         }
 
@@ -31,58 +31,49 @@ namespace WebApi.Services
         public async Task<List<Meals>> GetMealsByPlanId(int planId)
         {
             return await _dbContext.Meals
-                .Where(m => m.MealPlanId == planId) // get the associated meals within a planid
+                .Where(m => m.MealPlanId == planId)
                 .ToListAsync();
         }
 
-        public async Task<MealPlans> CreateMealPlan(MealPlans plan, List<Meals> meals)
+        public async Task<IEnumerable<Meals>> GetMealsByUserId(int userId)
         {
-            try
-            {
-                _dbContext.MealPlans.Add(plan);  // add the mealplan
-                await _dbContext.SaveChangesAsync();
+            return await _dbContext.Meals
+                .Where(m => m.UserId == userId)
+                .ToListAsync();
+        }
 
-                foreach (var meal in meals) // add the meals to the mealplan
-                {
-                    meal.MealPlanId = plan.MealPlanId; 
-                    _dbContext.Meals.Add(meal);
-                }
-
-                await _dbContext.SaveChangesAsync(); 
-                return plan;
-            }
-            catch (Exception ex)
+        public async Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto)
+        {
+            var mealPlan = new MealPlans // creates a new MealPlan using the Data Transfer Object
             {
-                throw new Exception("CreateMealPlan has failed: " + ex.InnerException?.Message, ex);
+                MealPlanName = dto.MealPlanName, // this is for the user to create a meal plan name
+                UserId = dto.UserId, // this is the userid that creates the workoutplan
+                CreatedAt = DateTime.UtcNow // date and time it was created
+            };
+
+            _dbContext.MealPlans.Add(mealPlan); // adds meal plan to the database
+            await _dbContext.SaveChangesAsync();
+             
+            var meals = await _dbContext.Meals // this gets all the meals created by the user
+                .Where(m => dto.MealIds.Contains(m.MealId)) // this is a list of ids that will link to the meals database
+                .ToListAsync();
+
+            foreach (var meal in meals) // this sets the planid for the meals
+            {
+                meal.MealPlanId = mealPlan.MealPlanId;
             }
+
+            await _dbContext.SaveChangesAsync();
+            return mealPlan;
         }
 
         public async Task<Meals> CreateMeal(Meals meal)
         {
-            try
-            {
-                if (meal.MealPlanId == null && meal.UserId == null)
-                {
-                    throw new Exception("UserId is required for creating meals.");
-                }
-
-                _dbContext.Meals.Add(meal);
-                await _dbContext.SaveChangesAsync();
-
-                return meal;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Creating a Meal has failed: " + ex.InnerException?.Message, ex);
-            }
+            _dbContext.Meals.Add(meal);
+            await _dbContext.SaveChangesAsync();
+            return meal;
         }
 
-        public async Task<IEnumerable<Meals>> GetMealsByUser(int userId)
-        {
-            return await _dbContext.Meals
-                .Where(m => m.MealPlanId == null && m.UserId == userId)
-                .ToListAsync();
-        }
 
         public async Task<Meals> AddMealToExistingMealPlan(Meals meal)
         {

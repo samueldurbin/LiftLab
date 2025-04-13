@@ -37,46 +37,24 @@ namespace WebApi.Controllers
             return Ok(meals);
         }
 
-        [HttpPost("createmealplan")]
-        public async Task<IActionResult> CreateMealPlan([FromBody] CreateMealPlanDTO request) // creates meal plan with the DTO
+        [HttpPost("createmeal")]
+        public async Task<IActionResult> CreateMeal([FromBody] Meals meal)
         {
-            try
-            {
-                var newPlan = await _mealPlansService.CreateMealPlan(
-                    new MealPlans
-                    {
-                        MealPlanName = request.MealPlanName,
-                        UserId = request.UserId
-                    },
-                    request.Meals
-                );
-
-                return Ok(new { Message = "Meal Plan has been created!", PlanId = newPlan.MealPlanId });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
+            var created = await _mealPlansService.CreateMeal(meal);
+            return Ok(created);
         }
 
-        [HttpPost("createmeal")]
-        public async Task<IActionResult> CreateMeals([FromBody] Meals meal) // this creates a single meal, outside of a plan and can be included into plan later
+        [HttpPost("createmealplan")]
+        public async Task<IActionResult> CreateMealPlan([FromBody] CreateMealPlanDTO dto)
         {
-            try
-            {
-                var createdMeal = await _mealPlansService.CreateMeal(meal);
-                return Ok(new { Message = "Meal has been created successfully", MealId = createdMeal.MealId });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Failed to create meal", Error = ex.Message });
-            }
+            var plan = await _mealPlansService.CreateMealPlan(dto);
+            return Ok(plan);
         }
 
         [HttpGet("meals/{userId}")]
         public async Task<IActionResult> GetMeals(int userId)
         {
-            var meals = await _mealPlansService.GetMealsByUser(userId); // gets meals outside of meal plans
+            var meals = await _mealPlansService.GetMealsByUserId(userId);
             return Ok(meals);
         }
 

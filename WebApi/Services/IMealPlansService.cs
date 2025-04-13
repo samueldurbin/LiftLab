@@ -6,12 +6,12 @@ namespace WebApi.Services
     {
         Task<IEnumerable<MealPlans>> GetAllMealPlans();
         Task<IEnumerable<MealPlans>> GetMealPlansByUser(int userId);
-        Task<MealPlans> CreateMealPlan(MealPlans plan, List<Meals> meals);
         Task<MealPlans> AddExternalUserMealPlan(int mealPlanId, int userId);
         Task<List<Meals>> GetMealsByPlanId(int planId);
-        Task<IEnumerable<Meals>> GetMealsByUser(int userId);
-        Task<Meals> CreateMeal(Meals meal);
+        Task<IEnumerable<Meals>> GetMealsByUserId(int userId);
         Task<Meals> AddMealToExistingMealPlan(Meals meal);
         Task<Meals> AddExternalUserMeal(int mealId, int userId);
+        Task<Meals> CreateMeal(Meals meal);
+        Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto);
     }
 }

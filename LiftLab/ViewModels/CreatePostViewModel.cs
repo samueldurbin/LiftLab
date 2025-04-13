@@ -68,11 +68,9 @@ namespace LiftLab.ViewModels
                 ClearOtherSelections("MealPlan");
 
                 ShowMealPlans = !ShowMealPlans;
-
-                if (ShowMealPlans && MealPlans.Count == 0)
-                {
-                    await LoadMealPlans();
-                }
+                
+                await LoadMealPlans();
+                
             });
 
             ToggleMealsCommand = new Command(async () =>
@@ -80,11 +78,9 @@ namespace LiftLab.ViewModels
                 ClearOtherSelections("Meal");
 
                 ShowMeals = !ShowMeals;
-
-                if (ShowMeals && Meals.Count == 0)
-                {
-                    await LoadMeals();
-                }
+                
+                await LoadMeals();
+                
             });
             #endregion
 
@@ -226,7 +222,7 @@ namespace LiftLab.ViewModels
         {
             int userId = Preferences.Get("UserId", 0);
 
-            var meals = await _communityService.GetMealsByUserId(userId);
+            var meals = await _communityService.GetMealsByUser(userId);
 
             Meals.Clear();
 
