@@ -9,7 +9,7 @@ namespace Shared.Models
     public class WorkoutInPlanDTO
     {
         public int WorkoutId { get; set; }
-        public int Reps { get; set; }
-        public int Sets { get; set; }
+        public int? Reps { get; set; }
+        public int? Sets { get; set; }
     }
 }

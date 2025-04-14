@@ -90,31 +90,56 @@ namespace WebApi.Services
 
         public async Task<bool> LikePost(int postId, int userId)  // adds a like to a  fitnesspost
         {
-            var post = await _dbContext.CommunityPosts.FindAsync(postId); // finds a fitnesspost in the database or one that will be shown in the frontend
+            var post = await _dbContext.CommunityPosts.FindAsync(postId);
+            if (post == null) return false;
 
-            if (post == null)  // checks if the post exists which is mainly for backend testing as posts that dont exist wont be shown in the front end
+            var existingLike = await _dbContext.CommunityPostLikes
+                .FirstOrDefaultAsync(l => l.CommunityPostId == postId && l.UserId == userId);
+
+            if (existingLike != null)
             {
-                return false; // returns false if the post does not exist
+                // UNLIKE
+                _dbContext.CommunityPostLikes.Remove(existingLike);
+                post.LikeCount = Math.Max(0, post.LikeCount - 1);
+            }
+            else
+            {
+                // LIKE
+                _dbContext.CommunityPostLikes.Add(new CommunityPostLike
+                {
+                    CommunityPostId = postId,
+                    UserId = userId
+                });
+                post.LikeCount += 1;
             }
 
-            var alreadyLiked = await _dbContext.CommunityPostLikes // this prevents a post from being liked more than once
-                .AnyAsync(l => l.CommunityPostId == postId && l.UserId == userId);
-
-            if (alreadyLiked) // this will check if a post has already been liked and return false (again mainly for backend testing)
-            {
-                return false;
-            }
-
-            _dbContext.CommunityPostLikes.Add(new CommunityPostLike // adds a new entry into the database if the psot is liked
-            {
-                CommunityPostId = postId, // the fitness post being liked by a user
-                UserId = userId // the userid liking the post
-            });
-
-            post.LikeCount += 1; // increments the like count by 1 if the post is liked by a user
-
-            await _dbContext.SaveChangesAsync();// saves c
+            await _dbContext.SaveChangesAsync();
             return true;
+            //var post = await _dbContext.CommunityPosts.FindAsync(postId); // finds a fitnesspost in the database or one that will be shown in the frontend
+
+            //if (post == null)  // checks if the post exists which is mainly for backend testing as posts that dont exist wont be shown in the front end
+            //{
+            //    return false; // returns false if the post does not exist
+            //}
+
+            //var alreadyLiked = await _dbContext.CommunityPostLikes // this prevents a post from being liked more than once
+            //    .AnyAsync(l => l.CommunityPostId == postId && l.UserId == userId);
+
+            //if (alreadyLiked) // this will check if a post has already been liked and return false (again mainly for backend testing)
+            //{
+            //    return false;
+            //}
+
+            //_dbContext.CommunityPostLikes.Add(new CommunityPostLike // adds a new entry into the database if the psot is liked
+            //{
+            //    CommunityPostId = postId, // the fitness post being liked by a user
+            //    UserId = userId // the userid liking the post
+            //});
+
+            //post.LikeCount += 1; // increments the like count by 1 if the post is liked by a user
+
+            //await _dbContext.SaveChangesAsync();// saves c
+            //return true;
         }
 
         public async Task<IEnumerable<CommunityPost>> GetPostsByUserId(int userId)

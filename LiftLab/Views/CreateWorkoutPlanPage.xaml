@@ -9,23 +9,35 @@
         <vm:WorkoutPlansViewModel />
     </ContentPage.BindingContext>
 
-    <!--Where the user creates the name of the workout plan-->
-    <StackLayout Padding="20" Spacing="10">
-        <Entry Placeholder="Plan Name" Text="{Binding WorkoutPlanName}" />
-        <Button Text="Add Exercises" Clicked="OnAddExercisesClicked"  />
-        <!--List of selected workouts from select workotus page-->
-        <Label Text="Selected Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
-        <CollectionView ItemsSource="{Binding WorkoutList}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Frame IsVisible="{Binding IsSelected}" Padding="10" Margin="5">
-                        <Label Text="{Binding Workout.WorkoutName}" />
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <!--button to create workout plans-->
-        <Button Text="Create Workout Plan" Command="{Binding CreatePlanCommand}" Margin="0,20,0,0"/>
-    </StackLayout>
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="10">
+            <Entry Placeholder="Plan Name" Text="{Binding WorkoutPlanName}" />
+            <Button Text="Add Exercises" Clicked="OnAddExercisesClicked" />
+            <Label Text="Selected Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
+
+            <CollectionView ItemsSource="{Binding WorkoutList}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame IsVisible="{Binding IsSelected}" Padding="10" Margin="5">
+                            <StackLayout>
+                                <Label Text="{Binding Workout.WorkoutName}" FontAttributes="Bold" />
+
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="Reps:" VerticalOptions="Center"/>
+                                    <Entry WidthRequest="60" Keyboard="Numeric" Text="{Binding Reps, Mode=TwoWay}" />
+
+                                    <Label Text="Sets:" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                    <Entry WidthRequest="60" Keyboard="Numeric" Text="{Binding Sets, Mode=TwoWay}" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Create Workout Plan" Command="{Binding CreatePlanCommand}" Margin="0,20,0,0"/>
+        </StackLayout>
+    </ScrollView>
+
 
 </ContentPage>

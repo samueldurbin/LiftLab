@@ -80,37 +80,43 @@ namespace LiftLab.ViewModels
 
         }
 
-        private async Task CreatePlan() // method to create a workout plan
+        private async Task CreatePlan()
         {
             try
             {
-                var selectedWorkouts = WorkoutList // selected workout ids and into a list
+                int userId = Preferences.Get("UserId", 0);
+
+                var selectedWorkouts = WorkoutList
                     .Where(w => w.IsSelected)
-                    .Select(w => w.Workout.WorkoutId)
-                    .ToList();
+                    .Select(w => new WorkoutInPlanDTO
+                    {
+                        WorkoutId = w.Workout.WorkoutId,
+                        Reps = w.Reps, // now users can input reps and sets into each workout
+                        Sets = w.Sets
+                    }).ToList();
 
-                int userId = Preferences.Get("UserId", 0); // this method gets the user id preferences from the login
-
-                var newPlan = await _workoutPlansService.CreateWorkoutPlan(new CreateWorkoutPlan // creates new workout plan and puts in the list of selected workouts
+                var newPlan = await _workoutPlansService.CreateWorkoutPlan(new CreateWorkoutPlan
                 {
-                    WorkoutPlanName = WorkoutPlanName, // the workoutplan name that has been created by the user input
-                    UserId = userId, // userid from preferences
-                    //WorkoutIds = selectedWorkouts // all of the workouts that have been selected by the user
+                    WorkoutPlanName = WorkoutPlanName,
+                    UserId = userId,
+                    Workouts = selectedWorkouts
                 });
 
                 if (newPlan != null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Success", "Workout plan created with workouts successfully!", "Nice"); // success message if created successfully
+                    await Application.Current.MainPage.DisplayAlert("Success", "Workout plan created successfully!", "Nice");
 
-                    foreach (var workout in WorkoutList)
+                    foreach (var workout in WorkoutList) // this clears out the ui for next inputs
                     {
-                        workout.IsSelected = false; // resets selected workouts from the list
+                        workout.IsSelected = false;
+                        workout.Reps = null;
+                        workout.Sets = null;
                     }
                 }
             }
-            catch (Exception ex) // catch error message
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Failed to create the new workout plan: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to create the workout plan: {ex.Message}", "OK");
             }
         }
 

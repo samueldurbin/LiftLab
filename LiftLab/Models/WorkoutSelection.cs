@@ -11,6 +11,8 @@ namespace LiftLab.Models
     {
         public Workouts Workout { get; set; }
         public bool IsSelected { get; set; }
-        public string WorkoutName => Workout.WorkoutName;
+        public int? Reps { get; set; }
+        public int? Sets { get; set; }
+
     }
 }
