@@ -181,14 +181,18 @@ namespace LiftLab.ViewModels
 
         private async Task ViewUserProfile(CommunityPost post) // viewing user profiles
         {
-            if (post == null || post.UserId <= 0)
+            if (post == null) return;
+
+            int currentUserId = Preferences.Get("UserId", 0);
+
+            if (post.UserId == currentUserId)
             {
-                return;
+                await Shell.Current.GoToAsync($"./{nameof(ProfilePage)}");
             }
-
-            var profilePage = new PublicProfilePage(post.UserId); // pass userId into constructor
-
-            await Shell.Current.Navigation.PushAsync(profilePage); // page navigation
+            else
+            {
+                await Shell.Current.GoToAsync($"./{nameof(ProfilePage)}?userId={post.UserId}");
+            }
         }
 
         private async Task GetsPosts()

@@ -61,13 +61,16 @@
 	  <Compile Remove="Services\NutritionPostServiceUI.cs" />
 	  <Compile Remove="ViewModels\CommunityViewModel.cs" />
 	  <Compile Remove="ViewModels\CreateNutritionPostViewModel.cs" />
+	  <Compile Remove="ViewModels\PublicProfileViewModel.cs" />
 	  <Compile Remove="Views\CommunityPage.xaml.cs" />
 	  <Compile Remove="Views\CreateNutritionPost.xaml.cs" />
+	  <Compile Remove="Views\PublicProfilePage.xaml.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Remove="Views\CommunityPage.xaml" />
 	  <MauiXaml Remove="Views\CreateNutritionPost.xaml" />
+	  <MauiXaml Remove="Views\PublicProfilePage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -121,9 +124,6 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ProfilePage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PublicProfilePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\UpdateUserInfoSettings.xaml">

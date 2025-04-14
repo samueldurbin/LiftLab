@@ -93,6 +93,13 @@ namespace WebApi.Controllers
 
             return Ok(result); // http 200 ok
         }
+
+        [HttpGet("getpostsbyuser/{userId}")]
+        public async Task<IActionResult> GetPostsByUserId(int userId)
+        {
+            var userPosts = await _communityPostService.GetPostsByUserId(userId);
+            return Ok(userPosts);
+        }
     }
 
 }

@@ -231,6 +231,18 @@ namespace LiftLab.Services
         }
 
         #endregion
+
+        public async Task<List<CommunityPost>> GetCommunityPostsByUserId(int userId)
+        {
+            var response = await _httpClient.GetAsync($"CommunityPosts/getpostsbyuser/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<CommunityPost>>();
+            }
+
+            return new List<CommunityPost>();
+        }
     }
 
 }

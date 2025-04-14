@@ -116,5 +116,13 @@ namespace WebApi.Services
             await _dbContext.SaveChangesAsync();// saves c
             return true;
         }
+
+        public async Task<IEnumerable<CommunityPost>> GetPostsByUserId(int userId)
+        {
+            return await _dbContext.CommunityPosts
+                .Where(p => p.UserId == userId)
+                .Include(p => p.Comments)
+                .ToListAsync();
+        }
     }
 }
