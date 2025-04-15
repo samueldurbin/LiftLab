@@ -81,6 +81,19 @@ namespace WebApi.Controllers
             return Ok(comment);
         }
 
+        [HttpDelete("deletepost/{postId}/{userId}")]
+        public async Task<IActionResult> DeletePost(int postId, int userId)
+        {
+            var result = await _communityPostService.DeletePost(postId, userId);
+
+            if (!result)
+            {
+                return BadRequest("Could not delete post. Please try again");
+            }
+
+            return Ok("Post deleted successfully!");
+        }
+
         [HttpPost("like/{postId}/{userId}")] // this endpoint uses the id of the post and the userid who liked it
         public async Task<IActionResult> LikePost(int postId, int userId) 
         {

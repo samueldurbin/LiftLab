@@ -11,7 +11,7 @@ namespace WebApi.Services
         Task<CommunityPostComments> UpdateComments(CommunityPostComments updatedComment); // updates comment
         Task<bool> LikePost(int postId, int userId); // likes a fitness post
         Task<CommunityPostComments> AddComment(CommunityPostComments comment); // adds comments
-
+        Task<bool> DeletePost(int postId, int userId); // deletes post
         Task<IEnumerable<CommunityPost>> GetPostsByUserId(int userId);
     }
 }

@@ -131,6 +131,19 @@ namespace WebApi.Services
             return true;
         }
 
+        public async Task<List<WorkoutInPlanDTO>> GetWorkoutPlanDetails(int planId)
+        {
+            return await _dbContext.WorkoutPlansData
+                .Where(w => w.WorkoutPlanId == planId)
+                .Select(w => new WorkoutInPlanDTO
+                {
+                    WorkoutId = w.WorkoutId,
+                    Reps = w.Reps,
+                    Sets = w.Sets
+                })
+                .ToListAsync();
+        }
+
         public async Task<bool> DeleteWorkoutFromPlan(int workoutPlanId, int workoutId)
         {
             var input = await _dbContext.WorkoutPlansData

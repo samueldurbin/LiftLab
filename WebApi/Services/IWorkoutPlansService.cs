@@ -11,6 +11,7 @@ namespace WebApi.Services
         Task<bool> AddWorkoutToPlan(int workoutPlanId, int workoutId, int reps, int sets);
         Task<WorkoutPlans> CreatePlan(WorkoutPlans plan, List<WorkoutInPlanDTO> workouts); // creates plans with the available workouts
         Task<bool> DeleteWorkoutFromPlan(int workoutPlanId, int workoutId);
+        Task<List<WorkoutInPlanDTO>> GetWorkoutPlanDetails(int planId);
 
     }
 }

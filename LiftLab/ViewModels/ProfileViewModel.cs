@@ -37,6 +37,8 @@ namespace LiftLab.ViewModels
         }
 
         public ICommand SettingsCommand { get; }
+        public ICommand DeletePostCommand { get; }
+
 
         public ProfileViewModel()
         {
@@ -48,6 +50,45 @@ namespace LiftLab.ViewModels
             {
                 //await Shell.Current.GoToAsync(nameof(SettingsPage));
             });
+
+            DeletePostCommand = new Command<int>(async (postId) => await DeletePostAsync(postId));
+        }
+
+        private async Task DeletePostAsync(int postId)
+        {
+            bool confirm = await Application.Current.MainPage.DisplayAlert("Confirm", "Are you sure you want to delete this post?", "Yes", "No"); // message to make sure the user knows the delete action
+            if (!confirm) 
+            { 
+                return;
+            }
+
+            IsBusy = true;
+
+            try
+            {
+                var userId = Preferences.Get("UserId", 0);
+
+                bool success = await _communityService.DeleteCommunityPost(postId, userId);
+
+                if (success)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Deleted", "Post deleted successfully!", "OK");
+
+                    await LoadUserProfile(userId); // refresh user posts
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Unable to delete post. Please try again", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Something went wrong: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         public async Task LoadUserProfile(int userId)

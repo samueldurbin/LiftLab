@@ -30,12 +30,19 @@ namespace WebApi.Controllers
             return Ok(plans);
         }
 
-        [HttpGet("getplanworkouts/{planId}")] // this gets the associated workout ids within a plan
+        [HttpGet("getplanworkouts/{planId}")]
         public async Task<IActionResult> GetPlanWorkoutsByPlanId(int planId)
         {
-            var plans = await _workoutPlansService.GetPlanWorkoutsByPlan(planId); // function to get workoutids plans by userid in services
-            return Ok(plans);
+            var workouts = await _workoutPlansService.GetWorkoutPlanDetails(planId);
+            return Ok(workouts);
         }
+
+        //[HttpGet("getplanworkouts/{planId}")] // this gets the associated workout ids within a plan
+        //public async Task<IActionResult> GetPlanWorkoutsByPlanId(int planId)
+        //{
+        //    var plans = await _workoutPlansService.GetPlanWorkoutsByPlan(planId); // function to get workoutids plans by userid in services
+        //    return Ok(plans);
+        //}
 
         [HttpPost("createplan")]
         public async Task<IActionResult> CreatePlanWithWorkouts([FromBody] CreateWorkoutPlan request) // creates workout plan from the inserted body

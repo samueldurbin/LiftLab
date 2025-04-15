@@ -11,11 +11,11 @@ using System.Collections.ObjectModel;
 
 namespace LiftLab.ViewModels
 {
-    public class WorkoutsInPlanViewModel : BaseViewModel // this viewmodel is for the workouts that are contained in a workout plan
+    public class WorkoutsInPlanViewModel : BaseViewModel
     {
         private readonly WorkoutPlansServiceUI _workoutPlansService;
 
-        public ObservableCollection<Workouts> WorkoutsInPlan { get; set; } = new(); // workouts associated with a selected workoutplan
+        public ObservableCollection<WorkoutInPlanDisplay> WorkoutsInPlan { get; set; } = new();
 
         private WorkoutPlans selectedPlan;
 
@@ -24,45 +24,59 @@ namespace LiftLab.ViewModels
             get => selectedPlan;
             set
             {
-                selectedPlan = value; // sets new selected workout plan
+                selectedPlan = value;
                 OnPropertyChanged();
-                LoadWorkoutsForSelectedPlan(); // loads the workouts for the selectedworkout plan
+                LoadWorkoutsForSelectedPlan();
             }
         }
 
         public WorkoutsInPlanViewModel()
         {
-            _workoutPlansService = new WorkoutPlansServiceUI(); // initialises the WorkoutPlansServiceUI
-
+            _workoutPlansService = new WorkoutPlansServiceUI();
         }
 
-        public async void LoadWorkoutsForSelectedPlan() // this method will be used to load the workouts associated for a selected workout plan
+        public async void LoadWorkoutsForSelectedPlan()
         {
             try
             {
-                if (SelectedPlan == null) 
+                if (SelectedPlan == null)
+                    return;
+
+                // 1. Get reps, sets, workoutIds
+                var workoutPlanData = await _workoutPlansService.GetWorkoutDetailsForPlan(SelectedPlan.WorkoutPlanId);
+
+                // 2. Get all workouts (to resolve names)
+                var allWorkouts = await _workoutPlansService.GetAllWorkouts();
+
+                // 3. Join workoutId to get names
+                WorkoutsInPlan.Clear();
+                foreach (var item in workoutPlanData)
                 {
-                    return; // if no plan is selected
-                } 
-
-                var workoutIds = await _workoutPlansService.GetWorkoutsByPlanId(SelectedPlan.WorkoutPlanId); // calls the method in the service to get the associated workout ids to the selected plan
-                var allWorkouts = await _workoutPlansService.GetAllWorkouts(); // get all workouts
-
-                var filteredWorkouts = allWorkouts // gets the workouts that match the ones selected
-                    .Where(w => workoutIds.Contains(w.WorkoutId))
-                    .ToList();
-
-                WorkoutsInPlan.Clear(); // clear
-                foreach (var workout in filteredWorkouts) // this adds each workouts into a list to be shown on the view
-                {
-                    WorkoutsInPlan.Add(workout);
+                    var workout = allWorkouts.FirstOrDefault(w => w.WorkoutId == item.WorkoutId);
+                    if (workout != null)
+                    {
+                        WorkoutsInPlan.Add(new WorkoutInPlanDisplay
+                        {
+                            WorkoutName = workout.WorkoutName,
+                            Reps = item.Reps,
+                            Sets = item.Sets
+                        });
+                    }
                 }
             }
-            catch (Exception ex) // catch exception message
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Could not loadthe list of workouts: {ex.Message}", "OK"); // alert message if incoming data did not load
+                await Application.Current.MainPage.DisplayAlert("Error!", $"Could not load workouts: {ex.Message}", "OK");
             }
         }
-
     }
+
+    public class WorkoutInPlanDisplay
+    {
+        public string WorkoutName { get; set; }
+        public int? Reps { get; set; }
+        public int? Sets { get; set; }
+    }
+
 }
+

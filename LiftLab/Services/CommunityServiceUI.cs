@@ -243,6 +243,12 @@ namespace LiftLab.Services
 
             return new List<CommunityPost>();
         }
+
+        public async Task<bool> DeleteCommunityPost(int postId, int userId)
+        {
+            var response = await _httpClient.DeleteAsync($"CommunityPosts/deletepost/{postId}/{userId}"); //http delete request
+            return response.IsSuccessStatusCode;
+        }
     }
 
 }

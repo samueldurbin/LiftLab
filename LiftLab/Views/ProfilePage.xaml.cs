@@ -14,17 +14,22 @@ public partial class ProfilePage : ContentPage
 
     protected override async void OnAppearing()
     {
+
         base.OnAppearing();
 
-        if (BindingContext is ProfileViewModel viewModel) // binding using viewmodel
+        if (BindingContext is ProfileViewModel viewModel)
         {
-            int loggedInUserId = Preferences.Get("UserId", 0); // this gets the preferences from the logged in user
+            int loggedInUserId = Preferences.Get("UserId", 0);
 
+            // Determine which user to load (own profile or someone else's)
             int userId = UserId == 0 ? loggedInUserId : UserId;
 
             viewModel.UserProfile = userId == loggedInUserId;
 
+            // Show loading spinner while loading profile
+            viewModel.IsBusy = true;
             await viewModel.LoadUserProfile(userId);
+            viewModel.IsBusy = false;
         }
     }
 }

@@ -2,16 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.ViewAllWorkoutsPage"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
              Title="Workouts in Plan">
+
+    <ContentPage.BindingContext>
+        <vm:WorkoutsInPlanViewModel />
+    </ContentPage.BindingContext>
     
-    <!--This is where the incoming workout data will be shown-->
     <CollectionView ItemsSource="{Binding WorkoutsInPlan}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <!--The Box the workout name will be stored-->
                 <Frame BackgroundColor="LightBlue" CornerRadius="12" Padding="10" Margin="5">
-                    <!--Name of the Workout and its properties-->
-                    <Label Text="{Binding WorkoutName}" FontSize="22" TextColor="White"/>
+                    <StackLayout>
+                        <Label Text="{Binding WorkoutName}" FontSize="22" TextColor="White" />
+                        <Label Text="{Binding Reps, StringFormat='Reps: {0}'}" FontSize="16" TextColor="White" />
+                        <Label Text="{Binding Sets, StringFormat='Sets: {0}'}" FontSize="16" TextColor="White" />
+                    </StackLayout>
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
