@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Services\CommunityServiceUI.cs" />
 	  <Compile Remove="Services\FitnessPostServiceUI.cs" />
 	  <Compile Remove="Services\NutritionPostServiceUI.cs" />
 	  <Compile Remove="ViewModels\CommunityViewModel.cs" />
