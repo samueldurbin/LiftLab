@@ -4,62 +4,58 @@
              x:Class="LiftLab.Views.CreatePost"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
              xmlns:helper="clr-namespace:LiftLab.Helpers"
-             Title="CreatePost">
+             Title="LiftLab Community">
 
     <ContentPage.BindingContext>
         <vm:CreatePostViewModel />
     </ContentPage.BindingContext>
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Label Text="Create a Post" FontSize="24" FontAttributes="Bold" />
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto, Auto" Padding="10" RowSpacing="30">
 
-            <Editor Placeholder="Write a caption..." AutoSize="TextChanges" HeightRequest="100" Text="{Binding Caption}" />
-            <HorizontalStackLayout Spacing="10">
-                <Button Text="Workout Plan" Command="{Binding ToggleWorkoutPlansCommand}" />
-                <Button Text="Meal Plan" Command="{Binding ToggleMealPlansCommand}" />
-                <Button Text="Meal" Command="{Binding ToggleMealsCommand}" />
-            </HorizontalStackLayout>
-            <Grid IsVisible="{Binding ShowWorkoutPlans}" ColumnDefinitions="*, Auto" Padding="0,10,0,0">
-                <Picker Grid.Column="0"
-                        Title="Select a workout plan"
-                        ItemsSource="{Binding WorkoutPlans}"
-                        ItemDisplayBinding="{Binding WorkoutPlanName}"
-                        SelectedItem="{Binding SelectedWorkoutPlan}" />
-                <Label Grid.Column="1" Text="&#xf2ed;" FontFamily="FASolid" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ClearWorkoutPlanCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
-            <Grid IsVisible="{Binding ShowMealPlans}" ColumnDefinitions="*, Auto" Padding="0,10,0,0">
-                <Picker Grid.Column="0"
-                        Title="Select a meal plan"
-                        ItemsSource="{Binding MealPlans}"
-                        ItemDisplayBinding="{Binding MealPlanName}"
-                        SelectedItem="{Binding SelectedMealPlan}" />
-                <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ClearMealPlanCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
-            <Grid IsVisible="{Binding ShowMeals}" ColumnDefinitions="*, Auto" Padding="0,10,0,0">
-                <Picker Grid.Column="0"
-                        Title="Select a meal"
-                        ItemsSource="{Binding Meals}"
-                        ItemDisplayBinding="{Binding MealName}"
-                        SelectedItem="{Binding SelectedMeals}" />
-                <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="20" TextColor="DarkRed" VerticalOptions="Center">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ClearMealsCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
-            </Grid>
+        <Label Grid.Row="0" Text="Create a Post" FontSize="24" FontAttributes="Bold"/>
 
-            <Button Text="Create Post" Command="{Binding CreatePostCommand}" BackgroundColor="DarkGreen" TextColor="White" />
+        <BoxView Grid.Row="1" HeightRequest="3" Color="Red" HorizontalOptions="Fill" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <Editor Grid.Row="2" Placeholder="Write a Caption here..." AutoSize="TextChanges" HeightRequest="70" Text="{Binding Caption}" />
+
+        <Grid Grid.Row="3" ColumnDefinitions="*,*,*" ColumnSpacing="10" HorizontalOptions="FillAndExpand">
+            <Button Grid.Column="0" Text="{x:Static helper:FontAwesome.Dumbbell}" FontFamily="FASolid" FontSize="20" Command="{Binding ToggleWorkoutPlansCommand}" />
+            <Button Grid.Column="1" Text="{x:Static helper:FontAwesome.List}" FontFamily="FASolid" FontSize="20" Command="{Binding ToggleMealPlansCommand}" />
+            <Button Grid.Column="2" Text="{x:Static helper:FontAwesome.BowlRice}" FontFamily="FASolid" FontSize="20" Command="{Binding ToggleMealsCommand}" />
+        </Grid>
+
+        <Grid Grid.Row="4" IsVisible="{Binding ShowWorkoutPlans}" ColumnDefinitions="*, Auto">
+            <Picker Title="Select a Workout Plan from your account" ItemsSource="{Binding WorkoutPlans}" ItemDisplayBinding="{Binding WorkoutPlanName}" SelectedItem="{Binding SelectedWorkoutPlan}" />
+            <Label Grid.Column="1" Text="{x:Static helper:FontAwesome.TrashCan}" FontFamily="FASolid" FontSize="20" TextColor="Red" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ClearWorkoutPlanCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <Grid Grid.Row="5" IsVisible="{Binding ShowMealPlans}" ColumnDefinitions="*, Auto">
+            <Picker Title="Select a Meal Plan from your account" ItemsSource="{Binding MealPlans}" ItemDisplayBinding="{Binding MealPlanName}" SelectedItem="{Binding SelectedMealPlan}" />
+            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="20" TextColor="Red" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ClearMealPlanCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <Grid Grid.Row="6" IsVisible="{Binding ShowMeals}" ColumnDefinitions="*, Auto">
+            <Picker Title="Select a Meal from your account" ItemsSource="{Binding Meals}" ItemDisplayBinding="{Binding MealName}" SelectedItem="{Binding SelectedMeals}" />
+            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="20" TextColor="Red" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ClearMealsCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+
+        <Grid Grid.Row="7" ColumnSpacing="10" HorizontalOptions="Fill">
+            <Button Grid.Row="7"  Text="Create Post" Command="{Binding CreatePostCommand}" BackgroundColor="Blue" FontAttributes="Bold" TextColor="White" WidthRequest="200" />
+        </Grid>
+
+    </Grid>
+
 </ContentPage>

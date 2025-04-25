@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace LiftLab.ViewModels
 {
-    public class BaseViewModel : INotifyPropertyChanged  // reusuable class, Notifys when property changes and updates ui
+    public class BaseViewModel : INotifyPropertyChanged  // INotifyPropertyChanged allows the class to use PropertyChanged events
     {
-        #region Property Change Events
         public event PropertyChangedEventHandler PropertyChanged;
-        private bool isBusy;
 
+        private bool isBusy;
 
         protected bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = "") // method for property setters
         {
@@ -42,6 +41,5 @@ namespace LiftLab.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        #endregion
     }
 }

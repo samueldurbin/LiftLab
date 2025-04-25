@@ -4,69 +4,97 @@
              x:Class="LiftLab.Views.Community"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
              xmlns:helper="clr-namespace:LiftLab.Helpers"
-             Title="Community">
-    
+             Title=" LiftLab Community">
+
+    <!--Binding-->
     <ContentPage.BindingContext>
         <vm:CommunityPostViewModel />
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,*" Padding="10">
-        <Grid ColumnDefinitions="Auto,*,Auto" Padding="10">
-            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="28" TextColor="blue">
+        <!--3 columns with a space in the middle to divide up the view for icons to be eitehr side-->
+        <Grid ColumnDefinitions="Auto,*,Auto" Padding="7">
+            <!--Plus icon to add a post-->
+            <!--FontAwesomeIcon-->
+            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="30" TextColor="Blue">
                 <Label.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding NavigationCommand}" />
+                    <!--Makes the icon cliclable and navigates to add post page-->
+                    <TapGestureRecognizer Command="{Binding AddPostCommand}" />
                 </Label.GestureRecognizers>
             </Label>
-            <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.PeopleGroup}" FontSize="28" TextColor="blue">
+            <!--Adding friends icon to friends page-->
+            <!--FontAwesome Icon-->
+            <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.PeopleGroup}" FontSize="30" TextColor="Blue">
                 <Label.GestureRecognizers>
+                    <!--Makes the icon cliclable and navigates to add friends page-->
                     <TapGestureRecognizer Command="{Binding AddFriendsCommand}" />
                 </Label.GestureRecognizers>
             </Label>
         </Grid>
-        <StackLayout Grid.Row="1" Padding="0">
+        <!--Handles the incoming posts from the api-->
+        <!--Grid layout 1 as it takes up remaining space of the view (where grid 0 is the icon bar at the top of the posts)-->
+        <StackLayout Grid.Row="1">
+            <!--Loading spinner to show users that data is actually being loaded-->
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+            <!--The list of posts-->
             <CollectionView ItemsSource="{Binding CommunityPosts}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Margin="0,10" Padding="0" HasShadow="True" CornerRadius="10" BackgroundColor="White">
-                            <VerticalStackLayout Padding="0" Spacing="0">
+                        <!--The post itself-->
+                        <Frame Margin="5" Padding="0" HasShadow="True" CornerRadius="15" BackgroundColor="White">
+                            <VerticalStackLayout>
+                                <!--The top section of the post (includes User Icon, Username and Eye Icon)-->
                                 <Grid ColumnDefinitions="Auto,*,Auto" Padding="10,10,10,0" VerticalOptions="Center">
+                                    <!--User Icon-->
                                     <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.UserAstronaut}" FontSize="18" VerticalOptions="Center" />
+                                    <!--Username-->
                                     <Label Grid.Column="1" Text="{Binding Username}" FontSize="20" FontAttributes="Bold" HorizontalOptions="StartAndExpand" VerticalOptions="Center" Margin="6,0,0,0">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=ViewUserProfileCommand}" CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
+                                    <!--Eye icon to view the attatched plan-->
                                     <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="18" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Center">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=ShowPlanDetailsCommand}" CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </Grid>
+                                <!--Divides the post box frame apart to separate the username and caption section-->
                                 <BoxView HeightRequest="1" Color="Red" HorizontalOptions="Fill" Margin="10,5,10,0" />
+                                <!--Caption and the Plus to add plans-->
                                 <Grid ColumnDefinitions="*,Auto" Padding="10,5,10,10" Margin="0,5,0,0">
                                     <Label Grid.Column="0" Text="{Binding Caption}" FontSize="18" HorizontalOptions="StartAndExpand" />
                                     <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="18" TextColor="blue" VerticalOptions="Center" HorizontalOptions="End">
                                         <Label.GestureRecognizers>
+                                            <!--Makes the Plus icon clickable-->
+                                            <!--The Binding Source and Parameter is used due to the separate objects-->
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=AddPlansToUserAccountCommand}" CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </Grid>
+                                <!--Horizontal stack that contains the like and commetn section-->
                                 <HorizontalStackLayout Padding="10,0,10,10" Spacing="10" Margin="0,5,0,0">
-                                    <HorizontalStackLayout Spacing="4">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <!--Heart icon to Like or unlike a post-->
                                         <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Heart}" FontSize="20" TextColor="Red">
                                             <Label.GestureRecognizers>
+                                                <!--Makes the heart clickable and used to increase or decrease the likecount-->
                                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=LikePostCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
-                                        <Label Text="{Binding LikeCount}" FontSize="14" />
+                                        <!--Like Count-->
+                                        <Label Text="{Binding LikeCount}" FontSize="16" />
                                     </HorizontalStackLayout>
+                                    <!--Comments section-->
                                     <HorizontalStackLayout Spacing="6">
-                                        <CheckBox x:Name="CommentToggle" IsVisible="False" />
+                                        <!--Comments icons-->
                                         <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Comment}" FontSize="20" />
-                                        <Label Text="{Binding Comments.Count}" FontSize="14" />
+                                        <!--Comments count-->
+                                        <Label Text="{Binding Comments.Count}" FontSize="16" />
                                     </HorizontalStackLayout>
                                 </HorizontalStackLayout>
+                                <!--The hidden Comments Section-->
                                 <VerticalStackLayout x:Name="CommentBox" IsVisible="False" Padding="10,0,10,10" Spacing="10" Margin="0,5,0,0">
                                     <CollectionView ItemsSource="{Binding Comments}">
                                         <CollectionView.ItemTemplate>

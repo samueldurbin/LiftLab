@@ -17,7 +17,6 @@ namespace LiftLab.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-
         private readonly UsersServiceUI _usersService;
 
         private string username; // variables for user input
@@ -27,11 +26,11 @@ namespace LiftLab.ViewModels
 
         public string Username
         {
-            get => username;  // recieves whats typed into the ui
+            get => username;  // receives whats typed into the ui
             set
             {
-                username = value;
-                OnPropertyChanged();
+                username = value.Trim(); // trim prevents the additional whitespace for usernames
+                OnPropertyChanged(); // notifies when property changes
             }
         }
 
@@ -40,8 +39,8 @@ namespace LiftLab.ViewModels
             get => password;
             set
             {
-                password = value;
-                OnPropertyChanged();
+                password = value.Trim(); // trim prevents the additional whitespace for passwords
+                OnPropertyChanged(); // notifies when property changes
             }
         }
 
@@ -56,26 +55,23 @@ namespace LiftLab.ViewModels
         {
             if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(Password))  // this displays an error if the fields are empty
             {
-                await Application.Current.MainPage.DisplayAlert("Error!", "Please enter both a username and password.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Please enter both a username and password.", "OK"); // error message for checking whether an entry was empty
                 return;
             }
 
-            var user = await _usersService.Login(Username, Password); // calls this method to authenticate the user details
+            var loggedUser = await _usersService.Login(Username, Password); // calls this method to authenticate the user details
 
-            if (user != null) // if the user is not empty / successfully authenticated
+            if (loggedUser != null) // if both fields are empty and match the credentials in a database, set the preferences and redirect to homepage
             {
-                Preferences.Set("UserId", user.UserId); // this sets the preferences of the application to the userid that has signed in
-                Preferences.Set("Username", user.Username); // this sets the preferences of the application to the username that has signed in, this will be changed in the future
+                Preferences.Set("UserId", loggedUser.UserId); // this sets the preferences of the application to the userid that has signed in
+                Preferences.Set("Username", loggedUser.Username); // this sets the preferences of the application to the username that has signed in, this will be changed in the future
 
-                await Application.Current.MainPage.DisplayAlert("Success!", $"Welcome, {user.Username}!", "OK"); // successful login message
+                Application.Current.MainPage = new AppShell(); // logging in initiates AppShell
 
-                Application.Current.MainPage = new AppShell();
-
-                //await Shell.Current.GoToAsync("//FitnessPage"); // this starts shell navigation that then shows the navigation bar
             }
             else
             {
-                await Application.Current.MainPage.DisplayAlert("Error!", "Invalid username or password, Please try agayun", "OK");   // error message
+                await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password, Please try again", "OK");  // error message for login fail
             }
         }
 

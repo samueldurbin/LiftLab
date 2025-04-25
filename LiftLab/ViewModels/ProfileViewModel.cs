@@ -13,7 +13,7 @@ namespace LiftLab.ViewModels
 {
     public class ProfileViewModel : BaseViewModel
     {
-        private readonly CommunityServiceUI _communityService;
+        private readonly CommunityPostServiceUI _communityService;
 
         private string username;
         public string Username 
@@ -42,7 +42,7 @@ namespace LiftLab.ViewModels
 
         public ProfileViewModel()
         {
-            _communityService = new CommunityServiceUI();
+            _communityService = new CommunityPostServiceUI();
 
             Username = "@" + Preferences.Get("Username", "Unknown"); // this gets the username of the user thats logged in and binds it to the ui
 

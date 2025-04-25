@@ -12,7 +12,7 @@ namespace LiftLab.ViewModels
 {
     public class CreatePostViewModel : BaseViewModel
     {
-        private readonly CommunityServiceUI _communityService;
+        private readonly CommunityPostServiceUI _communityService;
 
         public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; }
         public ObservableCollection<MealPlans> MealPlans { get; set; }
@@ -43,7 +43,7 @@ namespace LiftLab.ViewModels
         public CreatePostViewModel()
         {
             #region Instance Setting
-            _communityService = new CommunityServiceUI();
+            _communityService = new CommunityPostServiceUI();
             WorkoutPlans = new ObservableCollection<WorkoutPlans>();
             MealPlans = new ObservableCollection<MealPlans>();
             Meals = new ObservableCollection<Meals>();
@@ -105,6 +105,8 @@ namespace LiftLab.ViewModels
             #endregion
 
             #region Create Post
+
+            
             CreatePostCommand = new Command(async () => await CreatePost());
             #endregion
         }
@@ -240,9 +242,9 @@ namespace LiftLab.ViewModels
             int userId = Preferences.Get("UserId", 0);
             string username = Preferences.Get("Username", "Unknown");
 
-            if (userId == 0)
+            if (string.IsNullOrWhiteSpace(Caption)) // this makes sure that a caption is added before posting, this is due to preventing spam posts
             {
-                await Application.Current.MainPage.DisplayAlert("Login Required", "Please log in to create a post", "OK");
+                await Application.Current.MainPage.DisplayAlert("Missing Caption", "Please enter a caption before posting.", "OK");
                 return;
             }
 
@@ -260,6 +262,8 @@ namespace LiftLab.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Failed to create post.", "OK");
             }
+
+            await Shell.Current.GoToAsync(".."); // this makes the user get redirected back to the community page after posting
         }
 
 

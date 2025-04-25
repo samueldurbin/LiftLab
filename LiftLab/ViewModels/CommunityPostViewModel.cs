@@ -16,14 +16,14 @@ namespace LiftLab.ViewModels
 {
     public class CommunityPostViewModel : BaseViewModel
     {
-        private readonly CommunityServiceUI _communityService;  // gets community posts from api
+        private readonly CommunityPostServiceUI _communityService;  // gets community posts from api
         private readonly WorkoutPlansServiceUI _workoutPlansService;
 
         #region ICommands - OnClickLisenters
 
         public ICommand ViewUserProfileCommand { get; }
         public ICommand GetCommunityPostsCommand { get; }  // gets and displays posts
-        public ICommand NavigationCommand { get; }
+        public ICommand AddPostCommand { get; }
         public ICommand CreateCommentCommand { get; }
         public ICommand LoadCommunityPostsCommand { get; }
         public ICommand LikePostCommand { get; }
@@ -48,7 +48,7 @@ namespace LiftLab.ViewModels
 
         public CommunityPostViewModel()
         {
-            _communityService = new CommunityServiceUI();
+            _communityService = new CommunityPostServiceUI();
             _workoutPlansService = new WorkoutPlansServiceUI();
 
             CommunityPosts = new ObservableCollection<CommunityPost>(); // initializes empty to store fitness posts
@@ -57,7 +57,7 @@ namespace LiftLab.ViewModels
 
             CreateCommentCommand = new Command<CommunityPost>(async (post) => await AddComment(post)); // assigns the function to a on vlick button in the ui
 
-            NavigationCommand = new Command(async () => // add button in the ui navigates to create a post
+            AddPostCommand = new Command(async () => // add button in the ui navigates to create a post
             {
                 await Shell.Current.GoToAsync(nameof(CreatePost));
             });
