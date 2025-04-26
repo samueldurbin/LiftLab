@@ -32,6 +32,8 @@ namespace LiftLab.ViewModels
         public ICommand AddWorkoutPlanCommand { get; }
         public ICommand ShowPlanDetailsCommand { get; }
 
+        public ICommand ToggleCommentBoxCommand { get; }
+
         #endregion
 
         public ObservableCollection<CommunityPost> CommunityPosts { get; set; } // collection of posts objects
@@ -78,6 +80,15 @@ namespace LiftLab.ViewModels
             AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlansToUserAccount(post));
 
             ShowPlanDetailsCommand = new Command<CommunityPost>(async (post) => await ShowPlanDetails(post));
+
+            ToggleCommentBoxCommand = new Command<CommunityPost>((post) =>
+            {
+                if (post != null)
+                {
+                    post.ShowCommentBox = !post.ShowCommentBox;
+                    
+                }
+            });
 
         }
 
@@ -215,10 +226,11 @@ namespace LiftLab.ViewModels
                 {
                     var comments = await _communityService.GetCommentsByPost(post.CommunityPostId); // gets comments for each post
 
-                    post.Comments = comments;  // puts the retrieved comments to the commetns section
+                    post.Comments = new ObservableCollection<CommunityPostComments>(comments);
 
                     CommunityPosts.Add(post); // adds new posts
                 }
+
             }
             catch (Exception ex)
             {
@@ -230,26 +242,40 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task AddComment(CommunityPost post) // creates a comment on a post
+        private async Task AddComment(CommunityPost post)
         {
             try
             {
-                string username = Preferences.Get("Username", "Unknown"); // gets user preferences so the the comments can be linked to a user
-
-                bool result = await _communityService.CreateComment(post.CommunityPostId, username, Comment); // calls the method from the service to send to api with the inputs from the user
-
-                if (result) // checks if the comment was added successfully
+                if (string.IsNullOrWhiteSpace(post.CommentText))
                 {
-                    await GetsPosts(); // at the moment just focusing on recieving the comments as in other social media apps a message isnt granted to show its been added
+                    await Application.Current.MainPage.DisplayAlert("Empty Comment", "Please enter a comment before sending.", "OK");
+                    return;
+                }
+
+                string username = Preferences.Get("Username", "Unknown");
+
+                bool result = await _communityService.CreateComment(post.CommunityPostId, username, post.CommentText);
+
+                if (result)
+                {
+                    post.Comments.Add(new CommunityPostComments
+                    {
+                        Username = username,
+                        Comment = post.CommentText
+                    });
+
+                    post.CommentText = string.Empty; // clears the input box for after a comment is added
+
+                    post.ShowCommentBox = false; // hides the comments section
                 }
                 else
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Failed to add new comment.", "OK"); // exception message if comment was not added
+                    await Application.Current.MainPage.DisplayAlert("Error", "Failed to add new comment.", "OK");
                 }
             }
-            catch (Exception ex) // exception
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK"); // basic exception message
+                await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK");
             }
         }
 
@@ -263,7 +289,8 @@ namespace LiftLab.ViewModels
 
                 if (result)
                 {
-                    await GetsPosts(); // this forces a refresh of getting posts to see if the posts were liked correctly
+                    post.LikeCount += 1; 
+              
                 }
             }
             catch (Exception ex)

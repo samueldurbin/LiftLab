@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.FitnessPage"
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             Title="Fitness">
+    
+    <ContentPage.BindingContext>
+        <vm:WorkoutPlansViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto, Auto, *" Padding="10">
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="7">
+            <Label Grid.Column="0" Text="View All Plans" FontSize="24" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" />
+            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="24" TextColor="CornflowerBlue" HorizontalOptions="End" VerticalOptions="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CreateWorkoutPlanCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </Grid>
+        
+        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+
+        <CollectionView Grid.Row="2" ItemsSource="{Binding UsersWorkoutPlans}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BackgroundColor="CornflowerBlue" CornerRadius="20" HeightRequest="80" Padding="8" >
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewWorkoutsCommand}" CommandParameter="{Binding .}" />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center" HeightRequest="50">
+                            <Label Grid.Column="0" Text="{Binding WorkoutPlanName}" FontSize="18" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Start"/>
+                            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="22" TextColor="White" VerticalOptions="Center" HorizontalOptions="End"/>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

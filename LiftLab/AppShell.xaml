@@ -13,9 +13,9 @@
         <Tab Title="Community">
             <ShellContent Title="Community" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:Community}" Route="Community" />
         </Tab>
-        
+
         <Tab Title="Fitness">
-            <ShellContent Title="FitnessPage" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:ViewAllWorkoutPlans}" Route="FitnessPage" />
+            <ShellContent Title="FitnessPage" Shell.BackgroundColor="Red" Shell.TitleColor="White" ContentTemplate="{DataTemplate views:FitnessPage}" Route="FitnessPage" />
         </Tab>
 
         <Tab Title="Nutrition">

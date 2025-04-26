@@ -20,9 +20,9 @@
         <Editor Grid.Row="2" Placeholder="Write a Caption here..." AutoSize="TextChanges" HeightRequest="70" Text="{Binding Caption}" />
 
         <Grid Grid.Row="3" ColumnDefinitions="*,*,*" ColumnSpacing="10" HorizontalOptions="FillAndExpand">
-            <Button Grid.Column="0" Text="{x:Static helper:FontAwesome.Dumbbell}" FontFamily="FASolid" FontSize="20" Command="{Binding ToggleWorkoutPlansCommand}" />
-            <Button Grid.Column="1" Text="{x:Static helper:FontAwesome.List}" FontFamily="FASolid" FontSize="20" Command="{Binding ToggleMealPlansCommand}" />
-            <Button Grid.Column="2" Text="{x:Static helper:FontAwesome.BowlRice}" FontFamily="FASolid" FontSize="20" Command="{Binding ToggleMealsCommand}" />
+            <Button Grid.Column="0" Text="{x:Static helper:FontAwesome.Dumbbell}" FontFamily="FASolid" FontSize="20" BackgroundColor="CornflowerBlue" Command="{Binding ToggleWorkoutPlansCommand}" />
+            <Button Grid.Column="1" Text="{x:Static helper:FontAwesome.List}" FontFamily="FASolid" FontSize="20" BackgroundColor="CornflowerBlue" Command="{Binding ToggleMealPlansCommand}" />
+            <Button Grid.Column="2" Text="{x:Static helper:FontAwesome.BowlRice}" FontFamily="FASolid" FontSize="20" BackgroundColor="CornflowerBlue" Command="{Binding ToggleMealsCommand}" />
         </Grid>
 
         <Grid Grid.Row="4" IsVisible="{Binding ShowWorkoutPlans}" ColumnDefinitions="*, Auto">
@@ -53,7 +53,7 @@
         </Grid>
 
         <Grid Grid.Row="7" ColumnSpacing="10" HorizontalOptions="Fill">
-            <Button Grid.Row="7"  Text="Create Post" Command="{Binding CreatePostCommand}" BackgroundColor="Blue" FontAttributes="Bold" TextColor="White" WidthRequest="200" />
+            <Button Grid.Row="7"  Text="Create Post" Command="{Binding CreatePostCommand}" BackgroundColor="CornflowerBlue" FontAttributes="Bold" TextColor="White" WidthRequest="200" />
         </Grid>
 
     </Grid>

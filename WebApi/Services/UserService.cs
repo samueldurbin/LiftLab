@@ -37,6 +37,8 @@ namespace WebApi.Services
 
             user.Password = Hashing.Hash(user.Password);
 
+            user.AccountCreationDate = DateTime.Now;
+
             _dbContext.Users.Add(user); // adds the user to te table
 
             await _dbContext.SaveChangesAsync(); // saves
@@ -70,10 +72,6 @@ namespace WebApi.Services
             {
                 return null;
             }
-            
-            user.Firstname = updatedUser.Firstname; // updates user data with the input
-
-            user.Lastname = updatedUser.Lastname;
             
             user.Email = updatedUser.Email;
             

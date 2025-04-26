@@ -14,7 +14,6 @@ public partial class Community : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        // this calls the laoduserworkoutplanscommand from the viewmodel
         _communityPostViewModel.LoadCommunityPostsCommand.Execute(null); // this makes the data load when page is pressed
     }
 }

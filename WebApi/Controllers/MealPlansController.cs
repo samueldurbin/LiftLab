@@ -37,11 +37,13 @@ namespace WebApi.Controllers
             return Ok(meals);
         }
 
+
         [HttpPost("createmeal")]
         public async Task<IActionResult> CreateMeal([FromBody] Meals meal)
         {
             var created = await _mealPlansService.CreateMeal(meal);
             return Ok(created);
+
         }
 
         [HttpPost("createmealplan")]

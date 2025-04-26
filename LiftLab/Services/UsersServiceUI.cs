@@ -43,7 +43,7 @@ namespace LiftLab.Services
 
         public async Task<Users> CreateAccount(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // create an account function
         {
-            var response = await _httpClient.PostAsJsonAsync("Users/register", new Users // create an account endpoint
+            var response = await _httpClient.PostAsJsonAsync("Users/createuser", new Users // create an account endpoint
             {
                 Username = username, // saves the users input to the records required in the database
                 Password = password,
@@ -70,6 +70,30 @@ namespace LiftLab.Services
             }
 
             throw new Exception("Failed to get any users."); // error message
+        }
+
+        public async Task<Users> GetUserById(int id)
+        {
+            var user = await _httpClient.GetAsync($"Users/getuserbyid/{id}");
+
+            if (user.IsSuccessStatusCode)
+            {
+                return await user.Content.ReadFromJsonAsync<Users>();
+            }
+
+            return null;
+        }
+
+        public async Task<Users> UpdateUser(Users updatedUser)
+        {
+            var user = await _httpClient.PutAsJsonAsync($"Users/{updatedUser.UserId}", updatedUser);
+
+            if (user.IsSuccessStatusCode)
+            {
+                return await user.Content.ReadFromJsonAsync<Users>();
+            }
+
+            return null;
         }
     }
 }

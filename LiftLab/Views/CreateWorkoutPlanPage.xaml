@@ -25,7 +25,6 @@
                                 <StackLayout Orientation="Horizontal">
                                     <Label Text="Reps:" VerticalOptions="Center"/>
                                     <Entry WidthRequest="60" Keyboard="Numeric" Text="{Binding Reps, Mode=TwoWay}" />
-
                                     <Label Text="Sets:" VerticalOptions="Center" Margin="10,0,0,0"/>
                                     <Entry WidthRequest="60" Keyboard="Numeric" Text="{Binding Sets, Mode=TwoWay}" />
                                 </StackLayout>

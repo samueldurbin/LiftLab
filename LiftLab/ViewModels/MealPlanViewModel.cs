@@ -18,7 +18,7 @@ namespace LiftLab.ViewModels
             set
             {
                 _mealPlan = value;
-                OnPropertyChanged(); 
+                OnPropertyChanged();
                 OnPropertyChanged(nameof(MealPlanName));
                 OnPropertyChanged(nameof(CreatedAt));
                 OnPropertyChanged(nameof(Meals));

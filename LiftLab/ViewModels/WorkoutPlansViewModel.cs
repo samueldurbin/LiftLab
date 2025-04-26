@@ -29,7 +29,7 @@ namespace LiftLab.ViewModels
         public ICommand NavigateToWorkoutSelectionCommand { get; }
 
         // buttons for navigation
-        public ICommand CreateWorkoutPlanButtonCommand { get; } // onclick to navigate user to the create workoutplan page, better for redirection
+        public ICommand CreateWorkoutPlanCommand { get; } // onclick to navigate user to the create workoutplan page, better for redirection
         public ICommand ViewWorkoutPlansButtonCommand{ get; } // onclick to navigate user to View All Workout Plans
 
         public string WorkoutPlanName // this helps bind the user input in the UI to the function
@@ -48,7 +48,7 @@ namespace LiftLab.ViewModels
 
             GetWorkoutsCommand = new Command(async () => await GetWorkouts()); // get all workouts to populate the list
 
-            CreateWorkoutPlanButtonCommand = new Command(async () => // add button in the ui navigates to create a plan
+            CreateWorkoutPlanCommand = new Command(async () => // add button in the ui navigates to create a plan
             {
                 await Shell.Current.GoToAsync(nameof(CreateWorkoutPlanPage)); // shell navigation to move to create a workout plan page
             });

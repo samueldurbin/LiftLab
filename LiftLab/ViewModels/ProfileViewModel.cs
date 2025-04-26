@@ -36,9 +36,10 @@ namespace LiftLab.ViewModels
             set => SetProperty(ref userProfile, value);
         }
 
-        public ICommand SettingsCommand { get; }
+        public ICommand UpdateUserInfoCommand { get; }
         public ICommand DeletePostCommand { get; }
 
+        public ICommand LogOutCommand { get; }
 
         public ProfileViewModel()
         {
@@ -46,9 +47,11 @@ namespace LiftLab.ViewModels
 
             Username = "@" + Preferences.Get("Username", "Unknown"); // this gets the username of the user thats logged in and binds it to the ui
 
-            SettingsCommand = new Command(async () => // add button in the ui navigates to create a post
+            LogOutCommand = new Command(async () => await Logout());
+
+            UpdateUserInfoCommand = new Command(async () => // add button in the ui navigates to create a post
             {
-                //await Shell.Current.GoToAsync(nameof(SettingsPage));
+                await Shell.Current.GoToAsync(nameof(UpdateUserSettingsPage));
             });
 
             DeletePostCommand = new Command<int>(async (postId) => await DeletePostAsync(postId));
@@ -91,6 +94,14 @@ namespace LiftLab.ViewModels
             }
         }
 
+        private async Task Logout() // log out method
+        {
+            Preferences.Remove("UserId"); // removes the logged in preferences
+            Preferences.Remove("Username"); // removes the logged in preferences
+            await Application.Current.MainPage.DisplayAlert("GoodBye!", "You have been logged out of LiftLab", "OK");
+
+            Application.Current.MainPage = new NavigationPage(new LoginPage()); // redirects to the login page
+        }
         public async Task LoadUserProfile(int userId)
         {
             IsBusy = true;
