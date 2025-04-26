@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LiftLab.Views.CreateMealsPage"
+             xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             Title="CreateMealsPage">
+
+    <ContentPage.BindingContext>
+        <vm:NutritionViewModel />
+    </ContentPage.BindingContext>
+    
+    <ScrollView>
+    <StackLayout Padding="20" Spacing="10">
+        <Label Text="Create New Meal" FontAttributes="Bold" />
+        <Entry Placeholder="Meal Name" Text="{Binding NewMealName}" />
+        <Entry Placeholder="Type (Breakfast/Lunch/etc)" Text="{Binding NewMealType}" />
+        <Entry Placeholder="Calories" Keyboard="Numeric" Text="{Binding NewMealCalories}" />
+        <Editor Placeholder="Recipe" AutoSize="TextChanges" Text="{Binding NewMealRecipe}" />
+        <Button Text="Create Meal" Command="{Binding CreateMealCommand}" />
+
+        </StackLayout>
+</ScrollView>
+</ContentPage>

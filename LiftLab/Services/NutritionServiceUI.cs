@@ -33,7 +33,7 @@ namespace LiftLab.Services
 
         public async Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto) // sends the dto to the api
         {
-            var response = await _httpClient.PostAsJsonAsync("MealPlans/mealplan", dto);
+            var response = await _httpClient.PostAsJsonAsync("MealPlans/createmealplan", dto);
 
             if (response.IsSuccessStatusCode)
             {

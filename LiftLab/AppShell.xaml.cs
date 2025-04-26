@@ -22,8 +22,8 @@ namespace LiftLab
             Routing.RegisterRoute(nameof(ViewMealPlanPage), typeof(ViewMealPlanPage));
             Routing.RegisterRoute(nameof(CreateMealPlanPage), typeof(CreateMealPlanPage));
             Routing.RegisterRoute(nameof(ProfilePage), typeof(ProfilePage));
-            Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
             Routing.RegisterRoute(nameof(UpdateUserSettingsPage), typeof(UpdateUserSettingsPage));
+            Routing.RegisterRoute(nameof(CreateMealsPage), typeof(CreateMealsPage));
 
         }
     }
