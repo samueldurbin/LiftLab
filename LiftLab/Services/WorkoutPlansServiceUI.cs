@@ -100,5 +100,12 @@ namespace LiftLab.Services
             throw new Exception("Failed to get workouts"); // error message 
         }
 
+        public async Task<bool> DeleteWorkoutFromPlan(int workoutPlanId, int workoutId)
+        {
+            var response = await _httpClient.DeleteAsync($"WorkoutPlans/removeworkoutfromplan/{workoutPlanId}/{workoutId}");
+
+            return response.IsSuccessStatusCode; // Returns true if the deletion was successful
+        }
+
     }
 }

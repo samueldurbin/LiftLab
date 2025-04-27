@@ -18,6 +18,8 @@ namespace LiftLab.ViewModels
         public ObservableCollection<WorkoutInPlanDisplay> WorkoutsInPlan { get; set; } = new();
 
         private WorkoutPlans selectedPlan;
+        public ICommand DeleteWorkoutCommand { get; }
+
         public ICommand SaveWorkoutCommand { get; }
 
         public WorkoutPlans SelectedPlan
@@ -35,6 +37,7 @@ namespace LiftLab.ViewModels
         {
             _workoutPlansService = new WorkoutPlansServiceUI();
             SaveWorkoutCommand = new Command<WorkoutInPlanDisplay>(async (workout) => await SaveWorkout(workout));
+            DeleteWorkoutCommand = new Command<WorkoutInPlanDisplay>(async (workout) => await DeleteWorkout(workout));
         }
 
         public async void LoadWorkoutsForSelectedPlan()
@@ -91,6 +94,32 @@ namespace LiftLab.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to update workout: {ex.Message}", "OK");
+            }
+
+        }
+
+        private async Task DeleteWorkout(WorkoutInPlanDisplay workout)
+        {
+            try
+            {
+                if (SelectedPlan == null || workout == null)
+                    return;
+
+                var response = await _workoutPlansService.DeleteWorkoutFromPlan(SelectedPlan.WorkoutPlanId, workout.WorkoutId);
+
+                if (response)
+                {
+                    WorkoutsInPlan.Remove(workout);
+                    await Application.Current.MainPage.DisplayAlert("Success", "Workout removed from plan!", "OK");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Failed to remove workout from plan.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to remove workout: {ex.Message}", "OK");
             }
         }
     }

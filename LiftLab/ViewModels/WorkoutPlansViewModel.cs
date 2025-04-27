@@ -29,6 +29,7 @@ namespace LiftLab.ViewModels
         public ICommand CreatePlanCommand { get; } // onclick to create a workoutplan
         public ICommand GetWorkoutsCommand { get; } // onlick to get workouts
         public ICommand NavigateToWorkoutSelectionCommand { get; }
+        public ICommand DeleteWorkoutCommand { get; }
 
         // buttons for navigation
         public ICommand CreateWorkoutPlanCommand { get; } // onclick to navigate user to the create workoutplan page, better for redirection
@@ -46,7 +47,8 @@ namespace LiftLab.ViewModels
 
             WorkoutList = new ObservableCollection<WorkoutSelection>(); // initialises the workoutlist
 
-
+       
+        
             CreatePlanCommand = new Command(async () => await CreatePlan()); // creates a workout plan when clicked
 
             GetWorkoutsCommand = new Command(async () => await GetWorkouts()); // get all workouts to populate the list
@@ -75,6 +77,7 @@ namespace LiftLab.ViewModels
             LoadUserWorkoutPlansCommand = new Command(async () => await LoadUserWorkoutPlans()); // this will be used to load the workout plans on load
         }
 
+        
         private async Task CreatePlan()
         {
             try

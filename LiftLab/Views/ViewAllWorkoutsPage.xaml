@@ -4,6 +4,7 @@
              x:Class="LiftLab.Views.ViewAllWorkoutsPage"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
              x:Name="PageRef"
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
              Title="Workouts in Plan">
 
     <ContentPage.BindingContext>
@@ -49,11 +50,19 @@
                         <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
                             <Label Text="Kg:" VerticalOptions="Center" TextColor="White" />
                             <Entry 
-        Text="{Binding Kg, Mode=TwoWay}" 
-        Keyboard="Numeric" 
-        WidthRequest="80"
-        BackgroundColor="White"
-        TextColor="Black" />
+                                Text="{Binding Kg, Mode=TwoWay}" 
+                                Keyboard="Numeric" 
+                                WidthRequest="80"
+                                BackgroundColor="White"
+                                TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="30" TextColor="Blue">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.DeleteWorkoutCommand, Source={x:Reference PageRef}}" CommandParameter="{Binding .}" />
+                                </Label.GestureRecognizers>
+                            </Label>
                         </HorizontalStackLayout>
 
                         <!-- Save Button -->
@@ -71,20 +80,75 @@
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-        </CollectionView>
-
-        <!--<CollectionView ItemsSource="{Binding WorkoutsInPlan}">
+    </CollectionView>
+    <!--<CollectionView ItemsSource="{Binding WorkoutsInPlan}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Frame BackgroundColor="LightBlue" CornerRadius="12" Padding="10" Margin="5">
-                    <StackLayout>
-                        <Label Text="{Binding WorkoutName}" FontSize="22" TextColor="White" />
-                        <Label Text="{Binding Reps, StringFormat='Reps: {0}'}" FontSize="16" TextColor="White" />
-                        <Label Text="{Binding Sets, StringFormat='Sets: {0}'}" FontSize="16" TextColor="White" />
-                    </StackLayout>
+                    <VerticalStackLayout Spacing="10">
+
+                        --><!-- Workout Name --><!--
+                        <Label 
+                            Text="{Binding WorkoutName}" 
+                            FontSize="22" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" />
+
+                        --><!-- Editable Reps --><!--
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Reps:" VerticalOptions="Center" TextColor="White" />
+                            <Entry 
+                                Text="{Binding Reps, Mode=TwoWay}" 
+                                Keyboard="Numeric" 
+                                WidthRequest="80"
+                                BackgroundColor="White"
+                                TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        --><!-- Editable Sets --><!--
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Sets:" VerticalOptions="Center" TextColor="White" />
+                            <Entry 
+                                Text="{Binding Sets, Mode=TwoWay}" 
+                                Keyboard="Numeric" 
+                                WidthRequest="80"
+                                BackgroundColor="White"
+                                TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Kg:" VerticalOptions="Center" TextColor="White" />
+                            <Entry 
+        Text="{Binding Kg, Mode=TwoWay}" 
+        Keyboard="Numeric" 
+        WidthRequest="80"
+        BackgroundColor="White"
+        TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center" HorizontalOptions="EndAndExpand">
+                            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="30" TextColor="Blue">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding DeleteWorkoutCommand}" CommandParameter="{Binding .}" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </HorizontalStackLayout>
+
+                        --><!-- Save Button --><!--
+                        <Button 
+                            Text="Save Changes" 
+                            Command="{Binding BindingContext.SaveWorkoutCommand, Source={x:Reference PageRef}}" 
+                            CommandParameter="{Binding .}" 
+                            BackgroundColor="DarkBlue" 
+                            TextColor="White" 
+                            CornerRadius="10" 
+                            Padding="10"
+                            HorizontalOptions="Center" />
+
+                    </VerticalStackLayout>
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-    </CollectionView>-->
+        </CollectionView>-->
 
 </ContentPage>
