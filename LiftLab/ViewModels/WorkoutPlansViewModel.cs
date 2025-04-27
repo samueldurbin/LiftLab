@@ -20,6 +20,8 @@ namespace LiftLab.ViewModels
 
         public ObservableCollection<WorkoutPlans> UsersWorkoutPlans { get; set; } = new ObservableCollection<WorkoutPlans>(); // this will hold all of the incoming workoutplans created by the user
         public ObservableCollection<WorkoutSelection> WorkoutList { get; set; } // this will hold the list of workouts within each workoutplan
+        public ObservableCollection<WorkoutSelection> SelectedWorkoutList { get; set; } = new ObservableCollection<WorkoutSelection>();
+
 
         // onclick buttons for function calls
         public ICommand LoadUserWorkoutPlansCommand { get; } // onclick to load workoutplans created by the user on the page
@@ -43,6 +45,7 @@ namespace LiftLab.ViewModels
             _workoutPlansService = new WorkoutPlansServiceUI(); // initialises the WorkoutPlansServiceUI
 
             WorkoutList = new ObservableCollection<WorkoutSelection>(); // initialises the workoutlist
+
 
             CreatePlanCommand = new Command(async () => await CreatePlan()); // creates a workout plan when clicked
 
@@ -70,14 +73,6 @@ namespace LiftLab.ViewModels
             });
 
             LoadUserWorkoutPlansCommand = new Command(async () => await LoadUserWorkoutPlans()); // this will be used to load the workout plans on load
-
-            NavigateToWorkoutSelectionCommand = new Command(async () =>
-            {
-                await GetWorkouts(); //
-
-                await Shell.Current.GoToAsync(nameof(WorkoutSelectionPage));
-            });
-
         }
 
         private async Task CreatePlan()
@@ -120,35 +115,57 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task GetWorkouts() // method to get workouts
+        private async Task GetWorkouts()
         {
-            if (IsBusy) // to prevent multiple api calls
+            if (IsBusy)
                 return;
 
-            IsBusy = true; // to show loading after button is pressed
+            IsBusy = true;
 
             try
             {
-                var workouts = await _workoutPlansService.GetAllWorkouts(); // gets a list of all the workouts
-                
-                WorkoutList.Clear(); // clears old data
+                var workouts = await _workoutPlansService.GetAllWorkouts();
 
-                foreach (var workout in workouts) // adds new workouts
+                WorkoutList.Clear(); 
+
+                foreach (var workout in workouts) 
                 {
-                    WorkoutList.Add(new WorkoutSelection
+                    var workoutSelection = new WorkoutSelection
                     {
                         Workout = workout,
                         IsSelected = false
-                    });
+                    };
+
+                    workoutSelection.SelectionChanged += WorkoutSelection_SelectionChanged;
+
+                    WorkoutList.Add(workoutSelection);
                 }
             }
-            catch (Exception ex) // catch error message
+            catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error ", $"Failed to load the list of workouts: {ex.Message}", "OK");
             }
             finally
             {
-                IsBusy = false; // resets isbusy
+                IsBusy = false;
+            }
+        }
+
+        private void WorkoutSelection_SelectionChanged(object sender, EventArgs e)
+        {
+            if (sender is WorkoutSelection workout)
+            {
+                if (workout.IsSelected && !SelectedWorkoutList.Contains(workout))
+                {
+                    SelectedWorkoutList.Add(workout);
+
+                }
+                else if (!workout.IsSelected && SelectedWorkoutList.Contains(workout))
+                {
+                    SelectedWorkoutList.Remove(workout);
+
+                }
+                 
             }
         }
 

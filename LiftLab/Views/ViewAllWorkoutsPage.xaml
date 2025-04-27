@@ -3,13 +3,77 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.ViewAllWorkoutsPage"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
+             x:Name="PageRef"
              Title="Workouts in Plan">
 
     <ContentPage.BindingContext>
         <vm:WorkoutsInPlanViewModel />
     </ContentPage.BindingContext>
-    
+
+
     <CollectionView ItemsSource="{Binding WorkoutsInPlan}">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame BackgroundColor="LightBlue" CornerRadius="12" Padding="10" Margin="5">
+                    <VerticalStackLayout Spacing="10">
+
+                        <!-- Workout Name -->
+                        <Label 
+                            Text="{Binding WorkoutName}" 
+                            FontSize="22" 
+                            TextColor="White" 
+                            HorizontalOptions="Center" />
+
+                        <!-- Editable Reps -->
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Reps:" VerticalOptions="Center" TextColor="White" />
+                            <Entry 
+                                Text="{Binding Reps, Mode=TwoWay}" 
+                                Keyboard="Numeric" 
+                                WidthRequest="80"
+                                BackgroundColor="White"
+                                TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        <!-- Editable Sets -->
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Sets:" VerticalOptions="Center" TextColor="White" />
+                            <Entry 
+                                Text="{Binding Sets, Mode=TwoWay}" 
+                                Keyboard="Numeric" 
+                                WidthRequest="80"
+                                BackgroundColor="White"
+                                TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                            <Label Text="Kg:" VerticalOptions="Center" TextColor="White" />
+                            <Entry 
+        Text="{Binding Kg, Mode=TwoWay}" 
+        Keyboard="Numeric" 
+        WidthRequest="80"
+        BackgroundColor="White"
+        TextColor="Black" />
+                        </HorizontalStackLayout>
+
+                        <!-- Save Button -->
+                        <Button 
+                            Text="Save Changes" 
+                            Command="{Binding BindingContext.SaveWorkoutCommand, Source={x:Reference PageRef}}" 
+                            CommandParameter="{Binding .}" 
+                            BackgroundColor="DarkBlue" 
+                            TextColor="White" 
+                            CornerRadius="10" 
+                            Padding="10"
+                            HorizontalOptions="Center" />
+
+                    </VerticalStackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!--<CollectionView ItemsSource="{Binding WorkoutsInPlan}">
         <CollectionView.ItemTemplate>
             <DataTemplate>
                 <Frame BackgroundColor="LightBlue" CornerRadius="12" Padding="10" Margin="5">
@@ -21,6 +85,6 @@
                 </Frame>
             </DataTemplate>
         </CollectionView.ItemTemplate>
-    </CollectionView>
+    </CollectionView>-->
 
 </ContentPage>

@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.CreateWorkoutPlanPage"
@@ -12,31 +11,31 @@
     <ScrollView>
         <StackLayout Padding="20" Spacing="10">
             <Entry Placeholder="Plan Name" Text="{Binding WorkoutPlanName}" />
-            <Button Text="Add Exercises" Clicked="OnAddExercisesClicked" />
-            <Label Text="Selected Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
-
-            <CollectionView ItemsSource="{Binding WorkoutList}">
+            <Label Text="Available Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
+            <CollectionView ItemsSource="{Binding WorkoutList}" HeightRequest="200">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame IsVisible="{Binding IsSelected}" Padding="10" Margin="5">
-                            <StackLayout>
-                                <Label Text="{Binding Workout.WorkoutName}" FontAttributes="Bold" />
-
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="Reps:" VerticalOptions="Center"/>
-                                    <Entry WidthRequest="60" Keyboard="Numeric" Text="{Binding Reps, Mode=TwoWay}" />
-                                    <Label Text="Sets:" VerticalOptions="Center" Margin="10,0,0,0"/>
-                                    <Entry WidthRequest="60" Keyboard="Numeric" Text="{Binding Sets, Mode=TwoWay}" />
-                                </StackLayout>
-                            </StackLayout>
+                        <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Text="{Binding Workout.WorkoutName}" VerticalOptions="Center" />
+                                <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" VerticalOptions="Center" />
+                            </Grid>
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
+            <Label Text="Selected Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
+            <CollectionView ItemsSource="{Binding SelectedWorkoutList}" HeightRequest="150">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="10" Margin="5" BorderColor="LightBlue">
+                            <Label Text="{Binding Workout.WorkoutName}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             <Button Text="Create Workout Plan" Command="{Binding CreatePlanCommand}" Margin="0,20,0,0"/>
         </StackLayout>
     </ScrollView>
-
 
 </ContentPage>

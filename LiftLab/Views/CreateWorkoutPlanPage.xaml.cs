@@ -1,4 +1,5 @@
 using LiftLab.ViewModels;
+using System.Text.Json;
 
 namespace LiftLab.Views;
 
@@ -10,12 +11,15 @@ public partial class CreateWorkoutPlanPage : ContentPage
 		InitializeComponent();
     }
 
-    private async void OnAddExercisesClicked(object sender, EventArgs e) // onclick button to navigate to the select workouts list page which uses navigation instead of shell for now
+    protected override void OnAppearing() // same on appearing method used by gettings posts and plans, gets used everytime the page is visible
     {
-        var viewModel = BindingContext as WorkoutPlansViewModel; // adds data binding
-        if (viewModel != null) // stops potential null errors
+        base.OnAppearing();
+
+        var viewModel = BindingContext as WorkoutPlansViewModel;
+
+        if (viewModel?.WorkoutList.Count == 0)  // if no workouts are there, then use method to get workouts
         {
-            await Navigation.PushAsync(new WorkoutSelectionPage(viewModel)); // navigates user
+            viewModel.GetWorkoutsCommand.Execute(null);
         }
     }
 

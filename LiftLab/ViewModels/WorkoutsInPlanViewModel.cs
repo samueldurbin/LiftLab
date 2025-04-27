@@ -18,6 +18,7 @@ namespace LiftLab.ViewModels
         public ObservableCollection<WorkoutInPlanDisplay> WorkoutsInPlan { get; set; } = new();
 
         private WorkoutPlans selectedPlan;
+        public ICommand SaveWorkoutCommand { get; }
 
         public WorkoutPlans SelectedPlan
         {
@@ -33,6 +34,7 @@ namespace LiftLab.ViewModels
         public WorkoutsInPlanViewModel()
         {
             _workoutPlansService = new WorkoutPlansServiceUI();
+            SaveWorkoutCommand = new Command<WorkoutInPlanDisplay>(async (workout) => await SaveWorkout(workout));
         }
 
         public async void LoadWorkoutsForSelectedPlan()
@@ -40,15 +42,15 @@ namespace LiftLab.ViewModels
             try
             {
                 if (SelectedPlan == null)
+                {
                     return;
 
-                // 1. Get reps, sets, workoutIds
+                }
+                   
                 var workoutPlanData = await _workoutPlansService.GetWorkoutDetailsForPlan(SelectedPlan.WorkoutPlanId);
 
-                // 2. Get all workouts (to resolve names)
                 var allWorkouts = await _workoutPlansService.GetAllWorkouts();
 
-                // 3. Join workoutId to get names
                 WorkoutsInPlan.Clear();
                 foreach (var item in workoutPlanData)
                 {
@@ -57,9 +59,11 @@ namespace LiftLab.ViewModels
                     {
                         WorkoutsInPlan.Add(new WorkoutInPlanDisplay
                         {
+                            WorkoutId = item.WorkoutId,
                             WorkoutName = workout.WorkoutName,
                             Reps = item.Reps,
-                            Sets = item.Sets
+                            Sets = item.Sets,
+                            Kg = item.Kg,
                         });
                     }
                 }
@@ -69,13 +73,35 @@ namespace LiftLab.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error!", $"Could not load workouts: {ex.Message}", "OK");
             }
         }
+
+        private async Task SaveWorkout(WorkoutInPlanDisplay workout)
+        {
+            try
+            {
+                if (SelectedPlan == null || workout == null)
+                {
+                    return;
+
+                }
+
+                await _workoutPlansService.UpdateWorkoutInPlan(SelectedPlan.WorkoutPlanId, workout);
+
+                await Application.Current.MainPage.DisplayAlert("Success", "Workout updated!", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to update workout: {ex.Message}", "OK");
+            }
+        }
     }
 
     public class WorkoutInPlanDisplay
     {
+        public int WorkoutId { get; set; }
         public string WorkoutName { get; set; }
         public int? Reps { get; set; }
         public int? Sets { get; set; }
+        public double? Kg { get; set; }
     }
 
 }

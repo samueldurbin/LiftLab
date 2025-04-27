@@ -139,7 +139,8 @@ namespace WebApi.Services
                 {
                     WorkoutId = w.WorkoutId,
                     Reps = w.Reps,
-                    Sets = w.Sets
+                    Sets = w.Sets,
+                    Kg = w.Kg
                 })
                 .ToListAsync();
         }
@@ -155,6 +156,24 @@ namespace WebApi.Services
             }
 
             _dbContext.WorkoutPlansData.Remove(input); // this removes the record from the workoutplansdata table
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateWorkoutInPlan(UpdateWorkoutInPlanDTO dto)
+        {
+            var workoutPlanData = await _dbContext.WorkoutPlansData
+                .FirstOrDefaultAsync(w => w.WorkoutPlanId == dto.WorkoutPlanId && w.WorkoutId == dto.WorkoutId);
+
+            if (workoutPlanData == null)
+            {
+                return false;
+            }
+
+            workoutPlanData.Reps = dto.Reps;
+            workoutPlanData.Sets = dto.Sets;
+            workoutPlanData.Kg = dto.Kg;
+
             await _dbContext.SaveChangesAsync();
             return true;
         }

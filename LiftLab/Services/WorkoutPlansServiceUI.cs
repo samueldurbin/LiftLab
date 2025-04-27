@@ -1,4 +1,5 @@
-﻿using Shared.Models;
+﻿using LiftLab.ViewModels;
+using Shared.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,24 @@ namespace LiftLab.Services
             throw new Exception("Failed to get workout plan details.");
         }
 
+        public async Task UpdateWorkoutInPlan(int planId, WorkoutInPlanDisplay workout)
+        {
+            var dto = new
+            {
+                WorkoutPlanId = planId,
+                WorkoutId = workout.WorkoutId, // You need to add WorkoutId to WorkoutInPlanDisplay
+                Reps = workout.Reps,
+                Sets = workout.Sets,
+                Kg = workout.Kg
+            };
+
+            var response = await _httpClient.PutAsJsonAsync("WorkoutPlans/updateworkoutinplan", dto);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Failed to update workout in plan.");
+            }
+        }
         public async Task<List<WorkoutPlans>> GetPlansByUserId(int userId) // gets a list of workout plans by userid
         {
             var response = await _httpClient.GetAsync($"WorkoutPlans/getworkoutplansbyuser/{userId}"); // HTTP Get request for workout plans created by a userid

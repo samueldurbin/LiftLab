@@ -37,13 +37,6 @@ namespace WebApi.Controllers
             return Ok(workouts);
         }
 
-        //[HttpGet("getplanworkouts/{planId}")] // this gets the associated workout ids within a plan
-        //public async Task<IActionResult> GetPlanWorkoutsByPlanId(int planId)
-        //{
-        //    var plans = await _workoutPlansService.GetPlanWorkoutsByPlan(planId); // function to get workoutids plans by userid in services
-        //    return Ok(plans);
-        //}
-
         [HttpPost("createplan")]
         public async Task<IActionResult> CreatePlanWithWorkouts([FromBody] CreateWorkoutPlan request) // creates workout plan from the inserted body
         {
@@ -103,6 +96,20 @@ namespace WebApi.Controllers
             }
 
             return Ok("Workout has been removed from the workout plan.");
+        }
+
+        [HttpPut("updateworkoutinplan")]
+        public async Task<IActionResult> UpdateWorkoutInPlan([FromBody] UpdateWorkoutInPlanDTO dto)
+        {
+            var workoutPlan = await _workoutPlansService.UpdateWorkoutInPlan(dto);
+
+            if (!workoutPlan)
+            {
+                return BadRequest("Failed to update workout in plan!");
+
+            }
+
+            return Ok("Workout updated");
         }
 
 
