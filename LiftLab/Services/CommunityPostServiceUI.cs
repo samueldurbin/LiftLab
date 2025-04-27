@@ -28,7 +28,7 @@ namespace LiftLab.Services
         // userid is the user creating the post which has preferences in the frontend to associate each created post with the logged in user
         public async Task<CommunityPost> CreatePost(int userId, string username, string caption, int? workoutPlanId, int? mealId, int? mealPlanId) // workoutplanid, mealplanid, and mealid are all nullable objects so users can select what they want
         {
-        
+
             var communityPost = await _httpClient.PostAsJsonAsync("CommunityPosts/createpost", new CommunityPost // creates a new CommunityPost object to send to backend
             {
                 UserId = userId, // who is creating the post
@@ -47,7 +47,6 @@ namespace LiftLab.Services
 
             return null; // this would return null is the createpost request was not successful
         }
-
         #endregion
 
         #region Get Posts & Plans

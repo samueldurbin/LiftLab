@@ -44,11 +44,11 @@ namespace Shared.Models
 
         [JsonIgnore]
         [NotMapped] // not mapped prevents the database from interacting with this part of the model as there were failures in regards to swaggerui without it
-        private string commentText;
+        private string? commentText;
 
         [JsonIgnore] // this is used to prevent it being part of the json request
         [NotMapped]
-        public string CommentText 
+        public string? CommentText 
         {
             get => commentText;
             set => SetProperty(ref commentText, value);

@@ -68,9 +68,9 @@ namespace LiftLab.ViewModels
                 ClearOtherSelections("MealPlan");
 
                 ShowMealPlans = !ShowMealPlans;
-                
+
                 await LoadMealPlans();
-                
+
             });
 
             ToggleMealsCommand = new Command(async () =>
@@ -78,9 +78,9 @@ namespace LiftLab.ViewModels
                 ClearOtherSelections("Meal");
 
                 ShowMeals = !ShowMeals;
-                
+
                 await LoadMeals();
-                
+
             });
             #endregion
 
@@ -106,7 +106,7 @@ namespace LiftLab.ViewModels
 
             #region Create Post
 
-            
+
             CreatePostCommand = new Command(async () => await CreatePost());
             #endregion
         }
@@ -202,7 +202,7 @@ namespace LiftLab.ViewModels
             {
                 WorkoutPlans.Add(plan);
             }
-             
+
         }
 
         private async Task LoadMealPlans()
@@ -217,7 +217,7 @@ namespace LiftLab.ViewModels
             {
                 MealPlans.Add(plan);
             }
-                
+
         }
 
         private async Task LoadMeals()
@@ -232,7 +232,7 @@ namespace LiftLab.ViewModels
             {
                 Meals.Add(meal);
             }
-                
+
         }
 
         #endregion
