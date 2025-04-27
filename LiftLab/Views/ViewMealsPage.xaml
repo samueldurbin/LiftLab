@@ -11,7 +11,6 @@
 
     <ScrollView Padding="20">
         <VerticalStackLayout Spacing="12">
-            <!--basic display for meal values-->
             <Label Text="{Binding MealName}" FontSize="24" FontAttributes="Bold" />
             <Label Text="{Binding Type}" FontSize="18" />
             <Label Text="Calories:" FontAttributes="Bold" />

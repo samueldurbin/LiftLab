@@ -90,7 +90,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
         </Grid>
     </ScrollView>
 </ContentPage>
