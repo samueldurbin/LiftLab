@@ -18,9 +18,8 @@ namespace LiftLab.ViewModels
         public ObservableCollection<WorkoutInPlanDisplay> WorkoutsInPlan { get; set; } = new();
 
         private WorkoutPlans selectedPlan;
-        public ICommand DeleteWorkoutCommand { get; }
-
         public ICommand SaveWorkoutCommand { get; }
+        public ICommand DeleteWorkoutCommand { get; }
 
         public WorkoutPlans SelectedPlan
         {
@@ -49,7 +48,7 @@ namespace LiftLab.ViewModels
                     return;
 
                 }
-                   
+
                 var workoutPlanData = await _workoutPlansService.GetWorkoutDetailsForPlan(SelectedPlan.WorkoutPlanId);
 
                 var allWorkouts = await _workoutPlansService.GetAllWorkouts();
@@ -95,7 +94,6 @@ namespace LiftLab.ViewModels
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to update workout: {ex.Message}", "OK");
             }
-
         }
 
         private async Task DeleteWorkout(WorkoutInPlanDisplay workout)
@@ -124,6 +122,7 @@ namespace LiftLab.ViewModels
         }
     }
 
+
     public class WorkoutInPlanDisplay
     {
         public int WorkoutId { get; set; }
@@ -132,6 +131,5 @@ namespace LiftLab.ViewModels
         public int? Sets { get; set; }
         public double? Kg { get; set; }
     }
-
 }
 
