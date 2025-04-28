@@ -52,19 +52,18 @@ namespace LiftLab.ViewModels
                 return;
             }
 
-            var result = await _nutritionService.DeleteUserMeal(Meal.MealId, userId);
+            var result = await _nutritionService.DeleteMeal(Meal.MealId);
+
             if (result)
             {
                 await Application.Current.MainPage.DisplayAlert("Success", "Meal deleted!", "OK");
-                await Shell.Current.GoToAsync($"//NutritionPage");
-
+                await Shell.Current.GoToAsync("//NutritionPage");
             }
             else
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "Failed to delete meal.", "OK");
             }
         }
-
     }
 
 }

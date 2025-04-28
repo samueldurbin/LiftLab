@@ -123,39 +123,39 @@ namespace LiftLab.ViewModels
                         await Application.Current.MainPage.DisplayAlert("Not Found!", "Workout plan could not be found, please try again soon.", "OK"); // error display maessage if an error occured within the process
                     }
                 }
-                else if (post.MealPlanId != null) // checks if a meal plan is atta
-                {
-                    var userId = post.UserId;
-                    var mealPlans = await new NutritionServiceUI().GetMealPlansByUser(userId);
-                    var mealPlan = mealPlans.FirstOrDefault(mp => mp.MealPlanId == post.MealPlanId);
+                //else if (post.MealPlanId != null) // checks if a meal plan is atta
+                //{
+                //    var userId = post.UserId;
+                //    var mealPlans = await new NutritionServiceUI().GetMealPlansByUser(userId);
+                //    var mealPlan = mealPlans.FirstOrDefault(mp => mp.MealPlanId == post.MealPlanId);
 
-                    if (mealPlan != null)
-                    {
-                        var mealNames = mealPlan.Meals.Select(m => m.MealName).ToList();
-                        var popup = new ViewAddedPlan(mealPlan.MealPlanName ?? "Meal Plan", mealNames, string.Empty);
-                        await Shell.Current.CurrentPage.ShowPopupAsync(popup);
-                    }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Not Found", "Meal plan could not be found.", "OK");
-                    }
-                }
-                else if (post.MealId != null)
-                {
-                    var userId = post.UserId;
-                    var meals = await new NutritionServiceUI().GetMealsByUser(userId);
-                    var meal = meals.FirstOrDefault(m => m.MealId == post.MealId);
+                //    if (mealPlan != null)
+                //    {
+                //        var mealNames = mealPlan.Meals.Select(m => m.MealName).ToList();
+                //        var popup = new ViewAddedPlan(mealPlan.MealPlanName ?? "Meal Plan", mealNames, string.Empty);
+                //        await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+                //    }
+                //    else
+                //    {
+                //        await Application.Current.MainPage.DisplayAlert("Not Found", "Meal plan could not be found.", "OK");
+                //    }
+                //}
+                //else if (post.MealId != null)
+                //{
+                //    var userId = post.UserId;
+                //    var meals = await new NutritionServiceUI().GetMealsByUser(userId);
+                //    var meal = meals.FirstOrDefault(m => m.MealId == post.MealId);
 
-                    if (meal != null)
-                    {
-                        var popup = new ViewAddedPlan(meal.MealName, new List<string>(), meal.Recipe);
-                        await Shell.Current.CurrentPage.ShowPopupAsync(popup);
-                    }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Not Found", "Meal could not be found.", "OK");
-                    }
-                }
+                //    if (meal != null)
+                //    {
+                //        var popup = new ViewAddedPlan(meal.MealName, new List<string>(), meal.Recipe);
+                //        await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+                //    }
+                //    else
+                //    {
+                //        await Application.Current.MainPage.DisplayAlert("Not Found", "Meal could not be found.", "OK");
+                //    }
+                //}
                 else
                 {
                     await Application.Current.MainPage.DisplayAlert("Oops", "No plan or meal attached to this post.", "OK");

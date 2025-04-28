@@ -21,19 +21,19 @@ namespace LiftLab.Services
 
         public async Task<Meals> CreateMeal(Meals meal)
         {
-            var createMeal = await _httpClient.PostAsJsonAsync("MealPlans/createmeal", meal);
+            var response = await _httpClient.PostAsJsonAsync("MealPlanMeals/createmeal", meal);
 
-            if (createMeal.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                return await createMeal.Content.ReadFromJsonAsync<Meals>();
+                return await response.Content.ReadFromJsonAsync<Meals>();
             }
 
-            throw new Exception(await createMeal.Content.ReadAsStringAsync());
+            throw new Exception(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto) // sends the dto to the api
+        public async Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto)
         {
-            var response = await _httpClient.PostAsJsonAsync("MealPlans/createmealplan", dto);
+            var response = await _httpClient.PostAsJsonAsync("MealPlanMeals/createmealplan", dto);
 
             if (response.IsSuccessStatusCode)
             {
@@ -45,60 +45,52 @@ namespace LiftLab.Services
 
         public async Task<List<Meals>> GetMealsByUser(int userId)
         {
-            var getMealsByUser = await _httpClient.GetAsync($"MealPlans/meals/{userId}");
+            var response = await _httpClient.GetAsync($"MealPlanMeals/meals/user/{userId}");
 
-            if (getMealsByUser.IsSuccessStatusCode)
-            {
-                return await getMealsByUser.Content.ReadFromJsonAsync<List<Meals>>();
-            }
-
-            throw new Exception("Failed to get meals for the user");
-        }
-
-        public async Task<List<MealPlans>> GetMealPlansByUser(int userId)
-        {
-            var getPlansByUser = await _httpClient.GetAsync($"MealPlans/getmealplansbyuser/{userId}");
-
-            if (getPlansByUser.IsSuccessStatusCode)
-            {
-                return await getPlansByUser.Content.ReadFromJsonAsync<List<MealPlans>>();
-            }
-
-            // Log the response details for debugging
-            var errorMessage = await getPlansByUser.Content.ReadAsStringAsync();
-            var statusCode = getPlansByUser.StatusCode;
-
-            // You can replace the Exception with your logging mechanism or keep it as it is
-            throw new Exception($"Failed to get meal plans for the user. Status Code: {statusCode}. Response: {errorMessage}");
-        }
-
-        public async Task<bool> DeleteMeal(int mealId)
-        {
-            var response = await _httpClient.DeleteAsync($"MealPlans/deletemeal/{mealId}");
-            return response.IsSuccessStatusCode;
-        }
-
-        // Delete a meal plan by ID
-        public async Task<bool> DeleteMealPlan(int mealPlanId)
-        {
-            var response = await _httpClient.DeleteAsync($"MealPlans/deletemealplan/{mealPlanId}");
-            return response.IsSuccessStatusCode;
-        }
-        public async Task<bool> DeleteUserMeal(int mealId, int userId)
-        {
-            var response = await _httpClient.DeleteAsync($"MealPlans/deletemeal/{mealId}/{userId}");
-            return response.IsSuccessStatusCode;
-        }
-
-
-        public async Task<List<Meals>> GetMealsByPlanId(int planId)
-        {
-            var response = await _httpClient.GetAsync($"MealPlans/getmealsbyplan/{planId}");
             if (response.IsSuccessStatusCode)
             {
                 return await response.Content.ReadFromJsonAsync<List<Meals>>();
             }
-            throw new Exception("Failed to retrieve meals for the plan");
+
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<List<MealPlans>> GetMealPlansByUser(int userId)
+        {
+            var response = await _httpClient.GetAsync($"MealPlanMeals/mealplans/user/{userId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<MealPlans>>();
+            }
+
+            throw new Exception(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<bool> DeleteMealPlan(int mealPlanId)
+        {
+            var response = await _httpClient.DeleteAsync($"MealPlanMeals/deletemealplan/{mealPlanId}");
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> DeleteMeal(int mealId)
+        {
+            var response = await _httpClient.DeleteAsync($"MealPlanMeals/deletemeal/{mealId}");
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<Meals>> GetMealsByPlanId(int mealPlanId)
+        {
+            var response = await _httpClient.GetAsync($"MealPlanMeals/mealsbyplan/{mealPlanId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<Meals>>();
+            }
+
+            throw new Exception(await response.Content.ReadAsStringAsync());
         }
     }
+
 }
+

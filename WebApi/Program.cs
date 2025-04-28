@@ -12,9 +12,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 builder.Services.AddScoped<IWorkoutPlansService, WorkoutPlansService>();
-builder.Services.AddScoped<IMealPlansService, MealPlansService>();
+//builder.Services.AddScoped<IMealPlansService, MealPlansService>();
 builder.Services.AddScoped<ICommunityPostService, CommunityPostService>();
 builder.Services.AddScoped<IFriendService, FriendService>();
+builder.Services.AddScoped<IMealPlanMealsService, MealPlanMealsService>();
 
 
 // Add controllers (API).

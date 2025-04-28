@@ -30,12 +30,12 @@ namespace WebApi.Controllers
             return Ok(plans);
         }
 
-        [HttpGet("getmealsbyplan/{planId}")] // uses planid input
-        public async Task<IActionResult> GetMealsByPlanId(int planId)
-        {
-            var meals = await _mealPlansService.GetMealsByPlanId(planId); // this method in the service gets all the meals that
-            return Ok(meals);
-        }
+        //[HttpGet("getmealsbyplan/{planId}")] // uses planid input
+        //public async Task<IActionResult> GetMealsByPlanId(int planId)
+        //{
+        //    var meals = await _mealPlansService.GetMealsByPlanId(planId); // this method in the service gets all the meals that
+        //    return Ok(meals);
+        //}
 
 
         [HttpPost("createmeal")]
@@ -60,19 +60,19 @@ namespace WebApi.Controllers
             return Ok(meals);
         }
 
-        [HttpPost("addmealtoexistingmealplan")]
-        public async Task<IActionResult> AddMealToExistingPlan([FromBody] Meals meal)
-        {
-            try
-            {
-                var addedMeal = await _mealPlansService.AddMealToExistingMealPlan(meal); // adds an independent meal to a meal plan
-                return Ok(new { Message = "Meal added to plan", MealId = addedMeal.MealId });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { Message = "Failed to add meal", Error = ex.Message });
-            }
-        }
+        //[HttpPost("addmealtoexistingmealplan")]
+        //public async Task<IActionResult> AddMealToExistingPlan([FromBody] Meals meal)
+        //{
+        //    try
+        //    {
+        //        var addedMeal = await _mealPlansService.AddMealToExistingMealPlan(meal); // adds an independent meal to a meal plan
+        //        return Ok(new { Message = "Meal added to plan", MealId = addedMeal.MealId });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { Message = "Failed to add meal", Error = ex.Message });
+        //    }
+        //}
 
         [HttpPost("addusermealplan/{mealPlanId}/{userId}")] // adds mealplanids to a userids account
         public async Task<IActionResult> AddExternalMealPlans(int mealPlanId, int userId)

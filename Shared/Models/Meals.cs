@@ -14,8 +14,6 @@ namespace Shared.Models
         [Key]
         public int MealId { get; set; }
 
-        public int? MealPlanId { get; set; } // foreign key to mealplan table
-
         public string MealName { get; set; } // name of the meal
 
         public string Type { get; set; } // type of meal, so users will have the option to select breakfast, lunch or dinner etc
@@ -26,8 +24,5 @@ namespace Shared.Models
 
         public int? UserId { get; set; }
 
-        [ForeignKey("MealPlanId")] // foreign key reference
-        [JsonIgnore] // prevents model binding errors
-        public MealPlans? MealPlan { get; set; }
     }
 }

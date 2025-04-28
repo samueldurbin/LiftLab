@@ -20,6 +20,6 @@ namespace Shared.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow; // gets the date it was created
 
-        public ICollection<Meals> Meals { get; set; } = new List<Meals>(); // one meal plan has many meals
+        public ICollection<MealPlanMeals> MealPlanMeals { get; set; } = new List<MealPlanMeals>();
     }
 }

@@ -63,6 +63,7 @@
 	  <Compile Remove="ViewModels\CommunityPostViewModelItem.cs" />
 	  <Compile Remove="ViewModels\CommunityViewModel.cs" />
 	  <Compile Remove="ViewModels\CreateNutritionPostViewModel.cs" />
+	  <Compile Remove="ViewModels\MealPlanDetailsViewModel.cs" />
 	  <Compile Remove="ViewModels\PublicProfileViewModel.cs" />
 	  <Compile Remove="Views\CommunityPage.xaml.cs" />
 	  <Compile Remove="Views\CreateNutritionPost.xaml.cs" />

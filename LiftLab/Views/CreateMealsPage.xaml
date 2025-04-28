@@ -13,14 +13,12 @@
               RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
               ColumnDefinitions="*">
 
-        <!-- Page Title -->
         <Label Grid.Row="0"
                    Text="Create New Meal"
                    FontSize="32"
                    FontAttributes="Bold"
                    HorizontalOptions="Center" />
 
-        <!-- Guidance Text -->
         <Label Grid.Row="1"
                    Text="Fill in the meal details below and save it to your meals list."
                    FontSize="14"
@@ -28,7 +26,6 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
 
-        <!-- Meal Name Entry -->
         <Entry Grid.Row="2"
                    Placeholder="Meal Name"
                    Text="{Binding NewMealName}"
@@ -37,7 +34,6 @@
                    Margin="0,10,0,0"
                    HorizontalOptions="Fill" />
 
-        <!-- Meal Type Entry -->
         <Entry Grid.Row="3"
                    Placeholder="Type (Breakfast, Lunch, etc.)"
                    Text="{Binding NewMealType}"
@@ -45,7 +41,6 @@
                    BackgroundColor="White"
                    HorizontalOptions="Fill" />
 
-        <!-- Calories Entry -->
         <Entry Grid.Row="4"
                    Placeholder="Calories"
                    Keyboard="Numeric"
@@ -54,7 +49,6 @@
                    BackgroundColor="White"
                    HorizontalOptions="Fill" />
 
-        <!-- Recipe Editor -->
         <Frame Grid.Row="5"
                    Padding="10"
                    CornerRadius="12"
@@ -70,7 +64,6 @@
                         HeightRequest="150" />
         </Frame>
 
-        <!-- Create Meal Button -->
         <Button Grid.Row="6"
                     Text="Create Meal"
                     Command="{Binding CreateMealCommand}"

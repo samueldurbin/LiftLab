@@ -8,10 +8,13 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\FitnessPostController.cs" />
+    <Compile Remove="Controllers\MealPlansController.cs" />
     <Compile Remove="Controllers\NutritionPostsController.cs" />
     <Compile Remove="Services\FitnessPostService.cs" />
     <Compile Remove="Services\IFitnessPostService.cs" />
+    <Compile Remove="Services\IMealPlansService.cs" />
     <Compile Remove="Services\INutritionPostService.cs" />
+    <Compile Remove="Services\MealPlansService.cs" />
     <Compile Remove="Services\NutritionPostService.cs" />
   </ItemGroup>
 

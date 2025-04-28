@@ -13,14 +13,12 @@
           RowDefinitions="Auto, Auto, Auto, *, Auto"
           ColumnDefinitions="*">
 
-        <!-- Page Title -->
         <Label Grid.Row="0"
                Text="Create Meal Plan"
                FontSize="24"
                FontAttributes="Bold"
                HorizontalOptions="Center" />
 
-        <!-- Guidance Text -->
         <Label Grid.Row="1"
                Text="Give your meal plan a name and select meals to include."
                FontSize="14"
@@ -28,7 +26,6 @@
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />
 
-        <!-- Meal Plan Name Entry -->
         <Entry Grid.Row="2"
                Placeholder="Meal Plan Name"
                Text="{Binding MealPlanName}"
@@ -37,7 +34,6 @@
                Margin="0,10,0,0"
                HorizontalOptions="Fill" />
 
-        <!-- Meals Selection List -->
         <Frame Grid.Row="3"
                CornerRadius="12"
                BackgroundColor="White"
@@ -68,7 +64,6 @@
             </CollectionView>
         </Frame>
 
-        <!-- Create Meal Plan Button -->
         <Button Grid.Row="4"
                 Text="Create Meal Plan"
                 Command="{Binding CreateMealPlanCommand}"

@@ -15,14 +15,12 @@
               RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, *"
               ColumnDefinitions="*">
 
-        <!-- Page Title -->
         <Label Grid.Row="0"
                    Text="Meal Details"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Center" />
 
-        <!-- Guidance Text -->
         <Label Grid.Row="1"
                    Text="Here you can view your meal info! Please be cautious about allergies, and if you're not a fan of the meal anymore, just delete it using the trash icon!"
                    FontSize="14"
@@ -30,7 +28,6 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
 
-        <!-- Trash Can Icon -->
         <Label Grid.Row="2"
                    FontFamily="FASolid"
                    Text="{x:Static helper:FontAwesome.TrashCan}"
@@ -43,21 +40,18 @@
             </Label.GestureRecognizers>
         </Label>
 
-        <!-- Meal Name -->
         <Label Grid.Row="3"
                    Text="{Binding MealName}"
                    FontSize="24"
                    FontAttributes="Bold"
                    HorizontalOptions="Start" />
 
-        <!-- Meal Type -->
         <Label Grid.Row="4"
                    Text="{Binding Type}"
                    FontSize="18"
                    TextColor="Gray"
                    HorizontalOptions="Start" />
 
-        <!-- Calories (label and value side by side) -->
         <Grid Grid.Row="5" ColumnDefinitions="Auto, Auto" HorizontalOptions="Start">
             <HorizontalStackLayout Grid.Row="5" Spacing="5" HorizontalOptions="Start">
                 <Label Text="Calories:"
@@ -70,7 +64,6 @@
             </HorizontalStackLayout>
         </Grid>
 
-        <!-- Recipe in Frame -->
         <Frame Grid.Row="6" Padding="10" CornerRadius="12" BackgroundColor="White" HasShadow="True">
             <Grid RowDefinitions="Auto, Auto">
                 <Label Grid.Row="0"

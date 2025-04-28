@@ -14,14 +14,12 @@
           RowDefinitions="Auto, Auto, Auto, *, Auto, Auto, *"
           ColumnDefinitions="*">
 
-        <!-- Page Title -->
         <Label Grid.Row="0"
                Text="Nutrition Storage"
                FontSize="24"
                FontAttributes="Bold"
                HorizontalOptions="Center" />
 
-        <!-- Guidance Text -->
         <Label Grid.Row="1"
                Text="Tap '+' to create new meals/plans, or tap a meal/plan to view it's details!"
                FontSize="14"
@@ -29,7 +27,6 @@
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />
 
-        <!-- My Meals Header -->
         <Grid Grid.Row="2" ColumnDefinitions="*, Auto">
             <Label Text="My Meals"
                    FontSize="20"
@@ -47,7 +44,6 @@
             </Label>
         </Grid>
 
-        <!-- Meals List -->
         <CollectionView Grid.Row="3"
                         ItemsSource="{Binding UserMeals}"
                         ItemSizingStrategy="MeasureAllItems">
@@ -83,7 +79,6 @@
              BackgroundColor="Red"
              HorizontalOptions="Fill" />
 
-        <!-- My Meal Plans Header -->
         <Grid Grid.Row="5" ColumnDefinitions="*, Auto">
             <Label Text="My Meal Plans"
                    FontSize="20"
@@ -101,7 +96,6 @@
             </Label>
         </Grid>
 
-        <!-- Meal Plans List -->
         <CollectionView Grid.Row="6"
                         ItemsSource="{Binding UserMealPlans}"
                         ItemSizingStrategy="MeasureAllItems">

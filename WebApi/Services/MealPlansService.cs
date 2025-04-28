@@ -14,27 +14,27 @@ namespace WebApi.Services
             _dbContext = dbContext;
         }
 
-        public async Task<IEnumerable<MealPlans>> GetAllMealPlans()
-        {
-            return await _dbContext.MealPlans
-                .Include(p => p.Meals)
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<MealPlans>> GetAllMealPlans()
+        //{
+        //    return await _dbContext.MealPlans
+        //        .Include(p => p.Meals)
+        //        .ToListAsync();
+        //}
 
-        public async Task<IEnumerable<MealPlans>> GetMealPlansByUser(int userId)
-        {
-            return await _dbContext.MealPlans
-                .Include(mp => mp.Meals)
-                .Where(mp => mp.UserId == userId)
-                .ToListAsync();
-        }
+        //public async Task<IEnumerable<MealPlans>> GetMealPlansByUser(int userId)
+        //{
+        //    return await _dbContext.MealPlans
+        //        .Include(mp => mp.Meals)
+        //        .Where(mp => mp.UserId == userId)
+        //        .ToListAsync();
+        //}
 
-        public async Task<List<Meals>> GetMealsByPlanId(int planId)
-        {
-            return await _dbContext.Meals
-                .Where(m => m.MealPlanId == planId)
-                .ToListAsync();
-        }
+        //public async Task<List<Meals>> GetMealsByPlanId(int planId)
+        //{
+        //    return await _dbContext.Meals
+        //        .Where(m => m.MealPlanId == planId)
+        //        .ToListAsync();
+        //}
 
         public async Task<IEnumerable<Meals>> GetMealsByUserId(int userId)
         {
@@ -59,10 +59,10 @@ namespace WebApi.Services
                 .Where(m => dto.MealIds.Contains(m.MealId)) // this is a list of ids that will link to the meals database
                 .ToListAsync();
 
-            foreach (var meal in meals) // this sets the planid for the meals
-            {
-                meal.MealPlanId = mealPlan.MealPlanId;
-            }
+            //foreach (var meal in meals) // this sets the planid for the meals
+            //{
+            //    meal.MealPlanId = mealPlan.MealPlanId;
+            //}
 
             await _dbContext.SaveChangesAsync();
             return mealPlan;
@@ -76,20 +76,20 @@ namespace WebApi.Services
         }
 
 
-        public async Task<Meals> AddMealToExistingMealPlan(Meals meal)
-        {
-            var existingPlan = await _dbContext.MealPlans.FindAsync(meal.MealPlanId); // check if mealplan exists
+        //public async Task<Meals> AddMealToExistingMealPlan(Meals meal)
+        //{
+        //    var existingPlan = await _dbContext.MealPlans.FindAsync(meal.MealPlanId); // check if mealplan exists
 
-            if (existingPlan == null)
-            {
-                throw new Exception("Meal plan has not been found.");
-            }
+        //    if (existingPlan == null)
+        //    {
+        //        throw new Exception("Meal plan has not been found.");
+        //    }
 
-            _dbContext.Meals.Add(meal);
-            await _dbContext.SaveChangesAsync();
+        //    _dbContext.Meals.Add(meal);
+        //    await _dbContext.SaveChangesAsync();
 
-            return meal;
-        }
+        //    return meal;
+        //}
 
         //public async Task<Meals> AddExternalUserMeal(int mealId, int userId)
         //{
@@ -139,7 +139,6 @@ namespace WebApi.Services
                 {
                     var copiedMeal = new Meals
                     {
-                        MealPlanId = userPlan.MealPlanId,
                         MealName = item.MealName,
                         Type = item.Type,
                         Calories = item.Calories,
