@@ -6,4 +6,5 @@ public partial class ViewMealPlanPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
 }

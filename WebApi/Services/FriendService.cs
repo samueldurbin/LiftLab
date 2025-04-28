@@ -50,16 +50,15 @@ namespace WebApi.Services
                 .ToListAsync(); // to a list
         }
 
-        public async Task<List<CommunityPost>> GetFriendsPosts(int userId) // list of all the fitnessposts from who the user has added as a friend
+        public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
         {
-            var friendsIds = await GetUsersFriends(userId); // gets all of the friend ids
+            var friendIds = await GetUsersFriends(userId);
 
-            return await _dbContext.CommunityPosts // database table of fitnessposts
-                .Where(p => _dbContext.Users // usernames and userids are stored
-                    .Where(u => friendsIds.Contains(u.UserId)) // all users in the friends list
-                    .Select(u => u.Username) // the usernames of the ids
-                    .Contains(p.Username)) // fitnessposts username that matches a certain username
-                .ToListAsync(); // to a list
+            var posts = await _dbContext.CommunityPosts
+                .Where(p => friendIds.Contains(p.UserId))
+                .ToListAsync();
+
+            return posts;
         }
 
     }

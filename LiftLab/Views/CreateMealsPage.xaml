@@ -8,16 +8,79 @@
     <ContentPage.BindingContext>
         <vm:NutritionViewModel />
     </ContentPage.BindingContext>
-    
-    <ScrollView>
-    <StackLayout Padding="20" Spacing="10">
-        <Label Text="Create New Meal" FontAttributes="Bold" />
-        <Entry Placeholder="Meal Name" Text="{Binding NewMealName}" />
-        <Entry Placeholder="Type (Breakfast/Lunch/etc)" Text="{Binding NewMealType}" />
-        <Entry Placeholder="Calories" Keyboard="Numeric" Text="{Binding NewMealCalories}" />
-        <Editor Placeholder="Recipe" AutoSize="TextChanges" Text="{Binding NewMealRecipe}" />
-        <Button Text="Create Meal" Command="{Binding CreateMealCommand}" />
 
-        </StackLayout>
-</ScrollView>
+    <Grid Padding="20" RowSpacing="15"
+              RowDefinitions="Auto, Auto, Auto, Auto, Auto, Auto, Auto, *"
+              ColumnDefinitions="*">
+
+        <!-- Page Title -->
+        <Label Grid.Row="0"
+                   Text="Create New Meal"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+        <!-- Guidance Text -->
+        <Label Grid.Row="1"
+                   Text="Fill in the meal details below and save it to your meals list."
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+
+        <!-- Meal Name Entry -->
+        <Entry Grid.Row="2"
+                   Placeholder="Meal Name"
+                   Text="{Binding NewMealName}"
+                   FontSize="18"
+                   BackgroundColor="White"
+                   Margin="0,10,0,0"
+                   HorizontalOptions="Fill" />
+
+        <!-- Meal Type Entry -->
+        <Entry Grid.Row="3"
+                   Placeholder="Type (Breakfast, Lunch, etc.)"
+                   Text="{Binding NewMealType}"
+                   FontSize="18"
+                   BackgroundColor="White"
+                   HorizontalOptions="Fill" />
+
+        <!-- Calories Entry -->
+        <Entry Grid.Row="4"
+                   Placeholder="Calories"
+                   Keyboard="Numeric"
+                   Text="{Binding NewMealCalories}"
+                   FontSize="18"
+                   BackgroundColor="White"
+                   HorizontalOptions="Fill" />
+
+        <!-- Recipe Editor -->
+        <Frame Grid.Row="5"
+                   Padding="10"
+                   CornerRadius="12"
+                   BackgroundColor="White"
+                   HasShadow="True"
+                   BorderColor="LightGray">
+            <Editor Placeholder="Recipe"
+                        AutoSize="TextChanges"
+                        Text="{Binding NewMealRecipe}"
+                        FontSize="16"
+                        BackgroundColor="Transparent"
+                        Margin="0"
+                        HeightRequest="150" />
+        </Frame>
+
+        <!-- Create Meal Button -->
+        <Button Grid.Row="6"
+                    Text="Create Meal"
+                    Command="{Binding CreateMealCommand}"
+                    FontSize="18"
+                    CornerRadius="10"
+                    BackgroundColor="CornflowerBlue"
+                    TextColor="White"
+                    Margin="0,20,0,0"
+                    HeightRequest="50"
+                    HorizontalOptions="Fill" />
+
+    </Grid>
 </ContentPage>

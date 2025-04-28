@@ -18,7 +18,7 @@ namespace LiftLab.ViewModels
     {
         private readonly CommunityPostServiceUI _communityService;  // gets community posts from api
         private readonly WorkoutPlansServiceUI _workoutPlansService;
-
+        private readonly FriendServiceUI _friendsService;
         #region ICommands - OnClickLisenters
 
         public ICommand ViewUserProfileCommand { get; }
@@ -52,6 +52,7 @@ namespace LiftLab.ViewModels
         {
             _communityService = new CommunityPostServiceUI();
             _workoutPlansService = new WorkoutPlansServiceUI();
+            _friendsService = new FriendServiceUI();
 
             CommunityPosts = new ObservableCollection<CommunityPost>(); // initializes empty to store fitness posts
 
@@ -208,29 +209,29 @@ namespace LiftLab.ViewModels
 
         private async Task GetsPosts()
         {
-            if (IsBusy) return; // prevents the retrieving of data fetching if its already in progress
+            if (IsBusy) return;
 
-            IsBusy = true; // to show the loading spinner
+            IsBusy = true;
 
             try
             {
-                var posts = await _communityService.GetAllCommunityPosts(); // fetches all of the posts
+                int userId = Preferences.Get("UserId", 0);
+
+                var posts = await _friendsService.GetFriendsPosts(userId);
 
                 var sortedPosts = posts
-                    .OrderByDescending(p => p.CreatedDate) 
+                    .OrderByDescending(p => p.CreatedDate)
                     .ToList();
 
-                CommunityPosts.Clear(); // this method updates the ui with the new posts, removing old data
+                CommunityPosts.Clear();
 
                 foreach (var post in sortedPosts)
                 {
-                    var comments = await _communityService.GetCommentsByPost(post.CommunityPostId); // gets comments for each post
-
+                    var comments = await _communityService.GetCommentsByPost(post.CommunityPostId);
                     post.Comments = new ObservableCollection<CommunityPostComments>(comments);
 
-                    CommunityPosts.Add(post); // adds new posts
+                    CommunityPosts.Add(post);
                 }
-
             }
             catch (Exception ex)
             {
@@ -241,6 +242,41 @@ namespace LiftLab.ViewModels
                 IsBusy = false;
             }
         }
+        //private async Task GetsPosts()
+        //{
+        //    if (IsBusy) return; // prevents the retrieving of data fetching if its already in progress
+
+        //    IsBusy = true; // to show the loading spinner
+
+        //    try
+        //    {
+        //        var posts = await _communityService.GetAllCommunityPosts(); // fetches all of the posts
+
+        //        var sortedPosts = posts
+        //            .OrderByDescending(p => p.CreatedDate) 
+        //            .ToList();
+
+        //        CommunityPosts.Clear(); // this method updates the ui with the new posts, removing old data
+
+        //        foreach (var post in sortedPosts)
+        //        {
+        //            var comments = await _communityService.GetCommentsByPost(post.CommunityPostId); // gets comments for each post
+
+        //            post.Comments = new ObservableCollection<CommunityPostComments>(comments);
+
+        //            CommunityPosts.Add(post); // adds new posts
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load community posts: {ex.Message}", "OK");
+        //    }
+        //    finally
+        //    {
+        //        IsBusy = false;
+        //    }
+        //}
 
         private async Task AddComment(CommunityPost post)
         {

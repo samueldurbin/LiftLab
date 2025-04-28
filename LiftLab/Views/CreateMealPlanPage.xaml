@@ -3,32 +3,83 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.CreateMealPlanPage"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
-             Title="CreateMealPlanPage">
-    
+             Title="Nutrition">
+
     <ContentPage.BindingContext>
         <vm:NutritionViewModel />
     </ContentPage.BindingContext>
 
+    <Grid Padding="20" RowSpacing="10"
+          RowDefinitions="Auto, Auto, Auto, *, Auto"
+          ColumnDefinitions="*">
 
-    <StackLayout Padding="20" Spacing="10">
-        <Entry Placeholder="Meal Plan Name" Text="{Binding MealPlanName}" />
-        <Button Text="Load Meals" Command="{Binding LoadMealsCommand}" />
+        <!-- Page Title -->
+        <Label Grid.Row="0"
+               Text="Create Meal Plan"
+               FontSize="24"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
 
-        <Label Text="Select Meals:" FontAttributes="Bold" Margin="0,20,0,0" />
+        <!-- Guidance Text -->
+        <Label Grid.Row="1"
+               Text="Give your meal plan a name and select meals to include."
+               FontSize="14"
+               TextColor="Gray"
+               HorizontalOptions="Center"
+               HorizontalTextAlignment="Center" />
 
-        <CollectionView ItemsSource="{Binding MealList}"
-                        HeightRequest="300"
-                        VerticalOptions="FillAndExpand">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding Meal.MealName}" VerticalOptions="Center"/>
-                        <CheckBox IsChecked="{Binding IsSelected}" HorizontalOptions="EndAndExpand"/>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <!-- Meal Plan Name Entry -->
+        <Entry Grid.Row="2"
+               Placeholder="Meal Plan Name"
+               Text="{Binding MealPlanName}"
+               FontSize="18"
+               BackgroundColor="White"
+               Margin="0,10,0,0"
+               HorizontalOptions="Fill" />
 
-        <Button Text="Create Meal Plan" Command="{Binding CreateMealPlanCommand}" Margin="0,20,0,0"/>
-    </StackLayout>
+        <!-- Meals Selection List -->
+        <Frame Grid.Row="3"
+               CornerRadius="12"
+               BackgroundColor="White"
+               Padding="10"
+               HasShadow="True"
+               BorderColor="LightGray">
+            <CollectionView ItemsSource="{Binding MealList}"
+                            VerticalOptions="FillAndExpand"
+                            ItemSizingStrategy="MeasureAllItems">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*, Auto" Padding="10" VerticalOptions="Center">
+                            <Label Grid.Column="0"
+                                   Text="{Binding Meal.MealName}"
+                                   FontSize="18"
+                                   VerticalOptions="Center"
+                                   TextColor="Black" />
+                            <CheckBox Grid.Column="1"
+                                      IsChecked="{Binding IsSelected}"
+                                      HorizontalOptions="End"
+                                      VerticalOptions="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Frame>
+
+        <!-- Create Meal Plan Button -->
+        <Button Grid.Row="4"
+                Text="Create Meal Plan"
+                Command="{Binding CreateMealPlanCommand}"
+                FontSize="18"
+                CornerRadius="10"
+                BackgroundColor="CornflowerBlue"
+                TextColor="White"
+                Margin="0,20,0,0"
+                HeightRequest="50"
+                HorizontalOptions="Fill" />
+
+    </Grid>
+
 </ContentPage>

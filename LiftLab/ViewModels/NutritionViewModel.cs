@@ -113,6 +113,16 @@ namespace LiftLab.ViewModels
               { "MealPlan", plan }
              });
         }
+
+        //private async Task DeleteMeal(int mealId)
+        //{
+        //    var result = await _nutritionService.DeleteUserMeal(mealId, currentUserId);  // currentUserId is the logged-in user’s ID
+        //    if (result)
+        //        await Application.Current.MainPage.DisplayAlert("Success", "Meal deleted from your account!", "OK");
+        //    else
+        //        await Application.Current.MainPage.DisplayAlert("Error", "Failed to delete meal.", "OK");
+        //}
+
         private async Task CreateMeal()
         {
             try
@@ -214,7 +224,7 @@ namespace LiftLab.ViewModels
         }
 
 
-        private async Task LoadMeals()
+        public async Task LoadMeals()
         {
             try
             {

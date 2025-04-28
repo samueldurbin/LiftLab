@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LiftLab.Views.ViewMealPlanPage"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
-             Title="ViewMealPlanPage">
+             xmlns:helper="clr-namespace:LiftLab.Helpers"
+             x:Name="PageRef"
+             Title="Nutrition">
 
     <ContentPage.BindingContext>
         <vm:MealPlanViewModel />
@@ -12,6 +14,12 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Grid.Row="0" Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.TrashCan}" FontSize="30" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Start">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding BindingContext.DeleteMealPlanCommand, Source={x:Reference PageRef}}" CommandParameter="{Binding MealPlan.MealPlanId}" />
+                </Label.GestureRecognizers>
+            </Label>
+
             <Label Text="{Binding MealPlanName}" FontSize="24" FontAttributes="Bold" />
             <Label Text="{Binding CreatedAt, StringFormat='Created on: {0:MMMM dd, yyyy}'}" FontSize="14" TextColor="Gray" />
 
@@ -34,4 +42,4 @@
             </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
-</ContentPage>
+</ContentPage> 

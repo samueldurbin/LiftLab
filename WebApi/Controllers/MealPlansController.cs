@@ -101,5 +101,65 @@ namespace WebApi.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+        // Delete a meal plan by ID
+        [HttpDelete("deletemealplan/{mealPlanId}")]
+        public async Task<IActionResult> DeleteMealPlan(int mealPlanId)
+        {
+            try
+            {
+                var result = await _mealPlansService.DeleteMealPlan(mealPlanId);
+
+                if (result)
+                {
+                    return Ok(new { Message = "Meal plan deleted successfully!" });
+                }
+
+                return NotFound(new { Message = "Meal plan not found." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error deleting meal plan", Error = ex.Message });
+            }
+        }
+
+        //// Delete a meal by ID
+        //[HttpDelete("deletemeal/{mealId}")]
+        //public async Task<IActionResult> DeleteMeal(int mealId)
+        //{
+        //    try
+        //    {
+        //        var result = await _mealPlansService.DeleteMeal(mealId);
+
+        //        if (result)
+        //        {
+        //            return Ok(new { Message = "Meal deleted successfully!" });
+        //        }
+
+        //        return NotFound(new { Message = "Meal not found." });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(new { Message = "Error deleting meal", Error = ex.Message });
+        //    }
+        //}
+
+        [HttpDelete("deletemeal/{mealId}/{userId}")]
+        public async Task<IActionResult> DeleteUserMeal(int mealId, int userId)
+        {
+            try
+            {
+                var result = await _mealPlansService.DeleteUserMeal(mealId, userId);
+
+                if (result)
+                    return Ok(new { Message = "Meal deleted from user's account" });
+
+                return NotFound(new { Message = "Meal not found for this user" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = "Error deleting meal", Error = ex.Message });
+            }
+        }
     }
 }

@@ -64,7 +64,41 @@ namespace LiftLab.Services
                 return await getPlansByUser.Content.ReadFromJsonAsync<List<MealPlans>>();
             }
 
-            throw new Exception("Failed to get meal plans for the user");
+            // Log the response details for debugging
+            var errorMessage = await getPlansByUser.Content.ReadAsStringAsync();
+            var statusCode = getPlansByUser.StatusCode;
+
+            // You can replace the Exception with your logging mechanism or keep it as it is
+            throw new Exception($"Failed to get meal plans for the user. Status Code: {statusCode}. Response: {errorMessage}");
+        }
+
+        public async Task<bool> DeleteMeal(int mealId)
+        {
+            var response = await _httpClient.DeleteAsync($"MealPlans/deletemeal/{mealId}");
+            return response.IsSuccessStatusCode;
+        }
+
+        // Delete a meal plan by ID
+        public async Task<bool> DeleteMealPlan(int mealPlanId)
+        {
+            var response = await _httpClient.DeleteAsync($"MealPlans/deletemealplan/{mealPlanId}");
+            return response.IsSuccessStatusCode;
+        }
+        public async Task<bool> DeleteUserMeal(int mealId, int userId)
+        {
+            var response = await _httpClient.DeleteAsync($"MealPlans/deletemeal/{mealId}/{userId}");
+            return response.IsSuccessStatusCode;
+        }
+
+
+        public async Task<List<Meals>> GetMealsByPlanId(int planId)
+        {
+            var response = await _httpClient.GetAsync($"MealPlans/getmealsbyplan/{planId}");
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<Meals>>();
+            }
+            throw new Exception("Failed to retrieve meals for the plan");
         }
     }
 }

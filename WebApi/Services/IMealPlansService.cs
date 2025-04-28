@@ -13,5 +13,10 @@ namespace WebApi.Services
         Task<Meals> AddExternalUserMeal(int mealId, int userId);
         Task<Meals> CreateMeal(Meals meal);
         Task<MealPlans> CreateMealPlan(CreateMealPlanDTO dto);
+
+        Task<bool> DeleteMealPlan(int mealPlanId);
+        //Task<bool> DeleteMeal(int mealId);
+
+        Task<bool> DeleteUserMeal(int mealId, int userId);
     }
 }

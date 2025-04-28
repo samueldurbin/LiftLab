@@ -9,32 +9,81 @@
         <vm:FriendsViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Padding="10">
+    <Grid Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
 
-        <!--Tempp title-->
-        <Label Text="Find my Friends" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+        <!-- Title -->
+        <Label 
+        Text="Find my Friends" 
+        FontSize="24" 
+        FontAttributes="Bold" 
+        HorizontalOptions="Center" 
+        Grid.Row="0" />
 
-        <SearchBar Placeholder="Search friends..." Text="{Binding SearchText}" SearchCommand="{Binding SearchCommand}" />
+        <!-- Guidance text under title -->
+        <Label 
+        Text="Search and add people to start sharing your progress!" 
+        FontSize="14" 
+        TextColor="Gray" 
+        HorizontalOptions="Center" 
+        Grid.Row="1" 
+        Margin="0,5,0,10" />
 
-        <!--Loading-->
-        <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
+        <!-- SearchBar -->
+        <SearchBar 
+        Placeholder="Search friends..." 
+        Text="{Binding SearchText}" 
+        SearchCommand="{Binding SearchCommand}" 
+        Grid.Row="2" />
 
-        <!--Displays List of all users-->
-        <CollectionView ItemsSource="{Binding Users}" VerticalOptions="FillAndExpand">
+        <!-- Label under searchbar -->
+        <Label 
+        Text="Results will appear below" 
+        FontSize="12" 
+        TextColor="Gray" 
+        HorizontalOptions="Center" 
+        Grid.Row="3"
+        Margin="0,5,0,10" />
+
+        <!-- Loading Indicator -->
+        <ActivityIndicator 
+        IsRunning="{Binding IsBusy}" 
+        IsVisible="{Binding IsBusy}" 
+        Grid.Row="4" 
+        HorizontalOptions="Center" />
+
+        <!-- Friend List with fixed height -->
+        <CollectionView 
+        ItemsSource="{Binding Users}" 
+        VerticalOptions="Start"
+        HeightRequest="300" 
+            Grid.Row="5">
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame CornerRadius="5" BorderColor="Green" Padding="15" Margin="5">
                         <Grid ColumnDefinitions="*,Auto">
                             <!-- Username -->
-                            <Label Text="{Binding Username}" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" Grid.Column="0" />
+                            <Label 
+                            Text="{Binding Username}" 
+                            FontSize="16" 
+                            FontAttributes="Bold" 
+                            VerticalOptions="Center" 
+                            Grid.Column="0" />
 
-                            <!-- Add Friend button on the right -->
-                            <Button Text="Add Friend" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FriendsViewModel}}, Path=AddFriendCommand}" CommandParameter="{Binding UserId}" FontAttributes="Bold" BackgroundColor="Black" TextColor="White" Grid.Column="1" />
+                            <!-- Add Friend Button -->
+                            <Button 
+                            Text="Add Friend" 
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FriendsViewModel}}, Path=AddFriendCommand}" 
+                            CommandParameter="{Binding UserId}" 
+                            FontAttributes="Bold" 
+                            BackgroundColor="Black" 
+                            TextColor="White" 
+                            Grid.Column="1" />
                         </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-    </StackLayout>
+    </Grid>
 </ContentPage>
