@@ -42,28 +42,45 @@ namespace LiftLab.ViewModels
             DeleteMealCommand = new Command(async () => await DeleteMeal());
         }
 
+
         private async Task DeleteMeal()
         {
-            int userId = Preferences.Get("UserId", 0);
-
-            if (Meal == null || userId == 0)
+            if (Meal == null)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Meal not loaded properly or user not logged in.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", "Meal not loaded properly.", "OK");
                 return;
             }
 
-            var result = await _nutritionService.DeleteMeal(Meal.MealId);
+            bool confirmed = await Application.Current.MainPage.DisplayAlert(
+                "Confirm Deletion",
+                $"Are you sure you want to delete '{Meal.MealName}'?",
+                "Delete",
+                "Cancel"
+            );
 
-            if (result)
+            if (!confirmed)
+                return;
+
+            try
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Meal deleted!", "OK");
-                await Shell.Current.GoToAsync("//NutritionPage");
+                bool success = await _nutritionService.DeleteMeal(Meal.MealId);
+
+                if (success)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Success", "Meal deleted successfully.", "OK");
+                    await Shell.Current.GoToAsync("//NutritionPage"); // Go back to main nutrition page
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Failed to delete meal. Please try again.", "OK");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to delete meal.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Deletion failed: {ex.Message}", "OK");
             }
         }
     }
+    
 
 }

@@ -61,18 +61,11 @@ namespace WebApi.Controllers
             return NotFound(new { Message = "Meal Plan not found" });
         }
 
-        [HttpDelete("deletemeal/{mealId}")]
-        public async Task<IActionResult> DeleteMeal(int mealId)
+        [HttpGet("mealplansbymeal/{mealId}")]
+        public async Task<IActionResult> GetMealPlansByMealId(int mealId)
         {
-            var result = await _mealPlanMealsService.DeleteMeal(mealId);
-
-            if (result)
-            {
-                return Ok(new { Message = "Meal deleted successfully" });
-
-            }
-
-            return NotFound(new { Message = "Meal not found" });
+            var mealPlans = await _mealPlanMealsService.GetMealPlansByMealId(mealId);
+            return Ok(mealPlans);
         }
 
         [HttpPost("addusermeal/{mealId}/{userId}")]
@@ -127,6 +120,19 @@ namespace WebApi.Controllers
             var createdMeal = await _mealPlanMealsService.CreateMeal(meal);
 
             return Ok(createdMeal);
+        }
+
+        [HttpDelete("deletemeal/{mealId}")]
+        public async Task<IActionResult> DeleteMeal(int mealId)
+        {
+            var deleted = await _mealPlanMealsService.DeleteMeal(mealId);
+
+            if (!deleted)
+            {
+                return NotFound("Meal not found or could not delete.");
+            }
+
+            return Ok("Meal deleted successfully!");
         }
     }
 }

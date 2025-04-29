@@ -97,21 +97,39 @@ namespace WebApi.Services
 
         public async Task<bool> DeleteMeal(int mealId)
         {
+            // Find the Meal first
             var meal = await _dbContext.Meals.FindAsync(mealId);
 
             if (meal == null)
             {
-                return false;
-
+                return false; // Meal does not exist
             }
-                
-            var links = _dbContext.MealPlanMeals.Where(mpm => mpm.MealId == mealId);
-            _dbContext.MealPlanMeals.RemoveRange(links);
+
+            var mealLinks = _dbContext.MealPlanMeals.Where(m => m.MealId == mealId);
+            _dbContext.MealPlanMeals.RemoveRange(mealLinks);
 
             _dbContext.Meals.Remove(meal);
 
             await _dbContext.SaveChangesAsync();
+
             return true;
+        }
+
+
+
+        public async Task<List<MealPlans>> GetMealPlansByMealId(int mealId)
+        {
+            var mealPlanIds = await _dbContext.MealPlanMeals
+                .Where(m => m.MealId == mealId)
+                .Select(m => m.MealPlanId)
+                .Distinct()
+                .ToListAsync();
+
+            var mealPlans = await _dbContext.MealPlans
+                .Where(mp => mealPlanIds.Contains(mp.MealPlanId))
+                .ToListAsync();
+
+            return mealPlans;
         }
 
         public async Task<Meals> AddExternalUserMeal(int mealId, int userId)

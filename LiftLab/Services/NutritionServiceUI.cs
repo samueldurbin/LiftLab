@@ -32,12 +32,26 @@ namespace LiftLab.Services
         }
 
 
+        public async Task<List<MealPlans>> GetMealPlansByMealId(int mealId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"MealPlanMeals/mealplansbymeal/{mealId}");
 
-
-
-
-
-
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<List<MealPlans>>();
+                }
+                else
+                {
+                    throw new Exception("Failed to fetch meal plans for the meal.");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while fetching meal plans: {ex.Message}");
+            }
+        }
 
         public async Task<Meals> CreateMeal(Meals meal)
         {
@@ -96,6 +110,7 @@ namespace LiftLab.Services
         public async Task<bool> DeleteMeal(int mealId)
         {
             var response = await _httpClient.DeleteAsync($"MealPlanMeals/deletemeal/{mealId}");
+
             return response.IsSuccessStatusCode;
         }
 
