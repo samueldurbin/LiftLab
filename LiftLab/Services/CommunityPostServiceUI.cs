@@ -150,22 +150,89 @@ namespace LiftLab.Services
         }
 
         // this method takes all the adding external plans methods into a check, so that the there can be one universal add button on each post
-        public async Task<bool> AddExternalPlans(CommunityPost post, int userId) // instance of a community post with a userid
+        //public async Task<bool> AddExternalPlans(CommunityPost post, int userId) // instance of a community post with a userid
+        //{
+        //    if (post.WorkoutPlanId != null) // checks if the community post has a workout plan attached
+        //    {
+        //        return await AddExternalUserWorkoutPlan(post.WorkoutPlanId.Value, userId); // if it does, call this method
+        //    }
+        //    else if (post.MealPlanId != null) // checks if the community post has a meal plan attached
+        //    {
+        //        return await AddExternalUserMealPlans(post.MealPlanId.Value, userId);
+        //    }
+        //    else if (post.MealId != null) // checks if the community post has a meal attached
+        //    {
+        //        return await AddExternalUserMeals(post.MealId.Value, userId);
+        //    }
+
+        //    return false;
+        //}
+
+
+
+        public async Task<bool> AddExternalPlans(CommunityPost post, int userId)
         {
-            if (post.WorkoutPlanId != null) // checks if the community post has a workout plan attached
+            if (post.WorkoutPlanId != null)
             {
-                return await AddExternalUserWorkoutPlan(post.WorkoutPlanId.Value, userId); // if it does, call this method
+                var response = await _httpClient.PostAsync($"WorkoutPlans/adduserworkoutplan/{post.WorkoutPlanId}/{userId}", null);
+                return response.IsSuccessStatusCode;
             }
-            else if (post.MealPlanId != null) // checks if the community post has a meal plan attached
+            else if (post.MealPlanId != null)
             {
-                return await AddExternalUserMealPlans(post.MealPlanId.Value, userId);
+                var response = await _httpClient.PostAsync($"MealPlanMeals/addusermealplan/{post.MealPlanId}/{userId}", null);
+                return response.IsSuccessStatusCode;
             }
-            else if (post.MealId != null) // checks if the community post has a meal attached
+            else if (post.MealId != null)
             {
-                return await AddExternalUserMeals(post.MealId.Value, userId);
+                var response = await _httpClient.PostAsync($"MealPlanMeals/addusermeal/{post.MealId}/{userId}", null);
+                return response.IsSuccessStatusCode;
             }
 
             return false;
+        }
+
+        private async Task AddPlansToUserAccount(CommunityPost post)
+        {
+            try
+            {
+                int userId = Preferences.Get("UserId", 0);
+
+                if (post.WorkoutPlanId != null)
+                {
+                    bool added = await AddExternalUserWorkoutPlan((int)post.WorkoutPlanId, userId);
+
+                    if (added)
+                        await Application.Current.MainPage.DisplayAlert("Success!", "Workout plan added to your account.", "OK");
+                    else
+                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to add workout plan.", "OK");
+                }
+                else if (post.MealPlanId != null)
+                {
+                    bool added = await new NutritionServiceUI().AddExternalUserMealPlan((int)post.MealPlanId, userId);
+
+                    if (added)
+                        await Application.Current.MainPage.DisplayAlert("Success!", "Meal plan added to your account.", "OK");
+                    else
+                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to add meal plan.", "OK");
+                }
+                else if (post.MealId != null)
+                {
+                    bool added = await new NutritionServiceUI().AddExternalUserMeal((int)post.MealId, userId);
+
+                    if (added)
+                        await Application.Current.MainPage.DisplayAlert("Success!", "Meal added to your account.", "OK");
+                    else
+                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to add meal.", "OK");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Unavailable", "This post doesn't contain a plan or meal.", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Something went wrong: {ex.Message}", "OK");
+            }
         }
 
         #endregion

@@ -13,6 +13,7 @@ namespace LiftLab.ViewModels
     public class CreatePostViewModel : BaseViewModel
     {
         private readonly CommunityPostServiceUI _communityService;
+        private readonly NutritionServiceUI _nutritionService;
 
         public ObservableCollection<WorkoutPlans> WorkoutPlans { get; set; }
         public ObservableCollection<MealPlans> MealPlans { get; set; }
@@ -42,6 +43,7 @@ namespace LiftLab.ViewModels
 
         public CreatePostViewModel()
         {
+            _nutritionService = new NutritionServiceUI();
             #region Instance Setting
             _communityService = new CommunityPostServiceUI();
             WorkoutPlans = new ObservableCollection<WorkoutPlans>();
@@ -209,7 +211,7 @@ namespace LiftLab.ViewModels
         {
             int userId = Preferences.Get("UserId", 0);
 
-            var plans = await _communityService.GetMealPlansByUserId(userId);
+            var plans = await _nutritionService.GetMealPlansByUser(userId);
 
             MealPlans.Clear();
 
@@ -217,14 +219,13 @@ namespace LiftLab.ViewModels
             {
                 MealPlans.Add(plan);
             }
-
         }
 
         private async Task LoadMeals()
         {
             int userId = Preferences.Get("UserId", 0);
 
-            var meals = await _communityService.GetMealsByUser(userId);
+            var meals = await _nutritionService.GetMealsByUser(userId);
 
             Meals.Clear();
 
@@ -232,8 +233,37 @@ namespace LiftLab.ViewModels
             {
                 Meals.Add(meal);
             }
-
         }
+
+        //private async Task LoadMealPlans()
+        //{
+        //    int userId = Preferences.Get("UserId", 0);
+
+        //    var plans = await _communityService.GetMealPlansByUserId(userId);
+
+        //    MealPlans.Clear();
+
+        //    foreach (var plan in plans)
+        //    {
+        //        MealPlans.Add(plan);
+        //    }
+
+        //}
+
+        //private async Task LoadMeals()
+        //{
+        //    int userId = Preferences.Get("UserId", 0);
+
+        //    var meals = await _communityService.GetMealsByUser(userId);
+
+        //    Meals.Clear();
+
+        //    foreach (var meal in meals)
+        //    {
+        //        Meals.Add(meal);
+        //    }
+
+        //}
 
         #endregion
 

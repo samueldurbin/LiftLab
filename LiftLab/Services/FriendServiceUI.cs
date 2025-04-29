@@ -34,7 +34,7 @@ namespace LiftLab.Services
 
         public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
         {
-            var response = await _httpClient.GetAsync($"Friend/getfriendposts/{userId}");
+            var response = await _httpClient.GetAsync($"Friends/friends/posts/{userId}");
 
             if (response.IsSuccessStatusCode)
             {

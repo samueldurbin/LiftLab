@@ -19,6 +19,26 @@ namespace LiftLab.Services
             };
         }
 
+        public async Task<bool> AddExternalUserMealPlan(int mealPlanId, int userId)
+        {
+            var response = await _httpClient.PostAsync($"MealPlanMeals/addusermealplan/{mealPlanId}/{userId}", null);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> AddExternalUserMeal(int mealId, int userId)
+        {
+            var response = await _httpClient.PostAsync($"MealPlanMeals/addusermeal/{mealId}/{userId}", null);
+            return response.IsSuccessStatusCode;
+        }
+
+
+
+
+
+
+
+
+
         public async Task<Meals> CreateMeal(Meals meal)
         {
             var response = await _httpClient.PostAsJsonAsync("MealPlanMeals/createmeal", meal);

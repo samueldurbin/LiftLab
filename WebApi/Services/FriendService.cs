@@ -50,14 +50,27 @@ namespace WebApi.Services
                 .ToListAsync(); // to a list
         }
 
+        //public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
+        //{
+        //    var friendIds = await GetUsersFriends(userId);
+
+        //    var posts = await _dbContext.CommunityPosts
+        //        .Where(p => friendIds.Contains(p.UserId))
+        //        .ToListAsync();
+
+        //    return posts;
+        //}
+
         public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
         {
             var friendIds = await GetUsersFriends(userId);
 
-            var posts = await _dbContext.CommunityPosts
-                .Where(p => friendIds.Contains(p.UserId))
-                .ToListAsync();
+            // Include the userId itself into the friendIds list
+            friendIds.Add(userId);
 
+            var posts = await _dbContext.CommunityPosts
+                        .Where(p => friendIds.Contains(p.UserId))
+                        .ToListAsync();
             return posts;
         }
 

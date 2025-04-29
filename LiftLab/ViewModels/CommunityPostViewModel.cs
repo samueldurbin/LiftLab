@@ -78,7 +78,8 @@ namespace LiftLab.ViewModels
 
             ViewUserProfileCommand = new Command<CommunityPost>(async (post) => await ViewUserProfile(post));
 
-            AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlansToUserAccount(post));
+            //AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlansToUserAccount(post));
+            AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlanToAccount(post));
 
             ShowPlanDetailsCommand = new Command<CommunityPost>(async (post) => await ShowPlanDetails(post));
 
@@ -364,7 +365,25 @@ namespace LiftLab.ViewModels
             }
 
 
-        }
 
+
+        }
+        private async Task AddPlanToAccount(CommunityPost post)
+        {
+            try
+            {
+                int userId = Preferences.Get("UserId", 0);
+                bool added = await _communityService.AddExternalPlans(post, userId);
+
+                if (added)
+                    await Application.Current.MainPage.DisplayAlert("Success", "Item added to your account!", "OK");
+                else
+                    await Application.Current.MainPage.DisplayAlert("Unavailable", "No plan or meal attached.", "OK");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+            }
+        }
     }
 }
