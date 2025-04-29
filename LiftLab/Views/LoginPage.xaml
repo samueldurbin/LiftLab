@@ -8,52 +8,83 @@
         <vm:LoginViewModel />
     </ContentPage.BindingContext>
 
-    <Grid RowDefinitions=".4*, .6*">
-        <Grid BackgroundColor="Red"/>
-        <!-- Title -->
-        <Label Text="LiftLab" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" />
+    <Grid RowDefinitions="0.4*, 0.6*">
 
-        <Grid Grid.Row="1">
-            <VerticalStackLayout Margin="30, 30, 30, 0">
-                <!--Second Title-->
-                <Label Text="Welcome back!" FontAttributes="Bold" FontSize="18"/>
+        <!-- Top Red Area with Logo -->
+        <Grid BackgroundColor="Red" Grid.Row="0">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="logo.png"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       Aspect="AspectFit"
+                       MaximumHeightRequest="300"
+                       MaximumWidthRequest="300" />
+            </VerticalStackLayout>
+        </Grid>
 
-                <Grid Margin="0, 30, 0, 0">
-                    <!--Username Entry-->
-                    <Entry Grid.Column="1"  Text="{Binding Username}" Placeholder="Username" VerticalOptions="Start" Margin="0"/>
-                </Grid>
+        <!-- Bottom Login Form -->
+        <Grid Grid.Row="1" Padding="20">
+            <VerticalStackLayout HorizontalOptions="Center"
+                                  Spacing="15"
+                                  WidthRequest="300"
+                                  MaximumWidthRequest="500">
 
-                <Grid Margin="0, 30, 0, 0">
-                    <!--Password Entry-->
-                    <Entry Grid.Column="1" Text="{Binding Password}" Placeholder="Password" VerticalOptions="Start" IsPassword="True" Margin="0"/>
-                </Grid>
+                <Label Text="Welcome Back!" 
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
 
-                <!--Password Reset Link-->
-                <Label Margin="0, 25, 0, -10" HorizontalOptions="Center" Text="Forgot your password?" TextColor="Black" TextDecorations="Underline"/>
+                <Entry Text="{Binding Username}" 
+                       Placeholder="Username"
+                       HeightRequest="50" />
 
-                <!-- Login Button -->
-                <Button Text="Login" Margin="0, 40, 0, 0" BackgroundColor="Black" Command="{Binding LoginCommand}" TextColor="White"/>
+                <Entry Text="{Binding Password}" 
+                       Placeholder="Password" 
+                       IsPassword="True"
+                       HeightRequest="50" />
 
-                <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding IsErrorVisible}" HorizontalOptions="Center" />
+                <Label Text="Forgot your password?"
+                       TextColor="Gray"
+                       FontSize="14"
+                       TextDecorations="Underline"
+                       HorizontalOptions="Center" />
 
-                <Label Margin="0, 30, 0, 0" HorizontalOptions="Center">
+                <!-- Terms and Conditions -->
+                <Label Text="By logging in you agree to our Terms and Conditions"  FontSize="14" TextColor="Grey">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowTandCCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+
+                <Button Text="Login"
+                        Command="{Binding LoginCommand}"
+                        BackgroundColor="CornflowerBlue"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="50" />
+
+                <Label HorizontalOptions="Center">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnRegisterTapped" />
                     </Label.GestureRecognizers>
                     <Label.FormattedText>
                         <FormattedString>
-                            <!-- Create an Account Section -->
-                            <Span Text="Don't have an account? " TextColor="Black" />
-                            <Span Text="Register Here" TextColor="Black" TextDecorations="Underline">
-                            </Span>
+                            <Span Text="Don't have an account? " />
+                            <Span Text="Register Here" TextDecorations="Underline" />
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-            </VerticalStackLayout>
 
+                <Label Text="{Binding ErrorMessage}"
+                       TextColor="Red"
+                       IsVisible="{Binding IsErrorVisible}"
+                       FontSize="14"
+                       HorizontalOptions="Center" />
+
+            </VerticalStackLayout>
         </Grid>
 
     </Grid>
-
 </ContentPage>
 

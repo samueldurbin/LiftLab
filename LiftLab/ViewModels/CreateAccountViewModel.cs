@@ -66,7 +66,7 @@ namespace LiftLab.ViewModels
 
             if (newUser != null)
             {
-                await Application.Current.MainPage.DisplayAlert("Success", "Welcome", "OK"); // success message after account creation
+                await Application.Current.MainPage.DisplayAlert("Welcome to LiftLab!","Enjoy what we have to offer, but be respectful towards others :)", "OK"); // success message after account creation
 
             }
             else

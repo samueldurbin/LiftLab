@@ -2,58 +2,83 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:LiftLab.ViewModels"
-             x:Class="LiftLab.Views.CreateAccount">
+             x:Class="LiftLab.Views.CreateAccount"
+             >
 
-    <Grid RowDefinitions=".2*, .6*">
-        <Grid BackgroundColor="Green"/>
-        <!-- Central Title -->
-        <Label Text="LiftLab" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold" TextColor="White" />
 
-        <Grid Grid.Row="1">
-            <ScrollView>
-                <VerticalStackLayout Margin="30, 30, 30, 0">
-                    <!-- Second Title -->
-                    <Label Text="Create An Account" FontAttributes="Bold" FontSize="18" />
+    <Grid RowDefinitions="0.3*, 0.7*">
 
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Username Label -->
-                        <Label Text="Username" VerticalOptions="Start" />
-                        <!-- Username Entry -->
-                        <Entry Grid.Row="1" Text="{Binding Username}" Placeholder="Username" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Password Label -->
-                        <Label Text="Password" VerticalOptions="Start" />
-                        <!-- Password Entry -->
-                        <Entry Grid.Row="1" Text="{Binding Password}" Placeholder="Password" VerticalOptions="Start" IsPassword="True" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Email Label -->
-                        <Label Text="Email" VerticalOptions="Start" />
-                        <!-- Email Entry -->
-                        <Entry Grid.Row="1" Text="{Binding Email}" Placeholder="Email" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Date of Birth Label -->
-                        <Label Text="Date of Birth" VerticalOptions="Start" />
-                        <!-- DoB Entry -->
-                        <DatePicker Grid.Row="1" Date="{Binding DateOfBirth}" Format="d" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Grid Margin="0, 30, 0, 0" RowDefinitions="Auto, Auto">
-                        <!-- Mobile Number Label -->
-                        <Label Text="Phone Number" VerticalOptions="Start" />
-                        <!-- Mobile Number Entry -->
-                        <Entry Grid.Row="1" Text="{Binding PhoneNumber}" Placeholder="Phone Number" VerticalOptions="Start" />
-                    </Grid>
-
-                    <Button Text="Create An Account" Command="{Binding CreateAccountCommand}" Margin="0, 30, 0, 0" BackgroundColor="Blue" TextColor="White" />
-                </VerticalStackLayout>
-            </ScrollView>
+        <!-- Top Red Area with Logo -->
+        <Grid BackgroundColor="Red" Grid.Row="0" HeightRequest="150">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="logo.png"
+                   Aspect="AspectFit"
+                   MaximumHeightRequest="170"
+                   MaximumWidthRequest="180"
+                   HorizontalOptions="Center" />
+            </VerticalStackLayout>
         </Grid>
+
+        <!-- Bottom Form Area with Scroll -->
+        <ScrollView Grid.Row="1" Padding="20">
+            <VerticalStackLayout HorizontalOptions="Center"
+                             WidthRequest="350"
+                             MaximumWidthRequest="500"
+                             Spacing="15">
+
+                <!-- Title -->
+                <Label Text="Create an Account"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center" />
+
+                <!-- Subtitle -->
+                <Label Text="Fill in the details below to join the LiftLab community"
+                   FontSize="14"
+                   TextColor="Gray"
+                   HorizontalOptions="Fill"
+                   HorizontalTextAlignment="Center" />
+
+                <!-- Username -->
+                <Label Text="Username" />
+                <Entry Text="{Binding Username}" Placeholder="Enter username" />
+
+                <!-- Password -->
+                <Label Text="Password" />
+                <Entry Text="{Binding Password}" Placeholder="Enter password" IsPassword="True" />
+
+                <!-- Email -->
+                <Label Text="Email" />
+                <Entry Text="{Binding Email}" Placeholder="Enter your email" Keyboard="Email" />
+
+                <!-- Date of Birth -->
+                <Label Text="Date of Birth" />
+                <DatePicker Date="{Binding DateOfBirth}" Format="d" />
+
+                <!-- Phone Number -->
+                <Label Text="Phone Number" />
+                <Entry Text="{Binding PhoneNumber}" Placeholder="Enter phone number" Keyboard="Telephone" />
+
+                <!-- Terms and Conditions -->
+                <Label Text="By creating an account, you agree to our Terms and Conditions"
+                   FontSize="14"
+                   TextColor="Gray">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShowTandCCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+
+                <!-- Create Account Button -->
+                <Button Text="Create An Account"
+                    Command="{Binding CreateAccountCommand}"
+                    BackgroundColor="CornflowerBlue"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50" />
+
+            </VerticalStackLayout>
+        </ScrollView>
 
     </Grid>
 

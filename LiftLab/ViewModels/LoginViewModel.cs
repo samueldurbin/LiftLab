@@ -12,6 +12,8 @@ using LiftLab.Views;
 using Shared.Utilities;
 using System.Text.Json;
 using Microsoft.Maui.Storage;
+using Shared.Models;
+using CommunityToolkit.Maui.Views;
 
 namespace LiftLab.ViewModels
 {
@@ -22,6 +24,7 @@ namespace LiftLab.ViewModels
         private string username; // variables for user input
         private string password;
 
+        public ICommand ShowTandCCommand { get; }
         public ICommand LoginCommand { get; } // this will be used as the onclick button for navigation
 
         public string Username
@@ -47,7 +50,7 @@ namespace LiftLab.ViewModels
         public LoginViewModel()
         {
             _usersService = new UsersServiceUI();
-
+            ShowTandCCommand = new Command(async () => await ShowTandC());
             LoginCommand = new Command(async () => await Login());  // links the button to the function
         }
 
@@ -74,6 +77,21 @@ namespace LiftLab.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", "Invalid username or password, Please try again", "OK");  // error message for login fail
             }
         }
+
+        private async Task ShowTandC()
+        {
+            try
+            {
+                var popup = new ViewTandC();
+                await Application.Current.MainPage.ShowPopupAsync(popup);
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Could not load Terms and Conditions: {ex.Message}", "OK");
+            }
+        }
+
+
 
     }
 }
