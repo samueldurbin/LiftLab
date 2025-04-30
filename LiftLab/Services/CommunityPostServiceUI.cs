@@ -270,16 +270,6 @@ namespace LiftLab.Services
 
         #endregion
 
-        #region Post Liking
-
-        public async Task<bool> LikePost(int postId, int userId) // the postid and the user liking the post
-        {
-            var like = await _httpClient.PostAsync($"CommunityPosts/like/{postId}/{userId}", null); // sends a http post request and not sending a body (only uses parameters)
-
-            return like.IsSuccessStatusCode;
-        }
-
-        #endregion
 
         #region Profile
 

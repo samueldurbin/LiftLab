@@ -7,7 +7,6 @@ namespace WebApi.Services
         Task<CommunityPost> CreatePost(CommunityPost communityPost); // creates a new user
         Task<IEnumerable<CommunityPost>> GetPosts(); // gets all posts
         Task<IEnumerable<CommunityPostComments>> GetComments(int communityPostId); // gets comments from related posts
-        Task<bool> LikePost(int postId, int userId); // likes a fitness post
         Task<CommunityPostComments> AddComment(CommunityPostComments comment); // adds comments
         Task<bool> DeletePost(int postId, int userId); // deletes post
         Task<IEnumerable<CommunityPost>> GetPostsByUserId(int userId);

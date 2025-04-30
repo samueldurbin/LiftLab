@@ -21,8 +21,6 @@ namespace WebApi
 
         public DbSet<CommunityPostComments> CommunityPostComments { get; set; } // Comments for fitness posts
 
-        public DbSet<CommunityPostLike> CommunityPostLikes { get; set; } // Comments for fitness posts
-
         public DbSet<MealPlans> MealPlans { get; set; } // Meal Plan
 
         public DbSet<Meals> Meals { get; set; } // Meals within a Meal Plan

@@ -79,39 +79,5 @@ namespace WebApi.Services
 
         #endregion
 
-        #region Likes
-        public async Task<bool> LikePost(int communityPostId, int userId)  // adds a like to a post
-        {
-            var post = await _dbContext.CommunityPosts.FindAsync(communityPostId);
-
-            if (post == null) // this checks if the post itself exists
-            {
-                return false;
-            }
-
-            var existingLike = await _dbContext.CommunityPostLikes
-                .FirstOrDefaultAsync(l => l.CommunityPostId == communityPostId && l.UserId == userId);
-
-            if (existingLike != null) // this checks whether the post has already been liked by the user
-            {
-                _dbContext.CommunityPostLikes.Remove(existingLike);
-                post.LikeCount = Math.Max(0, post.LikeCount - 1); // removes the like and decreases the count, but prevents it going below 0
-            }
-            else
-            {
-                _dbContext.CommunityPostLikes.Add(new CommunityPostLike // adds new like and increases like count
-                {
-                    CommunityPostId = communityPostId,
-                    UserId = userId
-                });
-                post.LikeCount += 1;
-            }
-
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
-
-        #endregion
-
     }
 }

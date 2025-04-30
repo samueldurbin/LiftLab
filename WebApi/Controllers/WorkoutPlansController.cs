@@ -38,7 +38,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("createplan")]
-        public async Task<IActionResult> CreatePlanWithWorkouts([FromBody] CreateWorkoutPlan request) // creates workout plan from the inserted body
+        public async Task<IActionResult> CreateWorkoutPlan([FromBody] CreateWorkoutPlan request) // creates workout plan from the inserted body
         {
             try
             {
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("addworkouttoplan/{planId}")]
-        public async Task<IActionResult> AddWorkoutToPlan(int planId, [FromBody] AddWorkoutToPlanDTO dto)  // api endpoint for adding workoutid input into workoutplan
+        public async Task<IActionResult> AddWorkoutToWorkoutPlan(int planId, [FromBody] AddWorkoutToPlanDTO dto)  // api endpoint for adding workoutid input into workoutplan
         {
             var addedWorkout = await _workoutPlansService.AddWorkoutToPlan(planId, dto.WorkoutId, dto.Reps, dto.Sets); // calls method from service
             if (!addedWorkout)
@@ -86,20 +86,8 @@ namespace WebApi.Controllers
             return Ok("Workout added with reps and sets.");
         }
 
-        [HttpDelete("removeworkoutfromplan/{workoutPlanId}/{workoutId}")] // api endpoint for removing workoutid input from workoutplan
-        public async Task<IActionResult> RemoveWorkoutFromPlan(int workoutPlanId, int workoutId)
-        {
-            var deletedWorkout = await _workoutPlansService.DeleteWorkoutFromPlan(workoutPlanId, workoutId); // calls method from service
-            if (!deletedWorkout)
-            {
-                return NotFound("Workout has not found in the workout plan."); // if workout does not ecist through error
-            }
-
-            return Ok("Workout has been removed from the workout plan.");
-        }
-
         [HttpPut("updateworkoutinplan")]
-        public async Task<IActionResult> UpdateWorkoutInPlan([FromBody] UpdateWorkoutInPlanDTO dto)
+        public async Task<IActionResult> UpdateWorkoutInWorkoutPlan([FromBody] UpdateWorkoutInPlanDTO dto)
         {
             var workoutPlan = await _workoutPlansService.UpdateWorkoutInPlan(dto);
 
@@ -112,6 +100,19 @@ namespace WebApi.Controllers
             return Ok("Workout updated");
         }
 
+        [HttpDelete("removeworkoutfromplan/{workoutPlanId}/{workoutId}")] // api endpoint for removing workoutid input from workoutplan
+        public async Task<IActionResult> RemoveWorkoutFromWorkoutPlan(int workoutPlanId, int workoutId)
+        {
+            var deletedWorkout = await _workoutPlansService.DeleteWorkoutFromPlan(workoutPlanId, workoutId); // calls method from service
+            if (!deletedWorkout)
+            {
+                return NotFound("Workout has not found in the workout plan."); // if workout does not ecist through error
+            }
+
+            return Ok("Workout has been removed from the workout plan.");
+        }
+
+        
         [HttpDelete("deleteplan/{planId}")]
         public async Task<IActionResult> DeleteWorkoutPlan(int planId)
         {

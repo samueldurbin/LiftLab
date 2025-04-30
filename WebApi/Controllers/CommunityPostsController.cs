@@ -87,23 +87,6 @@ namespace WebApi.Controllers
 
         #endregion
 
-        #region Likes
-
-        [HttpPost("like/{postId}/{userId}")] // this endpoint uses the id of the post and the userid who liked it
-        public async Task<IActionResult> LikePost(int postId, int userId) 
-        {
-            var liked = await _communityPostService.LikePost(postId, userId); 
-
-            if (!liked)
-            {
-                return BadRequest("You have already liked this post!"); // this checks whether the post has already been liked
-            }
-
-            return Ok(liked); // http 200 ok
-        }
-
-        #endregion
-
 
     }
 

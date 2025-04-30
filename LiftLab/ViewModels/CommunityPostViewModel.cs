@@ -26,7 +26,6 @@ namespace LiftLab.ViewModels
         public ICommand AddPostCommand { get; }
         public ICommand CreateCommentCommand { get; }
         public ICommand LoadCommunityPostsCommand { get; }
-        public ICommand LikePostCommand { get; }
         public ICommand AddPlansToUserAccountCommand { get; }
         public ICommand AddFriendsCommand { get; }
         public ICommand AddWorkoutPlanCommand { get; }
@@ -71,8 +70,6 @@ namespace LiftLab.ViewModels
             });
 
             LoadCommunityPostsCommand = new Command(async () => await GetsPosts()); // this will be used to load the workout plans on load
-
-            LikePostCommand = new Command<CommunityPost>(async (post) => await LikePost(post));
 
             AddWorkoutPlanCommand = new Command<CommunityPost>(async (post) => await AddExternalWorkoutPlan(post));
 
@@ -243,41 +240,6 @@ namespace LiftLab.ViewModels
                 IsBusy = false;
             }
         }
-        //private async Task GetsPosts()
-        //{
-        //    if (IsBusy) return; // prevents the retrieving of data fetching if its already in progress
-
-        //    IsBusy = true; // to show the loading spinner
-
-        //    try
-        //    {
-        //        var posts = await _communityService.GetAllCommunityPosts(); // fetches all of the posts
-
-        //        var sortedPosts = posts
-        //            .OrderByDescending(p => p.CreatedDate) 
-        //            .ToList();
-
-        //        CommunityPosts.Clear(); // this method updates the ui with the new posts, removing old data
-
-        //        foreach (var post in sortedPosts)
-        //        {
-        //            var comments = await _communityService.GetCommentsByPost(post.CommunityPostId); // gets comments for each post
-
-        //            post.Comments = new ObservableCollection<CommunityPostComments>(comments);
-
-        //            CommunityPosts.Add(post); // adds new posts
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load community posts: {ex.Message}", "OK");
-        //    }
-        //    finally
-        //    {
-        //        IsBusy = false;
-        //    }
-        //}
 
         private async Task AddComment(CommunityPost post)
         {
@@ -313,26 +275,6 @@ namespace LiftLab.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK");
-            }
-        }
-
-        private async Task LikePost(CommunityPost post)
-        {
-            try
-            {
-                int userId = Preferences.Get("UserId", 0); // gets user preferences of the logged in user
-
-                bool result = await _communityService.LikePost(post.CommunityPostId, userId); // this calls the service to send data to backend
-
-                if (result)
-                {
-                    post.LikeCount += 1; 
-              
-                }
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Exception: {ex.Message}", "OK"); 
             }
         }
 
