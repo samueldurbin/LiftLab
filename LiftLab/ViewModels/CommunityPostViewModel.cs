@@ -107,11 +107,11 @@ namespace LiftLab.ViewModels
 
                     if (thisPlan != null)
                     {
-                        var workoutIds = await _workoutPlansService.GetWorkoutsByPlanId(thisPlan.WorkoutPlanId);
+                        var workoutIds = await _workoutPlansService.GetWorkoutsByPlanIdForPopup(thisPlan.WorkoutPlanId);
                         var allWorkouts = await _workoutPlansService.GetAllWorkouts();
 
                         var workoutNames = allWorkouts
-                            .Where(w => workoutIds.Contains(w.WorkoutId))
+                            .Where(w => workoutIds.Select(d => d.WorkoutId).Contains(w.WorkoutId))
                             .Select(w => w.WorkoutName)
                             .ToList();
 

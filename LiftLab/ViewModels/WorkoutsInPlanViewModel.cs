@@ -19,6 +19,7 @@ namespace LiftLab.ViewModels
 
         private WorkoutPlans selectedPlan;
         public ICommand SaveWorkoutCommand { get; }
+        public ICommand DeletePlanCommand { get; }
         public ICommand DeleteWorkoutCommand { get; }
 
         public WorkoutPlans SelectedPlan
@@ -37,6 +38,7 @@ namespace LiftLab.ViewModels
             _workoutPlansService = new WorkoutPlansServiceUI();
             SaveWorkoutCommand = new Command<WorkoutInPlanDisplay>(async (workout) => await SaveWorkout(workout));
             DeleteWorkoutCommand = new Command<WorkoutInPlanDisplay>(async (workout) => await DeleteWorkout(workout));
+            DeletePlanCommand = new Command(async () => await DeleteWorkoutPlan());
         }
 
         public async void LoadWorkoutsForSelectedPlan()
@@ -118,6 +120,38 @@ namespace LiftLab.ViewModels
             catch (Exception ex)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", $"Failed to remove workout: {ex.Message}", "OK");
+            }
+        }
+
+        private async Task DeleteWorkoutPlan()
+        {
+            if (SelectedPlan == null)
+                return;
+
+            bool confirm = await Application.Current.MainPage.DisplayAlert(
+                "Delete Plan?",
+                $"Are you sure you want to delete the plan \"{SelectedPlan.WorkoutPlanName}\"?",
+                "Yes", "Cancel");
+
+            if (!confirm) return;
+
+            try
+            {
+                var response = await _workoutPlansService.DeleteWorkoutPlan(SelectedPlan.WorkoutPlanId);
+
+                if (response)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Deleted", "Workout plan deleted successfully.", "OK");
+                    await Shell.Current.GoToAsync("..");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Could not delete workout plan as it's attached to a public post. To delete you will need to delete the post first", "OK");
+                }
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", $"Failed to delete plan: {ex.Message}", "OK");
             }
         }
     }

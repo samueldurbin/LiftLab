@@ -160,6 +160,29 @@ namespace WebApi.Services
             return true;
         }
 
+        public async Task<bool> DeleteWorkoutPlan(int planId)
+        {
+            var hasPosts = await _dbContext.CommunityPosts
+                .AnyAsync(p => p.WorkoutPlanId == planId);
+
+            if (hasPosts)
+            {
+                throw new InvalidOperationException("This workout plan is linked to community posts and cannot be deleted.");
+            }
+
+            var plan = await _dbContext.WorkoutPlans.FindAsync(planId);
+            if (plan == null) return false;
+
+            var relatedWorkouts = _dbContext.WorkoutPlansData
+                .Where(w => w.WorkoutPlanId == planId);
+            _dbContext.WorkoutPlansData.RemoveRange(relatedWorkouts);
+
+            _dbContext.WorkoutPlans.Remove(plan);
+
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> UpdateWorkoutInPlan(UpdateWorkoutInPlanDTO dto)
         {
             var workoutPlanData = await _dbContext.WorkoutPlansData

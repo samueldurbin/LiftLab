@@ -76,6 +76,18 @@ namespace LiftLab.Services
             throw new Exception("Failed to get a list of workoutids"); // error message if the response is not a success
         }
 
+        public async Task<List<WorkoutInPlanDTO>> GetWorkoutsByPlanIdForPopup(int planId)
+        {
+            var response = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<List<WorkoutInPlanDTO>>();
+            }
+
+            throw new Exception("Failed to get workout plan details.");
+        }
+
         public async Task<WorkoutPlans> CreateWorkoutPlan(CreateWorkoutPlan workoutPlan) // method that creates a workout plan
         {
             var response = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", workoutPlan); // HTTP post to create a workout plan
@@ -105,6 +117,13 @@ namespace LiftLab.Services
             var response = await _httpClient.DeleteAsync($"WorkoutPlans/removeworkoutfromplan/{workoutPlanId}/{workoutId}");
 
             return response.IsSuccessStatusCode; // Returns true if the deletion was successful
+        }
+
+        public async Task<bool> DeleteWorkoutPlan(int planId)
+        {
+            var response = await _httpClient.DeleteAsync($"WorkoutPlans/deleteplan/{planId}");
+
+            return response.IsSuccessStatusCode;
         }
 
     }

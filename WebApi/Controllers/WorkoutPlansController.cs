@@ -112,6 +112,14 @@ namespace WebApi.Controllers
             return Ok("Workout updated");
         }
 
+        [HttpDelete("deleteplan/{planId}")]
+        public async Task<IActionResult> DeleteWorkoutPlan(int planId)
+        {
+            var success = await _workoutPlansService.DeleteWorkoutPlan(planId);
+            if (success)
+                return Ok("Workout plan deleted.");
 
+            return NotFound("Workout plan not found.");
+        }
     }
 }
