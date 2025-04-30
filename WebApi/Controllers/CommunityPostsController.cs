@@ -47,13 +47,13 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("deletepost/{postId}/{userId}")]
-        public async Task<IActionResult> DeleteCommunityPost(int communityPostId, int userId) // the communitypostid and the user deleting it
+        public async Task<IActionResult> DeleteCommunityPost(int postId, int userId)
         {
-            var deletedPost = await _communityPostService.DeletePost(communityPostId, userId); // this checks whether the userid matches the userId input
+            var deletedPost = await _communityPostService.DeletePost(postId, userId);
 
             if (!deletedPost)
             {
-                return BadRequest("Could not delete this post. Please try again"); // psot doesnt exist, user isnt allowed or something else failed
+                return BadRequest("Could not delete this post. Please try again");
             }
 
             return Ok("Post deleted successfully!");
