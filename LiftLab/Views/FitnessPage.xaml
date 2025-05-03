@@ -13,7 +13,7 @@
     <Grid RowDefinitions="Auto, Auto, *" Padding="10">
         <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="7">
             <Label Grid.Column="0" Text="View All Plans" FontSize="24" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" />
-            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="24" TextColor="CornflowerBlue" HorizontalOptions="End" VerticalOptions="Center">
+            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="24" TextColor="Blue" HorizontalOptions="End" VerticalOptions="Center">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding CreateWorkoutPlanCommand}" />
                 </Label.GestureRecognizers>
@@ -28,7 +28,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="CornflowerBlue" CornerRadius="20" HeightRequest="80" Padding="8" >
+                    <Frame BackgroundColor="Blue" CornerRadius="20" HeightRequest="80" Padding="8" >
                         <Frame.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewWorkoutsCommand}" CommandParameter="{Binding .}" />
                         </Frame.GestureRecognizers>

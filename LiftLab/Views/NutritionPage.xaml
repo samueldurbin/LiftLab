@@ -35,7 +35,7 @@
             <Label Text="{x:Static helper:FontAwesome.Plus}"
                    FontFamily="FASolid"
                    FontSize="24"
-                   TextColor="CornflowerBlue"
+                   TextColor="Blue"
                    HorizontalOptions="End"
                    VerticalOptions="Center">
                 <Label.GestureRecognizers>
@@ -62,7 +62,7 @@
                                    Text="{x:Static helper:FontAwesome.BowlRice}"
                                    FontFamily="FASolid"
                                    FontSize="24"
-                                   TextColor="CornflowerBlue"
+                                   TextColor="Blue"
                                    VerticalOptions="Center"
                                    HorizontalOptions="End" />
                         </Grid>
@@ -87,7 +87,7 @@
             <Label Text="{x:Static helper:FontAwesome.Plus}"
                    FontFamily="FASolid"
                    FontSize="24"
-                   TextColor="CornflowerBlue"
+                   TextColor="Blue"
                    HorizontalOptions="End"
                    VerticalOptions="Center">
                 <Label.GestureRecognizers>
@@ -115,7 +115,7 @@
                                    Text="{x:Static helper:FontAwesome.CalendarDays}"
                                    FontFamily="FASolid"
                                    FontSize="24"
-                                   TextColor="CornflowerBlue"
+                                   TextColor="Blue"
                                    VerticalOptions="Center"
                                    HorizontalOptions="End" />
                         </Grid>

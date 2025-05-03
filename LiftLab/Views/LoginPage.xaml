@@ -44,13 +44,13 @@
                        HeightRequest="50" />
 
                 <Label Text="Forgot your password?"
-                       TextColor="Gray"
+                       TextColor="Grey"
                        FontSize="14"
                        TextDecorations="Underline"
                        HorizontalOptions="Center" />
 
                 <!-- Terms and Conditions -->
-                <Label Text="By logging in you agree to our Terms and Conditions"  FontSize="14" TextColor="Grey">
+                <Label Text="By logging in you agree to our Terms and Conditions"  FontSize="12" TextColor="Grey">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowTandCCommand}" />
                     </Label.GestureRecognizers>
@@ -59,7 +59,7 @@
 
                 <Button Text="Login"
                         Command="{Binding LoginCommand}"
-                        BackgroundColor="CornflowerBlue"
+                        BackgroundColor="Blue"
                         TextColor="White"
                         CornerRadius="10"
                         HeightRequest="50" />

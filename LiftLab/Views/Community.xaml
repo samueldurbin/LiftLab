@@ -73,7 +73,7 @@
                                            FontFamily="FASolid"
                                            Text="{x:Static helper:FontAwesome.Comment}"
                                            FontSize="20"
-                                           TextColor="Gray"
+                                           TextColor="Blue"
                                            VerticalOptions="Center">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer 
@@ -100,10 +100,6 @@
                                                         <Label Text="{Binding Comment}" FontSize="12" />
                                                     </VerticalStackLayout>
                                                 </HorizontalStackLayout>
-                                                <!--<VerticalStackLayout Padding="5,0">
-                                                    <Label Text="{Binding Username}" FontAttributes="Bold" FontSize="14" />
-                                                    <Label Text="{Binding Comment}" FontSize="12" />
-                                                </VerticalStackLayout>-->
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
