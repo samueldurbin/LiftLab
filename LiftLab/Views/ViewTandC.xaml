@@ -6,7 +6,7 @@
 
     <ScrollView>
         <VerticalStackLayout Padding="15" Spacing="10">
-            <Label Text="Terms and Conditions" FontAttributes="Bold" FontSize="18" />
+            <Label Text="Terms and Conditions: Health Disclaimers. This app does not serve as a substitute for professional medical advice" FontAttributes="Bold" FontSize="18" />
             <!--close button-->
             <Button Text="Close" Command="{Binding CloseCommand}" Margin="0,20,0,0"/>
         </VerticalStackLayout>
