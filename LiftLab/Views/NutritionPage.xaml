@@ -44,6 +44,7 @@
             </Label>
         </Grid>
 
+        <!--Meals-->
         <CollectionView Grid.Row="3"
                         ItemsSource="{Binding UserMeals}"
                         ItemSizingStrategy="MeasureAllItems">
@@ -96,6 +97,7 @@
             </Label>
         </Grid>
 
+        <!--Meal Plans-->
         <CollectionView Grid.Row="6"
                         ItemsSource="{Binding UserMealPlans}"
                         ItemSizingStrategy="MeasureAllItems">

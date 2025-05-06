@@ -54,7 +54,6 @@ namespace LiftLab.ViewModels
             _user = await _usersService.GetUserById(userId); // gets all the data about the user and populates the fields with their data
 
             OnPropertyChanged(nameof(Username));
-            //OnPropertyChanged(nameof(Password));
             OnPropertyChanged(nameof(Email));
             OnPropertyChanged(nameof(PhoneNumber));
             OnPropertyChanged(nameof(DateOfBirth));

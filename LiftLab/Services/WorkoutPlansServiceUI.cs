@@ -24,11 +24,11 @@ namespace LiftLab.Services
 
         public async Task<List<WorkoutInPlanDTO>> GetWorkoutDetailsForPlan(int planId)
         {
-            var response = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}");
+            var workouts = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}");
 
-            if (response.IsSuccessStatusCode)
+            if (workouts.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<WorkoutInPlanDTO>>();
+                return await workouts.Content.ReadFromJsonAsync<List<WorkoutInPlanDTO>>();
             }
 
             throw new Exception("Failed to get workout plan details.");
@@ -36,7 +36,7 @@ namespace LiftLab.Services
 
         public async Task UpdateWorkoutInPlan(int planId, WorkoutInPlanDisplay workout)
         {
-            var dto = new
+            var plan = new
             {
                 WorkoutPlanId = planId,
                 WorkoutId = workout.WorkoutId, // You need to add WorkoutId to WorkoutInPlanDisplay
@@ -45,20 +45,20 @@ namespace LiftLab.Services
                 Kg = workout.Kg
             };
 
-            var response = await _httpClient.PutAsJsonAsync("WorkoutPlans/updateworkoutinplan", dto);
+            var workouts = await _httpClient.PutAsJsonAsync("WorkoutPlans/updateworkoutinplan", plan);
 
-            if (!response.IsSuccessStatusCode)
+            if (!workouts.IsSuccessStatusCode)
             {
                 throw new Exception("Failed to update workout in plan.");
             }
         }
         public async Task<List<WorkoutPlans>> GetPlansByUserId(int userId) // gets a list of workout plans by userid
         {
-            var response = await _httpClient.GetAsync($"WorkoutPlans/getworkoutplansbyuser/{userId}"); // HTTP Get request for workout plans created by a userid
+            var plans = await _httpClient.GetAsync($"WorkoutPlans/getworkoutplansbyuser/{userId}"); // HTTP Get request for workout plans created by a userid
 
-            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
+            if (plans.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // returns list of workout plans and deserialises it into a list of workout plans
+                return await plans.Content.ReadFromJsonAsync<List<WorkoutPlans>>(); // returns list of workout plans and deserialises it into a list of workout plans
             }
 
             throw new Exception("Failed to get workout plans for the logged in user"); // if the response variable was not successful it will throw this error
@@ -66,11 +66,11 @@ namespace LiftLab.Services
 
         public async Task<List<int>> GetWorkoutsByPlanId(int planId) // this function will get a list of all the workout ids by workoutplans, which will be used for showing workoutnames
         {
-            var response = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}"); // HTTP Get Request for getting all the workoutids for a planid
+            var workouts = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}"); // HTTP Get Request for getting all the workoutids for a planid
 
-            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
+            if (workouts.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<List<int>>();// returns list of workout ids
+                return await workouts.Content.ReadFromJsonAsync<List<int>>();// returns list of workout ids
             }
 
             throw new Exception("Failed to get a list of workoutids"); // error message if the response is not a success
@@ -78,11 +78,11 @@ namespace LiftLab.Services
 
         public async Task<List<WorkoutInPlanDTO>> GetWorkoutsByPlanIdForPopup(int planId)
         {
-            var response = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}");
+            var workouts = await _httpClient.GetAsync($"WorkoutPlans/getplanworkouts/{planId}");
 
-            if (response.IsSuccessStatusCode)
+            if (workouts.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<WorkoutInPlanDTO>>();
+                return await workouts.Content.ReadFromJsonAsync<List<WorkoutInPlanDTO>>();
             }
 
             throw new Exception("Failed to get workout plan details.");
@@ -90,11 +90,11 @@ namespace LiftLab.Services
 
         public async Task<WorkoutPlans> CreateWorkoutPlan(CreateWorkoutPlan workoutPlan) // method that creates a workout plan
         {
-            var response = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", workoutPlan); // HTTP post to create a workout plan
+            var workouts = await _httpClient.PostAsJsonAsync("WorkoutPlans/createplan", workoutPlan); // HTTP post to create a workout plan
 
-            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
+            if (workouts.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<WorkoutPlans>(); // shows the created workout plan
+                return await workouts.Content.ReadFromJsonAsync<WorkoutPlans>(); // shows the created workout plan
             }
 
             throw new Exception("Failed to create a new workout plan"); // error message if the response is not a success
@@ -102,11 +102,11 @@ namespace LiftLab.Services
 
         public async Task<List<Workouts>> GetAllWorkouts()  // method to get a list of workouts
         {
-            var response = await _httpClient.GetAsync("Workouts/getallworkouts"); // api endpoint to http get a list of workouts
+            var workouts = await _httpClient.GetAsync("Workouts/getallworkouts"); // api endpoint to http get a list of workouts
 
-            if (response.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
+            if (workouts.IsSuccessStatusCode) // checks if the response was succesful and will return a 200 code if success
             {
-                return await response.Content.ReadFromJsonAsync<List<Workouts>>(); // deserialises and returns a list of workouts
+                return await workouts.Content.ReadFromJsonAsync<List<Workouts>>(); // deserialises and returns a list of workouts
             }
 
             throw new Exception("Failed to get workouts"); // error message 
@@ -114,16 +114,16 @@ namespace LiftLab.Services
 
         public async Task<bool> DeleteWorkoutFromPlan(int workoutPlanId, int workoutId)
         {
-            var response = await _httpClient.DeleteAsync($"WorkoutPlans/removeworkoutfromplan/{workoutPlanId}/{workoutId}");
+            var workout = await _httpClient.DeleteAsync($"WorkoutPlans/removeworkoutfromplan/{workoutPlanId}/{workoutId}");
 
-            return response.IsSuccessStatusCode; // Returns true if the deletion was successful
+            return workout.IsSuccessStatusCode; // Returns true if the deletion was successful
         }
 
         public async Task<bool> DeleteWorkoutPlan(int planId)
         {
-            var response = await _httpClient.DeleteAsync($"WorkoutPlans/deleteplan/{planId}");
+            var workouts = await _httpClient.DeleteAsync($"WorkoutPlans/deleteplan/{planId}");
 
-            return response.IsSuccessStatusCode;
+            return workouts.IsSuccessStatusCode;
         }
 
     }

@@ -11,17 +11,15 @@
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto,*" Padding="10">
-
-        <!-- Top Row -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" VerticalOptions="Start" Padding="5">
-            <!-- Settings -->
-            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.UserGear}" FontSize="35" TextColor="CornflowerBlue" IsVisible="{Binding UserProfile}">
+            <!--settings icons-->
+            <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.UserGear}" FontSize="25" TextColor="Blue" IsVisible="{Binding UserProfile}">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding UpdateUserInfoCommand}" />
                 </Label.GestureRecognizers>
             </Label>
 
-            <!-- Profile Summary -->
+            <!--profile-->
             <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="8">
                 <Frame WidthRequest="120" HeightRequest="120" CornerRadius="80" BackgroundColor="Red" HasShadow="True" HorizontalOptions="Center">
                     <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.UserAstronaut}" FontSize="56" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
@@ -30,15 +28,15 @@
                 <BoxView HeightRequest="1" Color="Blue" HorizontalOptions="Fill" Margin="0,10,0,0" />
             </VerticalStackLayout>
 
-            <!-- Logout -->
-            <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.DoorClosed}" FontSize="35" TextColor="CornflowerBlue" IsVisible="{Binding UserProfile}" HorizontalOptions="End">
+            <!--Logout button-->
+            <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.DoorClosed}" FontSize="25" TextColor="Blue" IsVisible="{Binding UserProfile}" HorizontalOptions="End">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogOutCommand}" />
                 </Label.GestureRecognizers>
             </Label>
         </Grid>
 
-        <!-- Posts -->
+        <!--The user's posts-->
         <StackLayout Grid.Row="1">
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
             <CollectionView ItemsSource="{Binding UserPosts}" VerticalOptions="FillAndExpand">
@@ -46,8 +44,6 @@
                     <DataTemplate>
                         <Frame Margin="5" Padding="0" HasShadow="True" CornerRadius="15" BackgroundColor="White">
                             <VerticalStackLayout>
-
-                                <!-- Header -->
                                 <Grid ColumnDefinitions="Auto,*,Auto,Auto" Padding="10,10,10,0">
                                     <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.UserAstronaut}" FontSize="18" VerticalOptions="Center" />
                                     <Label Grid.Column="1" Text="{Binding Username}" FontSize="20" FontAttributes="Bold" Margin="6,0,0,0" VerticalOptions="Center" />
@@ -56,7 +52,7 @@
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfileViewModel}}, Path=ShowPlanDetailsCommand}" CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <!-- Trash Icon -->
+                                    <!--Delete button to delete posts-->
                                     <Label Grid.Column="3" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Trash}" FontSize="18" TextColor="Red" IsVisible="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfileViewModel}}, Path=UserProfile}">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProfileViewModel}}, Path=DeletePostCommand}" CommandParameter="{Binding CommunityPostId}" />
@@ -66,7 +62,7 @@
 
                                 <BoxView HeightRequest="1" Color="Red" HorizontalOptions="Fill" Margin="10,5,10,0" />
 
-                                <!-- Caption + Add Plan -->
+                                <!--Caption and Add Plan-->
                                 <Grid ColumnDefinitions="*,Auto" Padding="10,5,10,10">
                                     <Label Grid.Column="0" Text="{Binding Caption}" FontSize="18" HorizontalOptions="StartAndExpand" />
                                     <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="18" TextColor="Blue">
@@ -76,7 +72,7 @@
                                     </Label>
                                 </Grid>
 
-                                <!-- Comments Icon + Count -->
+                                <!--Comments icon and count-->
                                 <Grid ColumnDefinitions="Auto,Auto" Padding="10,0,10,10">
                                     <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Comment}" FontSize="20" TextColor="Gray">
                                         <Label.GestureRecognizers>
@@ -86,7 +82,7 @@
                                     <Label Grid.Column="1" Text="{Binding Comments.Count}" FontSize="16" Margin="6,0,0,0" />
                                 </Grid>
 
-                                <!-- Comments Section -->
+                                <!--Comments-->
                                 <StackLayout IsVisible="{Binding ShowCommentBox}" Padding="10,0">
                                     <CollectionView ItemsSource="{Binding Comments}" Margin="10,5,10,0">
                                         <CollectionView.ItemTemplate>
@@ -102,7 +98,7 @@
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
 
-                                    <!-- Add Comment -->
+                                    <!--Add a comment-->
                                     <HorizontalStackLayout Padding="10" Spacing="10">
                                         <Entry Placeholder="Enter a comment..." Text="{Binding CommentText}" HorizontalOptions="FillAndExpand" FontSize="14" />
                                         <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="22" TextColor="Blue">

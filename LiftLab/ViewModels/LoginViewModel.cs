@@ -67,6 +67,7 @@ namespace LiftLab.ViewModels
             if (loggedUser != null) // if both fields are empty and match the credentials in a database, set the preferences and redirect to homepage
             {
                 Preferences.Set("UserId", loggedUser.UserId); // this sets the preferences of the application to the userid that has signed in
+
                 Preferences.Set("Username", loggedUser.Username); // this sets the preferences of the application to the username that has signed in, this will be changed in the future
 
                 Application.Current.MainPage = new AppShell(); // logging in initiates AppShell
@@ -78,20 +79,19 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task ShowTandC()
+        private async Task ShowTandC() // t and c popup view
         {
             try
             {
                 var popup = new ViewTandC();
+
                 await Application.Current.MainPage.ShowPopupAsync(popup);
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Could not load Terms and Conditions: {ex.Message}", "OK");
+                await Application.Current.MainPage.DisplayAlert("Error", $"Could not load the Terms and Conditions: {ex.Message}", "OK");
             }
         }
-
-
 
     }
 }

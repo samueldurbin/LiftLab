@@ -78,13 +78,13 @@ namespace LiftLab.ViewModels
             NavigateToMealPlanDetailsCommand = new Command<MealPlans>(async (plan) => await NavigateToMealPlanDetails(plan));
         }
 
-        private async Task CreateMeal()
+        private async Task CreateMeal() // creates an individual meal
         {
             try
             {
-                int userId = Preferences.Get("UserId", 0);
+                int userId = Preferences.Get("UserId", 0); // gets the logged in user
 
-                var meal = new Meals
+                var meal = new Meals // creates a meal
                 {
                     MealName = NewMealName,
                     Type = NewMealType,
@@ -93,12 +93,12 @@ namespace LiftLab.ViewModels
                     UserId = userId
                 };
 
-                var created = await _nutritionService.CreateMeal(meal);
+                var created = await _nutritionService.CreateMeal(meal); // sends to api
 
-                UserMeals.Add(created);
+                UserMeals.Add(created); // adds to local collection
                 await Application.Current.MainPage.DisplayAlert("Success", "Meal created successfully!", "OK");
 
-                NewMealName = NewMealType = NewMealRecipe = string.Empty;
+                NewMealName = NewMealType = NewMealRecipe = string.Empty; // clears inputs for next meal
                 NewMealCalories = null;
             }
             catch (Exception ex)
@@ -107,24 +107,24 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task CreateMealPlan()
+        private async Task CreateMealPlan() // creates meal plan
         {
             try
             {
-                int userId = Preferences.Get("UserId", 0);
+                int userId = Preferences.Get("UserId", 0); // gets the logged in user
 
-                var selectedMealIds = MealList
+                var selectedMealIds = MealList // gets the selected meals
                     .Where(m => m.IsSelected)
                     .Select(m => m.Meal.MealId)
                     .ToList();
 
-                if (string.IsNullOrWhiteSpace(MealPlanName) || !selectedMealIds.Any())
+                if (string.IsNullOrWhiteSpace(MealPlanName) || !selectedMealIds.Any()) // prevents blank meal plan names or blank meal plans
                 {
                     await Application.Current.MainPage.DisplayAlert("Error", "Please provide a meal plan name and select at least one meal.", "OK");
                     return;
                 }
 
-                var dto = new CreateMealPlanDTO
+                var dto = new CreateMealPlanDTO // dto to the api
                 {
                     MealPlanName = MealPlanName,
                     UserId = userId,
@@ -133,11 +133,11 @@ namespace LiftLab.ViewModels
 
                 var createdPlan = await _nutritionService.CreateMealPlan(dto);
 
-                UserMealPlans.Add(createdPlan);
+                UserMealPlans.Add(createdPlan); // adds to the ui list
 
                 await Application.Current.MainPage.DisplayAlert("Success", "Meal plan created!", "OK");
 
-                MealPlanName = string.Empty;
+                MealPlanName = string.Empty; // clears name and selected list
                 foreach (var item in MealList)
                 {
                     item.IsSelected = false;
@@ -151,12 +151,16 @@ namespace LiftLab.ViewModels
 
         public async Task LoadData()
         {
-            if (IsBusy) return;
+            if (IsBusy) 
+            {
+                return;
+            } 
+
             IsBusy = true;
 
             try
             {
-                int userId = Preferences.Get("UserId", 0);
+                int userId = Preferences.Get("UserId", 0); // gets logged in userid
 
                 var meals = await _nutritionService.GetMealsByUser(userId);
                 var plans = await _nutritionService.GetMealPlansByUser(userId);
@@ -165,10 +169,18 @@ namespace LiftLab.ViewModels
                 UserMealPlans.Clear();
 
                 foreach (var meal in meals)
+                {
                     UserMeals.Add(meal);
 
+                }
+                    
+
                 foreach (var plan in plans)
+                {
                     UserMealPlans.Add(plan);
+
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -189,7 +201,7 @@ namespace LiftLab.ViewModels
                 var meals = await _nutritionService.GetMealsByUser(userId);
 
                 MealList.Clear();
-                foreach (var meal in meals)
+                foreach (var meal in meals) // loops through the meals
                 {
                     MealList.Add(new MealSelection
                     {
@@ -206,295 +218,32 @@ namespace LiftLab.ViewModels
 
         private async Task NavigateToMealDetails(Meals meal)
         {
-            if (meal == null) return;
+            if (meal == null) 
+            {
+                return;
+
+            }
+ 
 
             await Shell.Current.GoToAsync(nameof(ViewMealsPage), true, new Dictionary<string, object>
             {
-                { "Meal", meal }
+                { "Meal", meal } // query parameters
             });
         }
 
         private async Task NavigateToMealPlanDetails(MealPlans plan)
         {
-            if (plan == null) return;
+            if (plan == null)
+            {
+                return;
+            }
+            
 
             await Shell.Current.GoToAsync(nameof(ViewMealPlanPage), true, new Dictionary<string, object>
             {
-                { "MealPlan", plan }
+                { "MealPlan", plan } // mealplan as the query parameter
             });
         }
-        //{
-        //    private readonly NutritionServiceUI _nutritionService;
-        //    public ObservableCollection<Meals> UserMeals { get; set; } = new();
-        //    public ObservableCollection<MealPlans> UserMealPlans { get; set; } = new();
-        //    public ObservableCollection<MealSelection> MealList { get; set; } = new();
-        //    public ICommand CreateMealCommand { get; }
-        //    public ICommand CreateMealPlanCommand { get; }
-
-        //    public ICommand NavigateToCreateMealsCommand { get; }
-        //    public ICommand NavigateToCreateMealPlanCommand { get; }
-        //    public ICommand LoadMealsCommand { get; }
-
-        //    private string mealPlanName;
-        //    public string MealPlanName
-        //    {
-        //        get => mealPlanName;
-        //        set => SetProperty(ref mealPlanName, value);
-        //    }
-
-        //    private string newMealName;
-        //    public string NewMealName
-        //    {
-        //        get => newMealName;
-        //        set => SetProperty(ref newMealName, value);
-        //    }
-
-        //    private string newMealType;
-        //    public string NewMealType
-        //    {
-        //        get => newMealType;
-        //        set => SetProperty(ref newMealType, value);
-        //    }
-
-        //    private int? newMealCalories;
-        //    public int? NewMealCalories
-        //    {
-        //        get => newMealCalories;
-        //        set => SetProperty(ref newMealCalories, value);
-        //    }
-
-        //    private string newMealRecipe;
-        //    public string NewMealRecipe
-        //    {
-        //        get => newMealRecipe;
-        //        set => SetProperty(ref newMealRecipe, value);
-        //    }
-
-        //    public ICommand NavigateToMealDetailsCommand { get; }
-        //    public ICommand NavigateToMealPlanDetailsCommand { get; }
-
-        //    public NutritionViewModel()
-        //    {
-        //        _nutritionService = new NutritionServiceUI();
-
-        //        NavigateToCreateMealPlanCommand = new Command(async () =>
-        //        {
-        //            await Shell.Current.GoToAsync(nameof(CreateMealPlanPage));
-        //        });
-
-        //        NavigateToCreateMealsCommand = new Command(async () =>
-        //        {
-        //            await Shell.Current.GoToAsync(nameof(CreateMealsPage));
-        //        });
-
-
-        //        CreateMealCommand = new Command(async () => await CreateMeal());
-
-        //        CreateMealPlanCommand = new Command(async () => await CreateMealPlan());
-
-        //        LoadMealsCommand = new Command(async () => await LoadMeals());
-
-        //        NavigateToMealDetailsCommand = new Command<Meals>(async (meal) => await NavigateToMealDetails(meal));
-        //        NavigateToMealPlanDetailsCommand = new Command<MealPlans>(async (plan) => await NavigateToMealPlanDetails(plan));
-        //    }
-
-
-        //    private async Task NavigateToMealDetails(Meals meal)
-        //    {
-        //        if (meal == null) // checks if the meal actually exists
-        //        {
-        //            return;
-        //        }
-
-        //        await Shell.Current.GoToAsync(nameof(ViewMealsPage), true, new Dictionary<string, object>  // shell navigation to viewmealspage
-        //        {
-        //           { "Meal", meal } // passes the selected meal parameter
-        //        });
-        //    }
-
-
-        //    private async Task NavigateToMealPlanDetails(MealPlans plan)
-        //    {
-        //        if (plan == null) return;
-
-        //        await Shell.Current.GoToAsync(nameof(ViewMealPlanPage), true, new Dictionary<string, object>
-        //        {
-        //          { "MealPlan", plan }
-        //         });
-        //    }
-
-        //    //private async Task DeleteMeal(int mealId)
-        //    //{
-        //    //    var result = await _nutritionService.DeleteUserMeal(mealId, currentUserId);  // currentUserId is the logged-in user’s ID
-        //    //    if (result)
-        //    //        await Application.Current.MainPage.DisplayAlert("Success", "Meal deleted from your account!", "OK");
-        //    //    else
-        //    //        await Application.Current.MainPage.DisplayAlert("Error", "Failed to delete meal.", "OK");
-        //    //}
-
-        //    private async Task CreateMeal()
-        //    {
-        //        try
-        //        {
-        //            int userId = Preferences.Get("UserId", 0);
-
-        //            var meal = new Meals
-        //            {
-        //                MealName = NewMealName,
-        //                Type = NewMealType,
-        //                Calories = NewMealCalories,
-        //                Recipe = NewMealRecipe,
-        //                UserId = userId
-        //            };
-
-        //            var created = await _nutritionService.CreateMeal(meal);
-
-        //            UserMeals.Add(created);
-        //            await Application.Current.MainPage.DisplayAlert("Success", "Meal created!", "OK");
-
-        //            NewMealName = NewMealType = NewMealRecipe = string.Empty; // clears 
-        //            NewMealCalories = null;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        //        }
-        //    }
-
-        //    private async Task CreateMealPlan()
-        //    {
-        //        try
-        //        {
-        //            int userId = Preferences.Get("UserId", 0);
-
-        //            var selectedMealIds = MealList
-        //                .Where(m => m.IsSelected)
-        //                .Select(m => m.Meal.MealId)
-        //                .ToList();
-
-        //            var dto = new CreateMealPlanDTO
-        //            {
-        //                MealPlanName = MealPlanName,
-        //                UserId = userId,
-        //                MealIds = selectedMealIds
-        //            };
-
-        //            var newPlan = await _nutritionService.CreateMealPlan(dto);
-        //            await Application.Current.MainPage.DisplayAlert("Success", "Meal plan created!", "Nice");
-
-        //            foreach (var meal in MealList)
-        //            {
-        //                meal.IsSelected = false;
-        //            }
-
-        //            MealPlanName = string.Empty;
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        //        }
-        //    }
-
-        //    public async Task LoadData()
-        //    {
-        //        if (IsBusy) return;
-
-        //        IsBusy = true;
-
-        //        try
-        //        {
-        //            int userId = Preferences.Get("UserId", 0); // user preferences
-
-        //            var meals = await _nutritionService.GetMealsByUser(userId);
-        //            var plans = await _nutritionService.GetMealPlansByUser(userId);
-
-        //            UserMeals.Clear();
-        //            UserMealPlans.Clear();
-
-        //            foreach (var meal in meals) // display all the meals
-        //            {
-        //                UserMeals.Add(meal);
-        //            }
-
-        //            foreach (var plan in plans) // display all the plans
-        //            {
-        //                UserMealPlans.Add(plan);
-        //            }
-
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            await Application.Current.MainPage.DisplayAlert("Error", $"Failed to load nutritional data: {ex.Message}", "OK");
-        //        }
-        //        finally
-        //        {
-        //            IsBusy = false;
-        //        }
-        //    }
-
-
-        //    public async Task LoadMeals()
-        //    {
-        //        try
-        //        {
-        //            int userId = Preferences.Get("UserId", 0);
-        //            var meals = await _nutritionService.GetMealsByUser(userId);
-
-        //            MealList.Clear();
-        //            foreach (var meal in meals)
-        //            {
-        //                MealList.Add(new MealSelection
-        //                {
-        //                    Meal = meal,
-        //                    IsSelected = false
-        //                });
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        //        }
-        //    }
-        //    //public async Task LoadMeals()
-        //    //{
-        //    //    try
-        //    //    {
-        //    //        int userId = Preferences.Get("UserId", 0);
-        //    //        var meals = await _nutritionService.GetMealsByUser(userId);
-
-        //    //        UserMeals.Clear(); // ← important, clear first
-
-        //    //        foreach (var meal in meals)
-        //    //        {
-        //    //            UserMeals.Add(meal); // ← load into UserMeals for the CollectionView
-        //    //        }
-        //    //    }
-        //    //    catch (Exception ex)
-        //    //    {
-        //    //        await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        //    //    }
-        //    //}
-
-        //    //public async Task LoadMealPlans()
-        //    //{
-        //    //    try
-        //    {
-        //        int userId = Preferences.Get("UserId", 0);
-        //        var mealPlans = await _nutritionService.GetMealPlansByUser(userId);
-
-        //        UserMealPlans.Clear();
-
-        //        foreach (var plan in mealPlans)
-        //        {
-        //            UserMealPlans.Add(plan);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
-        //    }
-        //}
-
     }
 
 }

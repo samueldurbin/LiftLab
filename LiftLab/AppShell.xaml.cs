@@ -8,7 +8,7 @@ namespace LiftLab
         {
             InitializeComponent();
 
-            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+            Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage)); // this page is for navigation
             Routing.RegisterRoute(nameof(Community), typeof(Community));
             Routing.RegisterRoute(nameof(CreatePost), typeof(CreatePost));
             Routing.RegisterRoute(nameof(FitnessPage), typeof(FitnessPage));

@@ -89,7 +89,7 @@ namespace WebApi.Controllers
         [HttpPut("updateworkoutinplan")]
         public async Task<IActionResult> UpdateWorkoutInWorkoutPlan([FromBody] UpdateWorkoutInPlanDTO dto)
         {
-            var workoutPlan = await _workoutPlansService.UpdateWorkoutInPlan(dto);
+            var workoutPlan = await _workoutPlansService.UpdateWorkoutInPlan(dto); // update workout
 
             if (!workoutPlan)
             {
@@ -107,20 +107,24 @@ namespace WebApi.Controllers
             if (!deletedWorkout)
             {
                 return NotFound("Workout has not found in the workout plan."); // if workout does not ecist through error
+
             }
 
             return Ok("Workout has been removed from the workout plan.");
         }
-
         
         [HttpDelete("deleteplan/{planId}")]
         public async Task<IActionResult> DeleteWorkoutPlan(int planId)
         {
-            var success = await _workoutPlansService.DeleteWorkoutPlan(planId);
-            if (success)
-                return Ok("Workout plan deleted.");
+            var deletePlan = await _workoutPlansService.DeleteWorkoutPlan(planId); // delete workout plan
 
-            return NotFound("Workout plan not found.");
+            if (deletePlan)
+            {
+                return Ok("Workout plan has been deleted");
+
+            }
+
+            return NotFound("Workout plan not found");
         }
     }
 }

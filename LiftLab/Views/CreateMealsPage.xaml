@@ -26,6 +26,7 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
 
+        <!--Meal Name-->
         <Entry Grid.Row="2"
                    Placeholder="Meal Name"
                    Text="{Binding NewMealName}"
@@ -34,6 +35,7 @@
                    Margin="0,10,0,0"
                    HorizontalOptions="Fill" />
 
+        <!--Meal Type-->
         <Entry Grid.Row="3"
                    Placeholder="Type (Breakfast, Lunch, etc.)"
                    Text="{Binding NewMealType}"
@@ -41,6 +43,7 @@
                    BackgroundColor="White"
                    HorizontalOptions="Fill" />
 
+        <!--The Calories-->
         <Entry Grid.Row="4"
                    Placeholder="Calories"
                    Keyboard="Numeric"
@@ -49,6 +52,7 @@
                    BackgroundColor="White"
                    HorizontalOptions="Fill" />
 
+        <!--The meals recipe-->
         <Frame Grid.Row="5"
                    Padding="10"
                    CornerRadius="12"
@@ -64,12 +68,13 @@
                         HeightRequest="150" />
         </Frame>
 
+        <!--Button for creating the meal-->
         <Button Grid.Row="6"
                     Text="Create Meal"
                     Command="{Binding CreateMealCommand}"
                     FontSize="18"
                     CornerRadius="10"
-                    BackgroundColor="CornflowerBlue"
+                    BackgroundColor="Blue"
                     TextColor="White"
                     Margin="0,20,0,0"
                     HeightRequest="50"

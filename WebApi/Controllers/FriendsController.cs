@@ -22,7 +22,7 @@ namespace WebApi.Controllers
 
             if (!success) // tests to see if the friendship already exists between the two users or that the request failed
             {
-                return BadRequest("The Friend request failed or it already exists.."); // error message
+                return BadRequest("The friend request failed or it already exists.."); // error message
 
             }
 
@@ -33,13 +33,15 @@ namespace WebApi.Controllers
         public async Task<IActionResult> GetFriends(int userId)
         {
             var friends = await _friendService.GetUsersFriends(userId);
+
             return Ok(friends);
         }
 
         [HttpGet("friends/posts/{userId}")] // endpoint with inputuserid
         public async Task<IActionResult> GetFriendsPosts(int userId)
         {
-            var posts = await _friendService.GetFriendsPosts(userId);
+            var posts = await _friendService.GetFriendsPosts(userId); // gets all the posts created by the userid
+
             return Ok(posts);
         }
 

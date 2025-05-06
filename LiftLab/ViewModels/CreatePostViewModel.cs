@@ -53,15 +53,16 @@ namespace LiftLab.ViewModels
             #endregion
 
             #region ToggleVisbility
-            ToggleWorkoutPlansCommand = new Command(async () =>
+
+            ToggleWorkoutPlansCommand = new Command(async () => // these toggles the visbility depending on what the user presses
             {
-                ClearOtherSelections("Workout");
+                ClearOtherSelections("Workout"); // clears the selections
 
                 ShowWorkoutPlans = !ShowWorkoutPlans;
 
                 if (ShowWorkoutPlans && WorkoutPlans.Count == 0)
                 {
-                    await LoadWorkoutPlans();
+                    await LoadWorkoutPlans(); // gets the workout plans if the user toggles the workoutplans
                 }
             });
 
@@ -192,7 +193,7 @@ namespace LiftLab.ViewModels
         #endregion
 
         #region Loading Plans
-        private async Task LoadWorkoutPlans()
+        private async Task LoadWorkoutPlans() // gets the workoutplans
         {
             int userId = Preferences.Get("UserId", 0);
 
@@ -207,7 +208,7 @@ namespace LiftLab.ViewModels
 
         }
 
-        private async Task LoadMealPlans()
+        private async Task LoadMealPlans() // gets the mealplans
         {
             int userId = Preferences.Get("UserId", 0);
 
@@ -221,7 +222,7 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task LoadMeals()
+        private async Task LoadMeals() // gest the meals
         {
             int userId = Preferences.Get("UserId", 0);
 
@@ -234,36 +235,6 @@ namespace LiftLab.ViewModels
                 Meals.Add(meal);
             }
         }
-
-        //private async Task LoadMealPlans()
-        //{
-        //    int userId = Preferences.Get("UserId", 0);
-
-        //    var plans = await _communityService.GetMealPlansByUserId(userId);
-
-        //    MealPlans.Clear();
-
-        //    foreach (var plan in plans)
-        //    {
-        //        MealPlans.Add(plan);
-        //    }
-
-        //}
-
-        //private async Task LoadMeals()
-        //{
-        //    int userId = Preferences.Get("UserId", 0);
-
-        //    var meals = await _communityService.GetMealsByUser(userId);
-
-        //    Meals.Clear();
-
-        //    foreach (var meal in meals)
-        //    {
-        //        Meals.Add(meal);
-        //    }
-
-        //}
 
         #endregion
 
@@ -299,7 +270,7 @@ namespace LiftLab.ViewModels
 
         #region Helper Methods
 
-        private void ClearOtherSelections(string clear)
+        private void ClearOtherSelections(string clear) // clears the other two options if one is selected
         {
             if (clear != "Workout")
             {

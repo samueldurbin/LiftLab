@@ -7,79 +7,76 @@
 
 
     <Grid RowDefinitions="0.3*, 0.7*">
-
-        <!-- Top Red Area with Logo -->
         <Grid BackgroundColor="Red" Grid.Row="0" HeightRequest="150">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="logo.png"
-                   Aspect="AspectFit"
-                   MaximumHeightRequest="170"
-                   MaximumWidthRequest="180"
-                   HorizontalOptions="Center" />
+                       Aspect="AspectFit"
+                       MaximumHeightRequest="170"
+                       MaximumWidthRequest="180"
+                       HorizontalOptions="Center" />
             </VerticalStackLayout>
         </Grid>
 
-        <!-- Bottom Form Area with Scroll -->
         <ScrollView Grid.Row="1" Padding="20">
             <VerticalStackLayout HorizontalOptions="Center"
-                             WidthRequest="350"
-                             MaximumWidthRequest="500"
-                             Spacing="15">
+                                 WidthRequest="350"
+                                 MaximumWidthRequest="500"
+                                 Spacing="15">
 
-                <!-- Title -->
                 <Label Text="Create an Account"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Fill"
-                   HorizontalTextAlignment="Center" />
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Fill"
+                       HorizontalTextAlignment="Center" />
 
-                <!-- Subtitle -->
                 <Label Text="Fill in the details below to join the LiftLab community"
-                   FontSize="14"
-                   TextColor="Gray"
-                   HorizontalOptions="Fill"
-                   HorizontalTextAlignment="Center" />
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="Gray"
+                       HorizontalOptions="Fill"
+                       HorizontalTextAlignment="Center" />
 
-                <!-- Username -->
+                <!--Username-->
                 <Label Text="Username" />
                 <Entry Text="{Binding Username}" Placeholder="Enter username" />
 
-                <!-- Password -->
+                <!--Password-->
                 <Label Text="Password" />
                 <Entry Text="{Binding Password}" Placeholder="Enter password" IsPassword="True" />
 
-                <!-- Email -->
+                <!--Emai -->
                 <Label Text="Email" />
                 <Entry Text="{Binding Email}" Placeholder="Enter your email" Keyboard="Email" />
 
-                <!-- Date of Birth -->
+                <!--Date of Birth-->
+                <Label Text="You must be 16 or above to join LiftLab"
+                       FontSize="14"
+                       TextColor="Gray"/>
                 <Label Text="Date of Birth" />
                 <DatePicker Date="{Binding DateOfBirth}" Format="d" />
 
-                <!-- Phone Number -->
+                <!--MobileNumber-->
                 <Label Text="Phone Number" />
                 <Entry Text="{Binding PhoneNumber}" Placeholder="Enter phone number" Keyboard="Telephone" />
 
-                <!-- Terms and Conditions -->
+                <!--TermsandConditions-->
                 <Label Text="By creating an account, you agree to our Terms and Conditions"
-                   FontSize="14"
-                   TextColor="Gray">
+                       FontSize="14"
+                       TextColor="Gray">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowTandCCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
 
-                <!-- Create Account Button -->
+                <!--CreateAccountButton-->
                 <Button Text="Create An Account"
-                    Command="{Binding CreateAccountCommand}"
-                    BackgroundColor="CornflowerBlue"
-                    TextColor="White"
-                    CornerRadius="10"
-                    HeightRequest="50" />
-
+                        Command="{Binding CreateAccountCommand}"
+                        BackgroundColor="Blue"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HeightRequest="50" />
             </VerticalStackLayout>
         </ScrollView>
-
     </Grid>
 
 </ContentPage>

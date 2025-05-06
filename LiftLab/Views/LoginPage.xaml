@@ -10,7 +10,7 @@
 
     <Grid RowDefinitions="0.4*, 0.6*">
 
-        <!-- Top Red Area with Logo -->
+        <!--Top Red Area with Logo-->
         <Grid BackgroundColor="Red" Grid.Row="0">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="logo.png"
@@ -22,7 +22,7 @@
             </VerticalStackLayout>
         </Grid>
 
-        <!-- Bottom Login Form -->
+        <!--Bottom Login Form-->
         <Grid Grid.Row="1" Padding="20">
             <VerticalStackLayout HorizontalOptions="Center"
                                   Spacing="15"
@@ -49,7 +49,7 @@
                        TextDecorations="Underline"
                        HorizontalOptions="Center" />
 
-                <!-- Terms and Conditions -->
+                <!--Terms and Conditions-->
                 <Label Text="By logging in you agree to our Terms and Conditions"  FontSize="12" TextColor="Grey">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ShowTandCCommand}" />

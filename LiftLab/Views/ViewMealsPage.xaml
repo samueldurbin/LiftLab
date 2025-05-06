@@ -28,6 +28,7 @@
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center" />
 
+        <!--delete icon-->
         <Label Grid.Row="2"
                    FontFamily="FASolid"
                    Text="{x:Static helper:FontAwesome.TrashCan}"
@@ -40,6 +41,7 @@
             </Label.GestureRecognizers>
         </Label>
 
+        <!--meal name-->
         <Label Grid.Row="3"
                    Text="{Binding MealName}"
                    FontSize="24"
@@ -55,12 +57,12 @@
         <Grid Grid.Row="5" ColumnDefinitions="Auto, Auto" HorizontalOptions="Start">
             <HorizontalStackLayout Grid.Row="5" Spacing="5" HorizontalOptions="Start">
                 <Label Text="Calories:"
-           FontSize="18"
-           FontAttributes="Bold"
-           VerticalOptions="Center" />
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center" />
                 <Label Text="{Binding Calories}"
-           FontSize="18"
-           VerticalOptions="Center" />
+                       FontSize="18"
+                       VerticalOptions="Center" />
             </HorizontalStackLayout>
         </Grid>
 

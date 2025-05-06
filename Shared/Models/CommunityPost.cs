@@ -26,8 +26,6 @@ namespace Shared.Models
 
         public int CommentCount { get; set; }
 
-        //public int LikeCount { get; set; }
-
         public int? WorkoutPlanId { get; set; } // optional workoutplan additon
 
         public int? MealId { get; set; } // optional meal

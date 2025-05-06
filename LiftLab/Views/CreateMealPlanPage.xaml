@@ -26,6 +26,7 @@
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />
 
+        <!--Meal Plan name-->
         <Entry Grid.Row="2"
                Placeholder="Meal Plan Name"
                Text="{Binding MealPlanName}"
@@ -40,6 +41,7 @@
                Padding="10"
                HasShadow="True"
                BorderColor="LightGray">
+            <!--List of the meals -->
             <CollectionView ItemsSource="{Binding MealList}"
                             VerticalOptions="FillAndExpand"
                             ItemSizingStrategy="MeasureAllItems">
@@ -48,12 +50,14 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+                        <!--meal name-->
                         <Grid ColumnDefinitions="*, Auto" Padding="10" VerticalOptions="Center">
                             <Label Grid.Column="0"
                                    Text="{Binding Meal.MealName}"
                                    FontSize="18"
                                    VerticalOptions="Center"
                                    TextColor="Black" />
+                            <!--Selection-->
                             <CheckBox Grid.Column="1"
                                       IsChecked="{Binding IsSelected}"
                                       HorizontalOptions="End"
@@ -64,12 +68,13 @@
             </CollectionView>
         </Frame>
 
+        <!--Button for creating meal plan-->
         <Button Grid.Row="4"
                 Text="Create Meal Plan"
                 Command="{Binding CreateMealPlanCommand}"
                 FontSize="18"
                 CornerRadius="10"
-                BackgroundColor="CornflowerBlue"
+                BackgroundColor="Blue"
                 TextColor="White"
                 Margin="0,20,0,0"
                 HeightRequest="50"

@@ -11,7 +11,7 @@
 
     <Grid Padding="10" RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
 
-        <!-- Title -->
+        <!--Title-->
         <Label 
         Text="Find my Friends" 
         FontSize="24" 
@@ -19,7 +19,7 @@
         HorizontalOptions="Center" 
         Grid.Row="0" />
 
-        <!-- Guidance text under title -->
+        <!--Guidance text under title-->
         <Label 
         Text="Search and add people to start sharing your progress!" 
         FontSize="14" 
@@ -28,14 +28,14 @@
         Grid.Row="1" 
         Margin="0,5,0,10" />
 
-        <!-- SearchBar -->
+        <!--SearchBar-->
         <SearchBar 
         Placeholder="Search friends..." 
         Text="{Binding SearchText}" 
         SearchCommand="{Binding SearchCommand}" 
         Grid.Row="2" />
 
-        <!-- Label under searchbar -->
+        <!--Label under searchbar-->
         <Label 
         Text="Results will appear below" 
         FontSize="12" 
@@ -44,14 +44,14 @@
         Grid.Row="3"
         Margin="0,5,0,10" />
 
-        <!-- Loading Indicator -->
+        <!--Loading Indicator-->
         <ActivityIndicator 
         IsRunning="{Binding IsBusy}" 
         IsVisible="{Binding IsBusy}" 
         Grid.Row="4" 
         HorizontalOptions="Center" />
 
-        <!-- Friend List with fixed height -->
+        <!--Friend List with fixed height-->
         <CollectionView 
         ItemsSource="{Binding Users}" 
         VerticalOptions="Start"
@@ -62,7 +62,7 @@
                 <DataTemplate>
                     <Frame CornerRadius="5" BorderColor="Green" Padding="15" Margin="5">
                         <Grid ColumnDefinitions="*,Auto">
-                            <!-- Username -->
+                            <!--Username-->
                             <Label 
                             Text="{Binding Username}" 
                             FontSize="16" 
@@ -70,7 +70,7 @@
                             VerticalOptions="Center" 
                             Grid.Column="0" />
 
-                            <!-- Add Friend Button -->
+                            <!--Add Friend Button-->
                             <Button 
                             Text="Add Friend" 
                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FriendsViewModel}}, Path=AddFriendCommand}" 

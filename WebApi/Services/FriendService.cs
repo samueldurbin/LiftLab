@@ -24,7 +24,6 @@ namespace WebApi.Services
                 .AnyAsync(u => (u.UserId == userId && u.FriendUserId == friendUserId) ||
                                (u.UserId == friendUserId && u.FriendUserId == userId)); // this checks the database to see if a friendship between the two userids exist in
                                                                                         // in the database, and the OR allows the check for other way around
-
             if (existingFriends) 
             {
                 return false; // this prevents two friends from being added whilst they are already added
@@ -50,17 +49,6 @@ namespace WebApi.Services
                 .ToListAsync(); // to a list
         }
 
-        //public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
-        //{
-        //    var friendIds = await GetUsersFriends(userId);
-
-        //    var posts = await _dbContext.CommunityPosts
-        //        .Where(p => friendIds.Contains(p.UserId))
-        //        .ToListAsync();
-
-        //    return posts;
-        //}
-
         public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
         {
             var friendIds = await GetUsersFriends(userId);
@@ -71,6 +59,7 @@ namespace WebApi.Services
             var posts = await _dbContext.CommunityPosts
                         .Where(p => friendIds.Contains(p.UserId))
                         .ToListAsync();
+
             return posts;
         }
 

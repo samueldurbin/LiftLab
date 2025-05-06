@@ -9,8 +9,6 @@ namespace LiftLab
         {
             InitializeComponent();
 
-            //MainPage = new AppShell();  // previous navigation that may be used later
-
             MainPage = new NavigationPage(new LoginPage()); // application now starts with Navigation instead of Shell as it effects data loading and navigation bar
             // once the user has logged in, the app changes to Shell Navigation
 

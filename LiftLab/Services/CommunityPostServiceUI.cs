@@ -110,130 +110,30 @@ namespace LiftLab.Services
 
         #region Adding External Plans and Meals
 
-        // adds a workout plan created by another user to the logged in users account
-        public async Task<bool> AddExternalUserWorkoutPlan(int planId, int userId)
+        public async Task<bool> AddExternalPlans(CommunityPost post, int userId) // adds an external user plan or meal to the logged in user's account
         {
-            var externalWorkoutPlan = await _httpClient.PostAsync($"WorkoutPlans/adduserworkoutplan/{planId}/{userId}", null); // sends a http post request with the ids
-
-            if (externalWorkoutPlan.IsSuccessStatusCode)
+            if (post.WorkoutPlanId != null) // checks if the post contains a workoutplanid
             {
-                return true; // success
+                var workoutPlan = await _httpClient.PostAsync($"WorkoutPlans/adduserworkoutplan/{post.WorkoutPlanId}/{userId}", null); // sends a post request to add the workoutplan to the logged in user's account
+
+                return workoutPlan.IsSuccessStatusCode; // returns true
+            }
+            else if (post.MealPlanId != null) // checks if the post contains a mealplanid
+            {
+                var mealPlan = await _httpClient.PostAsync($"MealPlanMeals/addusermealplan/{post.MealPlanId}/{userId}", null); // sends a post request to add the mealplan to the logged in user's account
+
+                return mealPlan.IsSuccessStatusCode; // returns true
+            }
+            else if (post.MealId != null) // checks if the post contains a mealid
+            {
+                var meal = await _httpClient.PostAsync($"MealPlanMeals/addusermeal/{post.MealId}/{userId}", null); // sends a post request to add the meal to the logged in user's account
+
+                return meal.IsSuccessStatusCode; // returns true
             }
 
-            throw new Exception("Failed to add workout plan to user, please try again!"); // exception message
+            return false; // if no ids are present, return as false as there is nothing to add
         }
 
-        // adds a meal plan created by another user to the logged in users account
-        public async Task<bool> AddExternalUserMealPlans(int mealPlanId, int userId)
-        {
-            var externalMealPlan = await _httpClient.PostAsync($"MealPlans/addusermealplan/{mealPlanId}/{userId}", null); // sends a http post request with the ids
-
-            if (externalMealPlan.IsSuccessStatusCode)
-            {
-                return true; // success
-            }
-
-            throw new Exception("Failed to add workout plan to user, please try again!"); // exception message
-        }
-
-        // adds an indiviual meal created by another user to the logged in users account
-        public async Task<bool> AddExternalUserMeals(int mealId, int userId)
-        {
-            var externalMeals = await _httpClient.PostAsync($"MealPlans/addusermeal/{mealId}/{userId}", null); // sends a http post request with the ids
-
-            if (externalMeals.IsSuccessStatusCode)
-            {
-                return true; // success
-            }
-
-            throw new Exception("Failed to add workout plan to user, please try again!"); // exception message
-        }
-
-        // this method takes all the adding external plans methods into a check, so that the there can be one universal add button on each post
-        //public async Task<bool> AddExternalPlans(CommunityPost post, int userId) // instance of a community post with a userid
-        //{
-        //    if (post.WorkoutPlanId != null) // checks if the community post has a workout plan attached
-        //    {
-        //        return await AddExternalUserWorkoutPlan(post.WorkoutPlanId.Value, userId); // if it does, call this method
-        //    }
-        //    else if (post.MealPlanId != null) // checks if the community post has a meal plan attached
-        //    {
-        //        return await AddExternalUserMealPlans(post.MealPlanId.Value, userId);
-        //    }
-        //    else if (post.MealId != null) // checks if the community post has a meal attached
-        //    {
-        //        return await AddExternalUserMeals(post.MealId.Value, userId);
-        //    }
-
-        //    return false;
-        //}
-
-
-
-        public async Task<bool> AddExternalPlans(CommunityPost post, int userId)
-        {
-            if (post.WorkoutPlanId != null)
-            {
-                var response = await _httpClient.PostAsync($"WorkoutPlans/adduserworkoutplan/{post.WorkoutPlanId}/{userId}", null);
-                return response.IsSuccessStatusCode;
-            }
-            else if (post.MealPlanId != null)
-            {
-                var response = await _httpClient.PostAsync($"MealPlanMeals/addusermealplan/{post.MealPlanId}/{userId}", null);
-                return response.IsSuccessStatusCode;
-            }
-            else if (post.MealId != null)
-            {
-                var response = await _httpClient.PostAsync($"MealPlanMeals/addusermeal/{post.MealId}/{userId}", null);
-                return response.IsSuccessStatusCode;
-            }
-
-            return false;
-        }
-
-        private async Task AddPlansToUserAccount(CommunityPost post)
-        {
-            try
-            {
-                int userId = Preferences.Get("UserId", 0);
-
-                if (post.WorkoutPlanId != null)
-                {
-                    bool added = await AddExternalUserWorkoutPlan((int)post.WorkoutPlanId, userId);
-
-                    if (added)
-                        await Application.Current.MainPage.DisplayAlert("Success!", "Workout plan added to your account.", "OK");
-                    else
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to add workout plan.", "OK");
-                }
-                else if (post.MealPlanId != null)
-                {
-                    bool added = await new NutritionServiceUI().AddExternalUserMealPlan((int)post.MealPlanId, userId);
-
-                    if (added)
-                        await Application.Current.MainPage.DisplayAlert("Success!", "Meal plan added to your account.", "OK");
-                    else
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to add meal plan.", "OK");
-                }
-                else if (post.MealId != null)
-                {
-                    bool added = await new NutritionServiceUI().AddExternalUserMeal((int)post.MealId, userId);
-
-                    if (added)
-                        await Application.Current.MainPage.DisplayAlert("Success!", "Meal added to your account.", "OK");
-                    else
-                        await Application.Current.MainPage.DisplayAlert("Error", "Failed to add meal.", "OK");
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Unavailable", "This post doesn't contain a plan or meal.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", $"Something went wrong: {ex.Message}", "OK");
-            }
-        }
 
         #endregion
 
@@ -276,11 +176,11 @@ namespace LiftLab.Services
         // gets user for profile viewing
         public async Task<Users> GetUserById(int userId)
         {
-            var response = await _httpClient.GetAsync($"Users/getuserbyid/{userId}"); // aoi endpoint with the inserted userId
+            var user = await _httpClient.GetAsync($"Users/getuserbyid/{userId}"); // aoi endpoint with the inserted userId
 
-            if (response.IsSuccessStatusCode) // checks for success
+            if (user.IsSuccessStatusCode) // checks for success
             {
-                return await response.Content.ReadFromJsonAsync<Users>();
+                return await user.Content.ReadFromJsonAsync<Users>();
             }
 
             return null;
@@ -289,11 +189,11 @@ namespace LiftLab.Services
         // this gets all the posts created by the user
         public async Task<List<CommunityPost>> GetCommunityPostsByUserId(int userId)
         {
-            var response = await _httpClient.GetAsync($"CommunityPosts/getpostsbyuser/{userId}"); // api get request with userid input
+            var post = await _httpClient.GetAsync($"CommunityPosts/getpostsbyuser/{userId}"); // api get request with userid input
 
-            if (response.IsSuccessStatusCode) // checks for success
+            if (post.IsSuccessStatusCode) // checks for success
             {
-                return await response.Content.ReadFromJsonAsync<List<CommunityPost>>();
+                return await post.Content.ReadFromJsonAsync<List<CommunityPost>>();
             }
 
             return new List<CommunityPost>();
@@ -301,8 +201,9 @@ namespace LiftLab.Services
 
         public async Task<bool> DeleteCommunityPost(int postId, int userId)
         {
-            var response = await _httpClient.DeleteAsync($"CommunityPosts/deletepost/{postId}/{userId}"); //http delete request
-            return response.IsSuccessStatusCode;
+            var post = await _httpClient.DeleteAsync($"CommunityPosts/deletepost/{postId}/{userId}"); //http delete request
+
+            return post.IsSuccessStatusCode;
         }
 
         #endregion

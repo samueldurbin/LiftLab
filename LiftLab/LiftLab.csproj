@@ -59,11 +59,13 @@
 	<ItemGroup>
 	  <Compile Remove="Services\CommunityServiceUI.cs" />
 	  <Compile Remove="Services\FitnessPostServiceUI.cs" />
+	  <Compile Remove="Services\FriendsServiceUI.cs" />
 	  <Compile Remove="Services\NutritionPostServiceUI.cs" />
 	  <Compile Remove="ViewModels\CommunityPostViewModelItem.cs" />
 	  <Compile Remove="ViewModels\CommunityViewModel.cs" />
 	  <Compile Remove="ViewModels\CreateNutritionPostViewModel.cs" />
 	  <Compile Remove="ViewModels\MealPlanDetailsViewModel.cs" />
+	  <Compile Remove="ViewModels\PlansViewModel.cs" />
 	  <Compile Remove="ViewModels\PublicProfileViewModel.cs" />
 	  <Compile Remove="Views\CommunityPage.xaml.cs" />
 	  <Compile Remove="Views\CreateNutritionPost.xaml.cs" />

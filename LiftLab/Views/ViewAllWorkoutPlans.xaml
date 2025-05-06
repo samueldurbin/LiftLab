@@ -11,16 +11,37 @@
     </ContentPage.BindingContext>
 
     <Grid RowDefinitions="Auto, Auto, *" Padding="10">
+        <!--List of workout plans-->
         <CollectionView Grid.Row="2" ItemsSource="{Binding UsersWorkoutPlans}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BackgroundColor="Red" CornerRadius="20" HeightRequest="80" Padding="15" Margin="0,0,0,20">
+                    <Frame BackgroundColor="Red"
+                           CornerRadius="20"
+                           HeightRequest="80"
+                           Padding="15"
+                           Margin="0,0,0,20">
                         <Frame.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewWorkoutsCommand}" CommandParameter="{Binding .}" />
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.ViewWorkoutsCommand}"
+                                                  CommandParameter="{Binding .}" />
                         </Frame.GestureRecognizers>
-                        <Grid ColumnDefinitions="*, Auto" VerticalOptions="Center" HeightRequest="50">
-                            <Label Grid.Column="0" Text="{Binding WorkoutPlanName}" FontSize="18" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" HorizontalOptions="Start" Margin="0,0,10,0"/>
-                            <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="22" TextColor="White" VerticalOptions="Center" HorizontalOptions="End"/>
+                        <Grid ColumnDefinitions="*, Auto"
+                              VerticalOptions="Center"
+                              HeightRequest="50">
+                            <Label Grid.Column="0"
+                                   Text="{Binding WorkoutPlanName}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="Start"
+                                   Margin="0,0,10,0"/>
+                            <Label Grid.Column="1"
+                                   FontFamily="FASolid"
+                                   Text="{x:Static helper:FontAwesome.Eye}"
+                                   FontSize="22"
+                                   TextColor="White"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="End"/>
                         </Grid>
                     </Frame>
                 </DataTemplate>

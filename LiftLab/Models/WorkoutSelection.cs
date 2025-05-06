@@ -11,29 +11,23 @@ namespace LiftLab.Models
     public class WorkoutSelection : BaseViewModel
     {
         private bool isSelected;
-
         public Workouts Workout { get; set; }
-        public int? Reps { get; set; }
+        public int? Reps { get; set; } // nullable as its not mandatory to add
         public int? Sets { get; set; }
 
-        public bool IsSelected
+        public bool IsSelected // checks whether a workout is selected
         {
             get => isSelected;
             set
             {
                 if (SetProperty(ref isSelected, value))
                 {
-                    // Trigger selection changed event
-                    SelectionChanged?.Invoke(this, EventArgs.Empty);
+                    SelectionChanged?.Invoke(this, EventArgs.Empty); // if te selection changed, raise the event
                 }
             }
         }
 
-        public event EventHandler SelectionChanged;
-        //public Workouts Workout { get; set; }
-        //public bool IsSelected { get; set; }
-        //public int? Reps { get; set; }
-        //public int? Sets { get; set; }
+        public event EventHandler SelectionChanged; // used for UI
 
     }
 }

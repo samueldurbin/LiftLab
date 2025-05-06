@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace LiftLab.ViewModels
 {
+    // this was learnt from a YouTube Learning video
+    // https://www.youtube.com/watch?v=XmdBXuNPShs&t=685s
     public class BaseViewModel : INotifyPropertyChanged  // INotifyPropertyChanged allows the class to use PropertyChanged events
     {
         public event PropertyChangedEventHandler PropertyChanged;

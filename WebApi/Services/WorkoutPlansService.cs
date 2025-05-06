@@ -131,16 +131,16 @@ namespace WebApi.Services
             return true;
         }
 
-        public async Task<List<WorkoutInPlanDTO>> GetWorkoutPlanDetails(int planId)
+        public async Task<List<WorkoutInPlanDTO>> GetWorkoutPlanDetails(int planId) // gets all the details in a workout plan
         {
             return await _dbContext.WorkoutPlansData
                 .Where(w => w.WorkoutPlanId == planId)
                 .Select(w => new WorkoutInPlanDTO
                 {
-                    WorkoutId = w.WorkoutId,
-                    Reps = w.Reps,
-                    Sets = w.Sets,
-                    Kg = w.Kg
+                    WorkoutId = w.WorkoutId, // gets the workout
+                    Reps = w.Reps, // gets the reps
+                    Sets = w.Sets, // gets the sets
+                    Kg = w.Kg // gets the kg
                 })
                 .ToListAsync();
         }
@@ -160,24 +160,29 @@ namespace WebApi.Services
             return true;
         }
 
-        public async Task<bool> DeleteWorkoutPlan(int planId)
+        public async Task<bool> DeleteWorkoutPlan(int planId) // deletes the workout plan
         {
-            var hasPosts = await _dbContext.CommunityPosts
+            var hasPosts = await _dbContext.CommunityPosts // checks if the plan is already in the community post
                 .AnyAsync(p => p.WorkoutPlanId == planId);
 
             if (hasPosts)
             {
-                throw new InvalidOperationException("This workout plan is linked to community posts and cannot be deleted.");
+                throw new InvalidOperationException("This workout plan is linked to a posts that is shared in the community and cannot be deleted.");
             }
 
-            var plan = await _dbContext.WorkoutPlans.FindAsync(planId);
-            if (plan == null) return false;
+            var plan = await _dbContext.WorkoutPlans.FindAsync(planId); // find the planid
+            if (plan == null)
+            {
+                return false;
 
-            var relatedWorkouts = _dbContext.WorkoutPlansData
+            }
+            
+            var relatedWorkouts = _dbContext.WorkoutPlansData // remove all related workouts
                 .Where(w => w.WorkoutPlanId == planId);
+
             _dbContext.WorkoutPlansData.RemoveRange(relatedWorkouts);
 
-            _dbContext.WorkoutPlans.Remove(plan);
+            _dbContext.WorkoutPlans.Remove(plan); // deletes workoutplan
 
             await _dbContext.SaveChangesAsync();
             return true;
@@ -186,14 +191,14 @@ namespace WebApi.Services
         public async Task<bool> UpdateWorkoutInPlan(UpdateWorkoutInPlanDTO dto)
         {
             var workoutPlanData = await _dbContext.WorkoutPlansData
-                .FirstOrDefaultAsync(w => w.WorkoutPlanId == dto.WorkoutPlanId && w.WorkoutId == dto.WorkoutId);
+                .FirstOrDefaultAsync(w => w.WorkoutPlanId == dto.WorkoutPlanId && w.WorkoutId == dto.WorkoutId); // find the workout in the plan
 
             if (workoutPlanData == null)
             {
                 return false;
             }
 
-            workoutPlanData.Reps = dto.Reps;
+            workoutPlanData.Reps = dto.Reps; // updates its contents
             workoutPlanData.Sets = dto.Sets;
             workoutPlanData.Kg = dto.Kg;
 

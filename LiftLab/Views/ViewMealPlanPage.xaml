@@ -20,11 +20,12 @@
                 </Label.GestureRecognizers>
             </Label>
 
+            <!--Meal PLan name-->
             <Label Text="{Binding MealPlanName}" FontSize="24" FontAttributes="Bold" />
+            <!--created date-->
             <Label Text="{Binding CreatedAt, StringFormat='Created on: {0:MMMM dd, yyyy}'}" FontSize="14" TextColor="Gray" />
-
             <Label Text="Meals in this plan:" FontSize="18" FontAttributes="Bold" Margin="0,20,0,10" />
-
+            <!--the meals in it-->
             <CollectionView ItemsSource="{Binding Meals}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>

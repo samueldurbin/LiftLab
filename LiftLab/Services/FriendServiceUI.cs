@@ -23,22 +23,22 @@ namespace LiftLab.Services
 
         public async Task<bool> AddFriend(int userId, int friendUserId)
         {
-            var response = await _httpClient.PostAsJsonAsync("Friends/addfriend", new  // sends post request to add a new friend
+            var friend = await _httpClient.PostAsJsonAsync("Friends/addfriend", new  // sends post request to add a new friend
             {
                 UserId = userId,  // userid (will be for logged in user)
                 FriendUserId = friendUserId // user to be added as a friend
             });
 
-            return response.IsSuccessStatusCode;
+            return friend.IsSuccessStatusCode;
         }
 
         public async Task<List<CommunityPost>> GetFriendsPosts(int userId)
         {
-            var response = await _httpClient.GetAsync($"Friends/friends/posts/{userId}");
+            var friends = await _httpClient.GetAsync($"Friends/friends/posts/{userId}");
 
-            if (response.IsSuccessStatusCode)
+            if (friends.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<List<CommunityPost>>();
+                return await friends.Content.ReadFromJsonAsync<List<CommunityPost>>();
             }
 
             throw new Exception("Failed to retrieve friends' posts.");

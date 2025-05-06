@@ -17,11 +17,10 @@ public partial class ProfilePage : ContentPage
 
         base.OnAppearing();
 
-        if (BindingContext is ProfileViewModel viewModel)
+        if (BindingContext is ProfileViewModel viewModel) // decides what user to load (own profile or someone else's)
         {
             int loggedInUserId = Preferences.Get("UserId", 0);
 
-            // Determine which user to load (own profile or someone else's)
             int userId = UserId == 0 ? loggedInUserId : UserId;
 
             viewModel.UserProfile = userId == loggedInUserId;

@@ -10,6 +10,7 @@
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="10">
+            <!--Plan name-->
             <Entry Placeholder="Plan Name" Text="{Binding WorkoutPlanName}" />
             <Label Text="Available Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
             <CollectionView ItemsSource="{Binding WorkoutList}" HeightRequest="200">
@@ -17,6 +18,7 @@
                     <DataTemplate>
                         <Frame Padding="10" Margin="5" BorderColor="LightGray">
                             <Grid ColumnDefinitions="*, Auto">
+                                <!--Workouts-->
                                 <Label Text="{Binding Workout.WorkoutName}" VerticalOptions="Center" />
                                 <CheckBox IsChecked="{Binding IsSelected, Mode=TwoWay}" VerticalOptions="Center" />
                             </Grid>
@@ -24,11 +26,12 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <!--this shows the selected list of workouts-->
             <Label Text="Selected Exercises:" FontAttributes="Bold" Margin="0,20,0,0" />
             <CollectionView ItemsSource="{Binding SelectedWorkoutList}" HeightRequest="150">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Padding="10" Margin="5" BorderColor="LightBlue">
+                        <Frame Padding="10" Margin="5" BorderColor="Blue">
                             <Label Text="{Binding Workout.WorkoutName}" />
                         </Frame>
                     </DataTemplate>

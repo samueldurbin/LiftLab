@@ -22,7 +22,7 @@ namespace LiftLab.ViewModels
         public ICommand DeletePlanCommand { get; }
         public ICommand DeleteWorkoutCommand { get; }
 
-        public WorkoutPlans SelectedPlan
+        public WorkoutPlans SelectedPlan // the selected workout plan
         {
             get => selectedPlan;
             set
@@ -41,7 +41,7 @@ namespace LiftLab.ViewModels
             DeletePlanCommand = new Command(async () => await DeleteWorkoutPlan());
         }
 
-        public async void LoadWorkoutsForSelectedPlan()
+        public async void LoadWorkoutsForSelectedPlan() // loads the workouts from the selected plan to the UI
         {
             try
             {
@@ -78,7 +78,7 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task SaveWorkout(WorkoutInPlanDisplay workout)
+        private async Task SaveWorkout(WorkoutInPlanDisplay workout) // saves the workout
         {
             try
             {
@@ -103,11 +103,14 @@ namespace LiftLab.ViewModels
             try
             {
                 if (SelectedPlan == null || workout == null)
+                {
                     return;
 
-                var response = await _workoutPlansService.DeleteWorkoutFromPlan(SelectedPlan.WorkoutPlanId, workout.WorkoutId);
+                }
 
-                if (response)
+                var plan = await _workoutPlansService.DeleteWorkoutFromPlan(SelectedPlan.WorkoutPlanId, workout.WorkoutId);
+
+                if (plan)
                 {
                     WorkoutsInPlan.Remove(workout);
                     await Application.Current.MainPage.DisplayAlert("Success", "Workout removed from plan!", "OK");
@@ -128,7 +131,7 @@ namespace LiftLab.ViewModels
             if (SelectedPlan == null)
                 return;
 
-            bool confirm = await Application.Current.MainPage.DisplayAlert(
+            bool confirm = await Application.Current.MainPage.DisplayAlert( // displays a popup asking the user if they are sure about deleting
                 "Delete Plan?",
                 $"Are you sure you want to delete the plan \"{SelectedPlan.WorkoutPlanName}\"?",
                 "Yes", "Cancel");
@@ -137,9 +140,9 @@ namespace LiftLab.ViewModels
 
             try
             {
-                var response = await _workoutPlansService.DeleteWorkoutPlan(SelectedPlan.WorkoutPlanId);
+                var deletePlan = await _workoutPlansService.DeleteWorkoutPlan(SelectedPlan.WorkoutPlanId);
 
-                if (response)
+                if (deletePlan)
                 {
                     await Application.Current.MainPage.DisplayAlert("Deleted", "Workout plan deleted successfully.", "OK");
                     await Shell.Current.GoToAsync("..");

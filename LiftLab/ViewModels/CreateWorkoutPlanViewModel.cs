@@ -74,7 +74,10 @@ namespace LiftLab.ViewModels
         private void AddWorkoutToPlan(Workouts workout)
         {
             if (workout == null)
+            {
                 return;
+
+            }
 
             var workoutInPlan = new WorkoutInPlanDTO
             {

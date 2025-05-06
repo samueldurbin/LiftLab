@@ -4,7 +4,7 @@ using WebApi.Services;
 
 namespace WebApi.Controllers
 {
-    [ApiController] // this enables automatic model validation, marks the class as an API Controler
+    [ApiController]
     [Route("api/[controller]")] // this sets the base route for the controller's endpoints, removes the word Controller so the endpoint would be CommunityPosts
     public class CommunityPostsController : ControllerBase // base class
     {
@@ -47,11 +47,11 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("deletepost/{postId}/{userId}")]
-        public async Task<IActionResult> DeleteCommunityPost(int postId, int userId)
+        public async Task<IActionResult> DeleteCommunityPost(int postId, int userId) // postid with the userid
         {
-            var deletedPost = await _communityPostService.DeletePost(postId, userId);
+            var deletedPost = await _communityPostService.DeletePost(postId, userId); // calls method from service
 
-            if (!deletedPost)
+            if (!deletedPost) // checks for fail
             {
                 return BadRequest("Could not delete this post. Please try again");
             }
@@ -86,7 +86,6 @@ namespace WebApi.Controllers
         }
 
         #endregion
-
 
     }
 

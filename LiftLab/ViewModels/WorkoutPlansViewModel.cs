@@ -47,8 +47,6 @@ namespace LiftLab.ViewModels
 
             WorkoutList = new ObservableCollection<WorkoutSelection>(); // initialises the workoutlist
 
-       
-        
             CreatePlanCommand = new Command(async () => await CreatePlan()); // creates a workout plan when clicked
 
             GetWorkoutsCommand = new Command(async () => await GetWorkouts()); // get all workouts to populate the list
@@ -121,13 +119,16 @@ namespace LiftLab.ViewModels
         private async Task GetWorkouts()
         {
             if (IsBusy)
+            {
                 return;
+            }
+                
 
             IsBusy = true;
 
             try
             {
-                var workouts = await _workoutPlansService.GetAllWorkouts();
+                var workouts = await _workoutPlansService.GetAllWorkouts(); // gets the list of workouts
 
                 WorkoutList.Clear(); 
 
@@ -139,9 +140,9 @@ namespace LiftLab.ViewModels
                         IsSelected = false
                     };
 
-                    workoutSelection.SelectionChanged += WorkoutSelection_SelectionChanged;
+                    workoutSelection.SelectionChanged += WorkoutSelection;
 
-                    WorkoutList.Add(workoutSelection);
+                    WorkoutList.Add(workoutSelection); // adds selection to list
                 }
             }
             catch (Exception ex)
@@ -154,18 +155,18 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private void WorkoutSelection_SelectionChanged(object sender, EventArgs e)
+        private void WorkoutSelection(object sender, EventArgs e)
         {
             if (sender is WorkoutSelection workout)
             {
                 if (workout.IsSelected && !SelectedWorkoutList.Contains(workout))
                 {
-                    SelectedWorkoutList.Add(workout);
+                    SelectedWorkoutList.Add(workout); // adds to list
 
                 }
                 else if (!workout.IsSelected && SelectedWorkoutList.Contains(workout))
                 {
-                    SelectedWorkoutList.Remove(workout);
+                    SelectedWorkoutList.Remove(workout);// removes from list
 
                 }
                  

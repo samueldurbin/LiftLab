@@ -9,7 +9,7 @@ using Shared.Models;
 
 namespace LiftLab.ViewModels
 {
-    [QueryProperty(nameof(Meal), "Meal")]
+    [QueryProperty(nameof(Meal), "Meal")] // query parameters
     public class MealViewModel : BaseViewModel
     {
         private readonly NutritionServiceUI _nutritionService;
@@ -43,7 +43,7 @@ namespace LiftLab.ViewModels
         }
 
 
-        private async Task DeleteMeal()
+        private async Task DeleteMeal() // deletes the meal
         {
             if (Meal == null)
             {
@@ -59,7 +59,11 @@ namespace LiftLab.ViewModels
             );
 
             if (!confirmed)
+            {
                 return;
+
+            }
+                
 
             try
             {

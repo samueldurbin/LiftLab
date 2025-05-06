@@ -43,7 +43,7 @@ namespace LiftLab.Services
 
         public async Task<Users> CreateAccount(string username, string password, string email, string mobileNumber, DateTime dateOfBirth)  // create an account function
         {
-            var response = await _httpClient.PostAsJsonAsync("Users/createuser", new Users // create an account endpoint
+            var account = await _httpClient.PostAsJsonAsync("Users/createuser", new Users // create an account endpoint
             {
                 Username = username, // saves the users input to the records required in the database
                 Password = password,
@@ -52,9 +52,9 @@ namespace LiftLab.Services
                 DateOfBirth = dateOfBirth
             });
 
-            if (response.IsSuccessStatusCode) // returns a success message in postman for testing
+            if (account.IsSuccessStatusCode) // returns a success message in postman for testing
             {
-                return await response.Content.ReadFromJsonAsync<Users>();
+                return await account.Content.ReadFromJsonAsync<Users>();
             }
 
             return null;
@@ -62,11 +62,11 @@ namespace LiftLab.Services
 
         public async Task<List<Users>> GetAllUsers()
         {
-            var response = await _httpClient.GetAsync("Users/getallusers"); // get request to get a list of all users
+            var users = await _httpClient.GetAsync("Users/getallusers"); // get request to get a list of all users
 
-            if (response.IsSuccessStatusCode) // responds with success message
+            if (users.IsSuccessStatusCode) // responds with success message
             {
-                return await response.Content.ReadFromJsonAsync<List<Users>>();
+                return await users.Content.ReadFromJsonAsync<List<Users>>();
             }
 
             throw new Exception("Failed to get any users."); // error message
@@ -74,7 +74,7 @@ namespace LiftLab.Services
 
         public async Task<Users> GetUserById(int id)
         {
-            var user = await _httpClient.GetAsync($"Users/getuserbyid/{id}");
+            var user = await _httpClient.GetAsync($"Users/getuserbyid/{id}"); // gets user by input userid
 
             if (user.IsSuccessStatusCode)
             {
@@ -86,7 +86,7 @@ namespace LiftLab.Services
 
         public async Task<Users> UpdateUser(Users updatedUser)
         {
-            var user = await _httpClient.PutAsJsonAsync($"Users/{updatedUser.UserId}", updatedUser);
+            var user = await _httpClient.PutAsJsonAsync($"Users/{updatedUser.UserId}", updatedUser); // updates the user based on the input id
 
             if (user.IsSuccessStatusCode)
             {

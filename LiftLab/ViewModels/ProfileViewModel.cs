@@ -16,7 +16,7 @@ namespace LiftLab.ViewModels
     {
         private readonly CommunityPostServiceUI _communityService;
         private readonly WorkoutPlansServiceUI _workoutPlansService;
-        private readonly NutritionServiceUI _nutritionSerivice;
+        private readonly NutritionServiceUI _nutritionService;
 
         private string username;
         public string Username 
@@ -53,7 +53,7 @@ namespace LiftLab.ViewModels
         {
             _communityService = new CommunityPostServiceUI();
             _workoutPlansService = new WorkoutPlansServiceUI();
-            _nutritionSerivice = new NutritionServiceUI();
+            _nutritionService = new NutritionServiceUI();
 
             Username = "@" + Preferences.Get("Username", "Unknown"); // this gets the username of the user thats logged in and binds it to the ui
 
@@ -66,43 +66,14 @@ namespace LiftLab.ViewModels
                 await Shell.Current.GoToAsync(nameof(UpdateUserSettingsPage));
             });
 
-            DeletePostCommand = new Command<int>(async (postId) => await DeletePostAsync(postId));
+            DeletePostCommand = new Command<int>(async (postId) => await DeletePost(postId));
 
             AddPlansToUserAccountCommand = new Command<CommunityPost>(async (post) => await AddPlanToAccount(post));
 
             ShowPlanDetailsCommand = new Command<CommunityPost>(async (post) => await ShowPlanDetails(post));
         }
 
-        private async Task AddExternalWorkoutPlan(CommunityPost post)
-        {
-            try
-            {
-                if (post.WorkoutPlanId == null)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Unavailable!", "This post unfortunately does not have a workout plan.", "OK");  // this if statement displays an unavailable message to the usr if no workoutplan exists
-                    return;
-                }
-
-                int userId = Preferences.Get("UserId", 0); // gets user preferences
-
-                var response = await _communityService.AddExternalUserWorkoutPlan((int)post.WorkoutPlanId, userId); // call method to add workoutplan for user
-
-                if (response)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Success!", "Workout plan successfully added to your account.", "Nice!"); // success messsage if added correctly
-                }
-                else
-                {
-                    await Application.Current.MainPage.DisplayAlert("Oops!", "Something went wrong while adding the workout plan!", "OK"); // error message
-                }
-            }
-            catch (Exception ex)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error!", $"Error adding the workout plan: {ex.Message}", "OK");
-            }
-
-        }
-        private async Task AddPlanToAccount(CommunityPost post)
+        private async Task AddPlanToAccount(CommunityPost post) // same method from communitypostvm
         {
             try
             {
@@ -110,9 +81,14 @@ namespace LiftLab.ViewModels
                 bool added = await _communityService.AddExternalPlans(post, userId);
 
                 if (added)
+                {
                     await Application.Current.MainPage.DisplayAlert("Success", "Item added to your account!", "OK");
+                }
                 else
+                {
                     await Application.Current.MainPage.DisplayAlert("Unavailable", "No plan or meal attached.", "OK");
+                }
+                    
             }
             catch (Exception ex)
             {
@@ -120,9 +96,10 @@ namespace LiftLab.ViewModels
             }
         }
 
-        private async Task DeletePostAsync(int postId)
+        private async Task DeletePost(int postId)
         {
             bool confirm = await Application.Current.MainPage.DisplayAlert("Confirm", "Are you sure you want to delete this post?", "Yes", "No"); // message to make sure the user knows the delete action
+
             if (!confirm)
             {
                 return;
@@ -158,12 +135,10 @@ namespace LiftLab.ViewModels
         }
 
 
-        private async Task ShowPlanDetails(CommunityPost post)
+        private async Task ShowPlanDetails(CommunityPost post) // same method thats in communitypostvm
         {
             try
             {
-                var nutritionService = new NutritionServiceUI(); // new service instance for meals + mealplans
-
                 if (post.WorkoutPlanId != null)
                 {
                     var userId = post.UserId;
@@ -191,12 +166,12 @@ namespace LiftLab.ViewModels
                 else if (post.MealPlanId != null)
                 {
                     var userId = post.UserId;
-                    var mealPlans = await nutritionService.GetMealPlansByUser(userId);
+                    var mealPlans = await _nutritionService.GetMealPlansByUser(userId);
                     var mealPlan = mealPlans.FirstOrDefault(mp => mp.MealPlanId == post.MealPlanId);
 
                     if (mealPlan != null)
                     {
-                        var mealsInPlan = await nutritionService.GetMealsByPlanId(mealPlan.MealPlanId);
+                        var mealsInPlan = await _nutritionService.GetMealsByPlanId(mealPlan.MealPlanId);
                         var mealNames = mealsInPlan.Select(m => m.MealName).ToList();
 
                         var popup = new ViewAddedPlan(mealPlan.MealPlanName ?? "Meal Plan", mealNames, string.Empty);
@@ -210,7 +185,7 @@ namespace LiftLab.ViewModels
                 else if (post.MealId != null)
                 {
                     var userId = post.UserId;
-                    var userMeals = await nutritionService.GetMealsByUser(userId);
+                    var userMeals = await _nutritionService.GetMealsByUser(userId);
                     var meal = userMeals.FirstOrDefault(m => m.MealId == post.MealId);
 
                     if (meal != null)
@@ -252,7 +227,7 @@ namespace LiftLab.ViewModels
                 int loggedInUserId = Preferences.Get("UserId", 0);  // get current user
 
                 var user = await _communityService.GetUserById(userId);
-                Username = "@" + user?.Username ?? "Unknown";
+                Username = "@" + user?.Username ?? "Unknown"; // adds an @ to the username
 
                 UserProfile = (loggedInUserId == userId); 
 

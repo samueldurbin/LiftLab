@@ -16,23 +16,15 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("mealsbyplan/{mealPlanId}")]
-        public async Task<IActionResult> GetMealsByMealPlan(int mealPlanId)
+        public async Task<IActionResult> GetMealsByMealPlan(int mealPlanId) // gets the meals by plan by the input planid
         {
             var meals = await _mealPlanMealsService.GetMealsByMealPlanId(mealPlanId);
 
             return Ok(meals);
         }
 
-        [HttpPost("addmeal")]
-        public async Task<IActionResult> AddMealToPlan([FromBody] MealPlanMeals dto)
-        {
-            await _mealPlanMealsService.AddMealToMealPlan(dto.MealPlanId, dto.MealId);
-
-            return Ok(new { Message = "Meal added to meal plan." });
-        }
-
         [HttpDelete("removemeal/{mealPlanId}/{mealId}")]
-        public async Task<IActionResult> RemoveMealFromPlan(int mealPlanId, int mealId)
+        public async Task<IActionResult> RemoveMealFromPlan(int mealPlanId, int mealId) // removes a meal from plan
         {
             await _mealPlanMealsService.RemoveMealFromMealPlan(mealPlanId, mealId);
 
@@ -40,15 +32,15 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("createmealplan")]
-        public async Task<IActionResult> CreateMealPlan([FromBody] CreateMealPlanDTO dto)
+        public async Task<IActionResult> CreateMealPlan([FromBody] CreateMealPlanDTO dto) // creates a meal thats
         {
-            var createdPlan = await _mealPlanMealsService.CreateMealPlanAsync(dto);
+            var createdPlan = await _mealPlanMealsService.CreateMealPlan(dto);
 
             return Ok(new { Message = "Meal Plan created", MealPlanId = createdPlan.MealPlanId });
         }
 
         [HttpDelete("deletemealplan/{mealPlanId}")]
-        public async Task<IActionResult> DeleteMealPlan(int mealPlanId)
+        public async Task<IActionResult> DeleteMealPlan(int mealPlanId) // deletes meal plan
         {
             var result = await _mealPlanMealsService.DeleteMealPlan(mealPlanId);
 
@@ -61,15 +53,8 @@ namespace WebApi.Controllers
             return NotFound(new { Message = "Meal Plan not found" });
         }
 
-        [HttpGet("mealplansbymeal/{mealId}")]
-        public async Task<IActionResult> GetMealPlansByMealId(int mealId)
-        {
-            var mealPlans = await _mealPlanMealsService.GetMealPlansByMealId(mealId);
-            return Ok(mealPlans);
-        }
-
         [HttpPost("addusermeal/{mealId}/{userId}")]
-        public async Task<IActionResult> AddExternalUserMeal(int mealId, int userId)
+        public async Task<IActionResult> AddExternalUserMeal(int mealId, int userId) // copies meal from another user to a new user
         {
             try
             {
@@ -84,7 +69,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("addusermealplan/{mealPlanId}/{userId}")]
-        public async Task<IActionResult> AddExternalUserMealPlan(int mealPlanId, int userId)
+        public async Task<IActionResult> AddExternalUserMealPlan(int mealPlanId, int userId) // copes meal plan from another user to a new user
         {
             try
             {
@@ -99,7 +84,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("meals/user/{userId}")]
-        public async Task<IActionResult> GetMealsByUserId(int userId)
+        public async Task<IActionResult> GetMealsByUserId(int userId) // get all meals by user id
         {
             var meals = await _mealPlanMealsService.GetMealsByUserId(userId);
 
@@ -107,7 +92,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet("mealplans/user/{userId}")]
-        public async Task<IActionResult> GetMealPlansByUserId(int userId)
+        public async Task<IActionResult> GetMealPlansByUserId(int userId) // get all meal plans by userid
         {
             var plans = await _mealPlanMealsService.GetMealPlansByUserId(userId);
 
@@ -115,7 +100,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost("createmeal")]
-        public async Task<IActionResult> CreateMeal([FromBody] Meals meal)
+        public async Task<IActionResult> CreateMeal([FromBody] Meals meal) // create meal
         {
             var createdMeal = await _mealPlanMealsService.CreateMeal(meal);
 
@@ -123,13 +108,13 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("deletemeal/{mealId}")]
-        public async Task<IActionResult> DeleteMeal(int mealId)
+        public async Task<IActionResult> DeleteMeal(int mealId) // delete meal
         {
             var deleted = await _mealPlanMealsService.DeleteMeal(mealId);
 
             if (!deleted)
             {
-                return NotFound("Meal not found or could not delete.");
+                return NotFound("Meal not found or could not be deleted.");
             }
 
             return Ok("Meal deleted successfully!");

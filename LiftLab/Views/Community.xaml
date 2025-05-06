@@ -6,20 +6,21 @@
              xmlns:helper="clr-namespace:LiftLab.Helpers"
              Title=" LiftLab Community">
 
-    <!--Binding-->
     <ContentPage.BindingContext>
         <vm:CommunityPostViewModel />
     </ContentPage.BindingContext>
 
 
     <Grid RowDefinitions="Auto,*" Padding="10">
-        <!-- Top Bar with Add Post and Add Friends -->
+        <!--Two icons at the top of the view-->
         <Grid ColumnDefinitions="Auto,*,Auto" Padding="7">
+            <!--add a post icon-->
             <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="30" TextColor="Blue">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddPostCommand}" />
                 </Label.GestureRecognizers>
             </Label>
+            <!--add friends icon-->
             <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.PeopleGroup}" FontSize="30" TextColor="Blue">
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding AddFriendsCommand}" />
@@ -28,14 +29,15 @@
         </Grid>
 
         <StackLayout Grid.Row="1">
+            <!--loading spinner-->
             <ActivityIndicator IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}" />
             <CollectionView ItemsSource="{Binding CommunityPosts}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Frame Margin="5" Padding="0" HasShadow="True" CornerRadius="15" BackgroundColor="White">
                             <VerticalStackLayout>
-                                <!-- Header -->
                                 <Grid ColumnDefinitions="Auto,*,Auto" Padding="10,10,10,0">
+                                    <!--username of the post-->
                                     <Label Grid.Column="0" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.UserAstronaut}" FontSize="18" VerticalOptions="Center" />
                                     <Label Grid.Column="1" Text="{Binding Username}" FontSize="20" FontAttributes="Bold" HorizontalOptions="StartAndExpand" Margin="6,0,0,0">
                                         <Label.GestureRecognizers>
@@ -44,6 +46,7 @@
                                                 CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
+                                    <!--view the attached post-->
                                     <Label Grid.Column="2" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Eye}" FontSize="18" TextColor="Blue">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer 
@@ -55,8 +58,8 @@
 
                                 <BoxView HeightRequest="1" Color="Red" HorizontalOptions="Fill" Margin="10,5,10,0" />
 
-                                <!-- Caption + Add Plan -->
                                 <Grid ColumnDefinitions="*,Auto" Padding="10,5,10,10">
+                                    <!--add the attached post-->
                                     <Label Grid.Column="0" Text="{Binding Caption}" FontSize="18" HorizontalOptions="StartAndExpand" />
                                     <Label Grid.Column="1" FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="18" TextColor="Blue">
                                         <Label.GestureRecognizers>
@@ -67,7 +70,7 @@
                                     </Label>
                                 </Grid>
 
-                                <!-- Comments Icon + Count -->
+                                <!--comment icon and count-->
                                 <Grid ColumnDefinitions="Auto,Auto" Padding="10,0,10,10">
                                     <Label Grid.Column="0"
                                            FontFamily="FASolid"
@@ -87,8 +90,7 @@
                                            VerticalOptions="Center"
                                            Margin="6,0,0,0" />
                                 </Grid>
-
-                                <!-- Comments Section -->
+                                <!--hidden comments box-->
                                 <StackLayout IsVisible="{Binding ShowCommentBox}" Padding="10,0">
                                     <CollectionView ItemsSource="{Binding Comments}" Margin="10,5,10,0">
                                         <CollectionView.ItemTemplate>
@@ -103,14 +105,12 @@
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
-
-                                    <!-- Add Comment -->
+                                    <!--add a comment entry field-->
                                     <HorizontalStackLayout Padding="10" Spacing="10" VerticalOptions="Center">
                                         <Entry Placeholder="Enter a comment..." Text="{Binding CommentText}" HorizontalOptions="FillAndExpand" FontSize="14"/>
-
                                         <Label FontFamily="FASolid" Text="{x:Static helper:FontAwesome.Plus}" FontSize="22" TextColor="Blue" VerticalOptions="Center">
                                             <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=CreateCommentCommand}"  CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CommunityPostViewModel}}, Path=CreateCommentCommand}" CommandParameter="{Binding .}" />
                                             </Label.GestureRecognizers>
                                         </Label>
                                     </HorizontalStackLayout>

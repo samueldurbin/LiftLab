@@ -13,9 +13,7 @@ namespace WebApi.Services
         Task<bool> DeleteWorkoutFromPlan(int workoutPlanId, int workoutId);
         Task<List<WorkoutInPlanDTO>> GetWorkoutPlanDetails(int planId);
         Task<bool> UpdateWorkoutInPlan(UpdateWorkoutInPlanDTO dto);
-
         Task<bool> DeleteWorkoutPlan(int planId);
-
 
     }
 }

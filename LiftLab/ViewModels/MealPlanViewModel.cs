@@ -11,13 +11,13 @@ using System.Windows.Input;
 
 namespace LiftLab.ViewModels
 {
-    [QueryProperty(nameof(MealPlan), "MealPlan")]
+    [QueryProperty(nameof(MealPlan), "MealPlan")] // this allows the passing of query parameters for navigation
     public class MealPlanViewModel : BaseViewModel
     {
         private readonly NutritionServiceUI _nutritionService;
         private MealPlans _mealPlan;
 
-        public ObservableCollection<Meals> Meals { get; set; } = new();
+        public ObservableCollection<Meals> Meals { get; set; } = new(); // the collection of meals within the meal plan
 
         public ICommand DeleteMealPlanCommand { get; }
         public ICommand NavigateToMealDetailsCommand { get; }
@@ -59,16 +59,19 @@ namespace LiftLab.ViewModels
 
         private async Task DeleteMealPlan(int mealPlanId)
         {
-            var confirm = await Application.Current.MainPage.DisplayAlert("Confirm", "Are you sure you want to delete this meal plan?", "Yes", "No");
+            var confirmMessage = await Application.Current.MainPage.DisplayAlert("Confirm", "Are you sure you want to delete this meal plan?", "Yes", "No");
 
-            if (!confirm) return;
+            if (!confirmMessage)
+            {
+                return;
+            }
 
-            var result = await _nutritionService.DeleteMealPlan(mealPlanId);
+            var deleteMealPlan = await _nutritionService.DeleteMealPlan(mealPlanId);
 
-            if (result)
+            if (deleteMealPlan)
             {
                 await Application.Current.MainPage.DisplayAlert("Success", "Meal plan deleted!", "OK");
-                await Shell.Current.GoToAsync("//NutritionPage");
+                await Shell.Current.GoToAsync("//NutritionPage"); // goes back to the nutriton page
             }
             else
             {
@@ -78,11 +81,14 @@ namespace LiftLab.ViewModels
 
         private async Task NavigateToMealDetails(Meals meal)
         {
-            if (meal == null) return;
-
+            if (meal == null)
+            {
+                return;
+            }
+                
             await Shell.Current.GoToAsync(nameof(ViewMealsPage), true, new Dictionary<string, object>
             {
-                { "Meal", meal }
+                { "Meal", meal } // navigates to the meal details page and passes the selected meal as the parameter
             });
         }
     }

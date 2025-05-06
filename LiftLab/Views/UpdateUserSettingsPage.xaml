@@ -11,6 +11,7 @@
 
     <ScrollView>
         <VerticalStackLayout Margin="30">
+            <!--Update user account form-->
             <Label Text="Update Account" FontAttributes="Bold" FontSize="24" HorizontalOptions="Center" />
             <Entry Placeholder="Username" Text="{Binding Username}" />
             <Entry Placeholder="Email" Text="{Binding Email}" />

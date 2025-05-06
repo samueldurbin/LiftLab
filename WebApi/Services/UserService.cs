@@ -31,10 +31,7 @@ namespace WebApi.Services
         }
 
         public async Task<Users> CreateUser(Users user) // adds post to the database
-        {
-            //var hash = new Hashing(); // hashing method from the utility class
-            //user.Password = hash.Hash(user.Password); // hashes the password before sending to database
-
+        { 
             user.Password = Hashing.Hash(user.Password);
 
             user.AccountCreationDate = DateTime.Now;
@@ -83,9 +80,7 @@ namespace WebApi.Services
             
             user.AccountCreationDate = updatedUser.AccountCreationDate;
             
-            //var hash = new Hashing();
             user.Password = Hashing.Hash(updatedUser.Password); // hashes the new updated password
-
 
             await _dbContext.SaveChangesAsync();
 
