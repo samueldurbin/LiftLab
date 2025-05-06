@@ -18,8 +18,11 @@ namespace LiftLab.ViewModels
 
         protected bool SetProperty<T>(ref T backingField, T value, [CallerMemberName] string propertyName = "") // method for property setters
         {
-            if (EqualityComparer<T>.Default.Equals(backingField, value)) // prevents uneccessary updates, compares new value to old value
+            if (EqualityComparer<T>.Default.Equals(backingField, value))
+            {
+                // prevents uneccessary updates, compares new value to old value
                 return false;
+            } 
 
             backingField = value;
             OnPropertyChanged(propertyName); // calls for update
